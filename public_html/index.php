@@ -9,5 +9,3 @@ $allTest2 = $db->queryAll("SELECT * FROM test WHERE id = :id", ['id' => 2]);
 
 var_dump($allTest);
 var_dump($allTest2);
-
-
