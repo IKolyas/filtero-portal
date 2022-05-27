@@ -1,1 +1,3 @@
-<?php include("/opt/index.php") ?>
+<?php include("/opt/index.php") 
+    echo("Hello");
+?>
