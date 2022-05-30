@@ -8,7 +8,7 @@ class DataBase
 {
     use SingleTone;
 
-    public array $config;
+    private array $config;
 
     private ?\PDO $connection = null;
 

@@ -14,3 +14,12 @@ $loader = new FilesystemLoader(__DIR__ . '/../templates');
 $twig = new Environment($loader);
 
 echo $twig->render('example.html.twig', ['users' => $allTest2]);
+
+//use app\models\Products;
+//use app\models\Gifts;
+//
+//$product = new Products('1', 'product', 5000);
+//$gift = new Gifts('1', 'gift', 1000);
+//
+//var_dump($product->getSale());
+//var_dump($gift->getSale());
