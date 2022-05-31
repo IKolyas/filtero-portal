@@ -14,7 +14,7 @@ class DataBase
 
     public function __construct()
     {
-        $this->config = include $_SERVER['DOCUMENT_ROOT'] . "/../config/main.php";;
+        $this->config = include $_SERVER['DOCUMENT_ROOT'] . "../config/main.php";;
     }
 
     protected function getConnection(): ?\PDO

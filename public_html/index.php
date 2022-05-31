@@ -6,9 +6,11 @@ use app\services\DataBase as DataBase;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use app\models\Products as Products;
+//
+//$db = DataBase::getInstance();
+//var_dump($db->queryAll("SELECT * from mysql.user;"));
 
-//var_dump(Products::test('get method test'));
-//$db = (new DataBase())::getInstance();
+
 //
 //$allTest = $db->queryOne("SELECT * FROM test  WHERE id = :id", ['id' => 2]);
 //$allTest2 = $db->queryAll("SELECT * FROM test", []);
