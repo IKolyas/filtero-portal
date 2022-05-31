@@ -14,4 +14,18 @@ trait SingleTone
         return static::$instance;
     }
 
+    public function __construct()
+    {
+    }
+
+    public function __clone()
+    {
+        // TODO: Implement __clone() method.
+    }
+
+    public function __wakeup()
+    {
+        // TODO: Implement __wakeup() method.
+    }
+
 }

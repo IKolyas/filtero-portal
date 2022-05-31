@@ -1,10 +1,10 @@
 <?php
 
-namespace app\abstracts;
+namespace app\models\abstracts;
 
-use app\interfaces\Product;
+use app\models\interfaces\Product;
 
-class AbstractProducts implements Product
+abstract class AbstractProducts implements Product
 {
 
     public function __construct($id, $name, $price)
