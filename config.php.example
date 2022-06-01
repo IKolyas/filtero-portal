@@ -1,0 +1,10 @@
+<?php
+
+return [
+    'driver' => 'mysql',
+    'host' => 'localhost',
+    'database' => 'a0678406_db',
+    'user' => 'a0678406_db',
+    'password' => 'filteroDb',
+    'charset' => 'utf8',
+];
