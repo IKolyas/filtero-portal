@@ -11,7 +11,7 @@ class MigrationService
 
     public function __construct()
     {
-        $this->migrations_path = $_SERVER['PWD'] ?? './';
+        $this->migrations_path = $_SERVER['PWD'] . "/migrations/" ?? './';
         $this->migration_example_path = $this->migrations_path . "/migration_template.php";
     }
 
@@ -27,20 +27,18 @@ class MigrationService
     private function create(string $migrationName)
     {
         $migrationName = "migration_" . $migrationName . "_" . time();
-        $dir = "$this->migrations_path/migrations/";
         $fileName = $migrationName . ".php";
-        file_put_contents($dir . $fileName, $this->migrationGenerateContent($migrationName));
+        file_put_contents($this->migrations_path . $fileName, $this->migrationGenerateContent($migrationName));
 
         print_r("Миграция $fileName успешно создана! \n");
     }
 
     private function drop(string $migrationName)
     {
-        $dir = "$this->migrations_path/migrations/";
         $fileName = $migrationName;
-        $filePath = $dir . $fileName;
+        $filePath = $this->migrations_path . $fileName;
 
-        $dirScan = scandir($dir);
+        $dirScan = scandir($this->migrations_path);
 
         foreach ($dirScan as $file) {
             if (basename($file) == $migrationName) {
@@ -69,8 +67,7 @@ class MigrationService
 
     private function getMigrationClass(string $migrationName)
     {
-        $path = "$this->migrations_path/migrations/";
-        $dirScan = scandir($path);
+        $dirScan = scandir($this->migrations_path);
         foreach ($dirScan as $file) {
             if (basename($file) == $migrationName) {
                 $migrationName = explode('.', $migrationName)[0];
