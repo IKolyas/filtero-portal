@@ -33,7 +33,7 @@ class ' . $migrationName . ' extends AbstractMigration
 }';
 }
 
-if($action && $migrationName) {
+if ($action && $migrationName) {
 
     switch ($action) {
         case "create":
@@ -46,7 +46,7 @@ if($action && $migrationName) {
         case "up":
             $dir = scandir('./migrations/');
             foreach ($dir as $file) {
-                if(basename($file) == $migrationName) {
+                if (basename($file) == $migrationName) {
                     $migrationName = explode('.', $migrationName)[0];
                     $class = "app\\database\\migrations\\$migrationName";
                     $migration = new $class();
@@ -57,7 +57,7 @@ if($action && $migrationName) {
         case "down":
             $dir = scandir('./migrations/');
             foreach ($dir as $file) {
-                if(basename($file) == $migrationName) {
+                if (basename($file) == $migrationName) {
                     $migrationName = explode('.', $migrationName)[0];
                     $class = "app\\database\\migrations\\$migrationName";
                     $migration = new $class();
@@ -65,8 +65,20 @@ if($action && $migrationName) {
                 }
             }
             break;
-        default:
+        case "drop":
+            $dir = "./migrations/";
+            $fileName = $migrationName;
+            $filePath = $dir . $fileName;
 
+            $dirScan = scandir('./migrations/');
+            foreach ($dirScan as $file) {
+                if (basename($file) == $migrationName) {
+                    print_r($migrationName . PHP_EOL . PHP_EOL);
+                    print_r($filePath . PHP_EOL . PHP_EOL);
+                    unlink($filePath);
+                }
+            }
+            break;
+        default:
     }
 }
-
