@@ -487,4 +487,4 @@ yarn-debug.log*
 *.sw*
 yarn-error.log*
 pnpm-debug.log*
-./config.php
+/config.php
