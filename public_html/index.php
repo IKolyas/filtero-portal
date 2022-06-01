@@ -2,10 +2,16 @@
 
 include $_SERVER['DOCUMENT_ROOT'] . "/../vendor/autoload.php";
 
+
+
 use app\services\DataBase as DataBase;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use app\models\Products as Products;
+
+
+$content = file_get_contents('../database/migrations/migration_add_user_table_1653986760.php');
+var_dump(str_replace('CREATE', 'UPDATE', $content));
 //
 //$db = DataBase::getInstance();
 //var_dump($db->queryAll("SELECT * from mysql.user;"));

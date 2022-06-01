@@ -1,6 +1,6 @@
 <?php
 
-namespace app\database\migrations;
+namespace app\database;
 use app\services\DataBase as DataBase;
 
 abstract class AbstractMigration
@@ -12,7 +12,7 @@ abstract class AbstractMigration
         $this->connection = DataBase::getInstance();
     }
 
-    abstract public function up(): int;
+    abstract public function up();
 
     abstract public function down();
 }

@@ -41,7 +41,7 @@ class DataBase
         );
     }
 
-    private function query(string $sql, array $params = [])
+    public function query(string $sql, array $params = [])
     {
         $pdoStatement = $this->getConnection()->prepare($sql);
         $pdoStatement->execute($params);

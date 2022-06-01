@@ -1,6 +1,6 @@
 <?php
 
-const DB_CONF = [
+return [
     'driver' => 'mysql',
     'host' => 'localhost',
 //    'database' => 'a0678406_db',
@@ -9,5 +9,5 @@ const DB_CONF = [
     'database' => 'a0678406_db',
     'user' => 'root',
     'password' => 'root',
-    'charset' => 'utf8'
+    'charset' => 'utf8',
 ];
