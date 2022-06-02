@@ -3,6 +3,7 @@
 namespace app\services;
 
 use app\database\AbstractMigration;
+use Exception;
 
 class MigrationService
 {
@@ -26,91 +27,169 @@ class MigrationService
         }
     }
 
+    private function showMessageMigrate(string $create = '', string $delete = '')
+    {
+        try
+        {
+            if ($create)
+            {
+                print_r("Миграция $create успешно создана! \n");
+            } elseif ($delete)
+            {
+                print_r("Миграция $delete успешно удалена! \n");
+            } 
+        } catch (Exception $e)
+        {
+            print_r("Error" . $e->getMessage() . "! \n");
+        }
+    } 
+
+    private function showMessageUpDown(string $up = '', string $down = '')
+    {
+        try
+        {
+            if ($up)
+            {
+                print_r("Success UP $up! \n");
+            } elseif ($down)
+            {
+                print_r("Success DOWN $down! \n");
+            }
+        } catch (Exception $e)
+        {
+            print_r("Error" . $e->getMessage() . "! \n");
+        }    
+    }
+
     private function create(string $migrationName)
     {
-        $migrationName = "migration_" . $migrationName . "_" . time();
-        $fileName = $migrationName . ".php";
-        file_put_contents($this->migrations_path . $fileName, $this->migrationGenerateContent($migrationName));
-
-        print_r("Миграция $fileName успешно создана! \n");
+        try
+        {
+            $migrationName = "migration_" . $migrationName . "_" . time();
+            $fileName = $migrationName . ".php";
+            file_put_contents($this->migrations_path . $fileName, $this->migrationGenerateContent($migrationName));
+            $this->showMessageMigrate($fileName);
+            //print_r("Миграция $fileName успешно создана! \n");
+        } catch (Exception $e)
+        {
+            print_r("Error" . $e->getMessage() . "! \n");
+        }
     }
 
     private function drop(string $migrationName)
-    {
-        $fileName = $migrationName;
-        $filePath = $this->migrations_path . $fileName;
+    {      
+        try
+        {
+            $fileName = $migrationName;
+            $filePath = $this->migrations_path . $fileName;
 
-        $dirScan = scandir($this->migrations_path);
+            $dirScan = scandir($this->migrations_path);
 
-        foreach ($dirScan as $file) {
-            if (basename($file) == $migrationName) {
-                unlink($filePath);
-                print_r("Миграция $migrationName успешно удалена! \n");
+            foreach ($dirScan as $file) {
+                if (basename($file) == $migrationName) {
+                    unlink($filePath);
+                    $this->showMessageMigrate('', $migrationName);
+                    //print_r("Миграция $migrationName успешно удалена! \n");
+                }
             }
-        }
+        } catch (Exception $e)
+        {
+            print_r("Error" . $e->getMessage() . "! \n");
+        }    
     }
 
     private function up(string $migrationName): bool
     {
-        $params = explode(':', $migrationName);
-        if ($params[0] === '-all') {
-            $count = (int) $params[1] ?? false;
-            return $this->upAll($count);
-        }
-        if ($migration = $this->getMigrationClass($migrationName)) {
-            $migration->up();
-            print_r("Success UP $migrationName! \n");
-        }
-        return true;
+        try
+        {
+            $params = explode(':', $migrationName);
+            if ($params[0] === '-all') {
+                $count = (int) $params[1] ?? false;
+                $this->upAll($count);
+            }
+            if ($migration = $this->getMigrationClass($migrationName)) {
+                $migration->up();
+                $this->showMessageUpDown($migrationName);
+                //print_r("Success UP $migrationName! \n");
+            }
+            return true;
+        } catch (Exception $e)
+        {
+            print_r("Error" . $e->getMessage() . "! \n");
+        }  
+        return false; 
     }
 
     private function upAll($count = 0): bool
     {
-        $searchMigrations = $this->searchMigrations();
-        $this->sortMigrations($searchMigrations);
-        $searchMigrations = $this->migrationSliceOffset($count, $searchMigrations);
+        try
+        {
+            $searchMigrations = $this->searchMigrations();
+            $this->sortMigrations($searchMigrations);
+            $searchMigrations = $this->migrationSliceOffset($count, $searchMigrations);
 
-        foreach ($searchMigrations as $migration) {
-            if ($migrationClass = $this->createMigrationClass($migration)) {
-                $migrationClass->up();
-                print_r("Success UP $migration! \n");
+            foreach ($searchMigrations as $migration) {
+                if ($migrationClass = $this->createMigrationClass($migration)) {
+                    $migrationClass->up();
+                    $this->showMessageUpDown($migration);
+                    //print_r("Success UP $migration! \n");
+                }
             }
+            return true;
+        } catch (Exception $e)
+        {
+            print_r("Error" . $e->getMessage() . "! \n");
         }
-
-        return true;
+        return false;  
     }
 
     private function down(string $migrationName): bool
     {
-        $params = explode(':', $migrationName);
+        try
+        {
+            $params = explode(':', $migrationName);
 
-        if ($params[0] === '-all') {
-            $count = $params[1] ?? false;
-            return $this->downAll($count);
-        }
-        if ($migration = $this->getMigrationClass($migrationName)) {
-            $migration->down();
-            print_r("Success DOWN $migrationName! \n");
-        }
+            if ($params[0] === '-all') {
+                $count = $params[1] ?? false;
+                $this->downAll($count);
+            }
+            if ($migration = $this->getMigrationClass($migrationName)) {
+                $migration->down();
+                $this->showMessageUpDown('', $migrationName);
+                //print_r("Success DOWN $migrationName! \n");
+            }
+            return true;
 
-        return true;
+        } catch (Exception $e)
+        {
+            print_r("Error" . $e->getMessage() . "! \n");
+        }        
+        return false;
     }
 
     private function downAll($count = 0): bool
     {
-        $searchMigrations = $this->searchMigrations();
-        $this->sortMigrations($searchMigrations);
-        $searchMigrations = $this->migrationSliceOffset($count, $searchMigrations);
-        $searchMigrations = array_reverse($searchMigrations);
+        try
+        {
+            $searchMigrations = $this->searchMigrations();
+            $this->sortMigrations($searchMigrations);
+            $searchMigrations = $this->migrationSliceOffset($count, $searchMigrations);
+            $searchMigrations = array_reverse($searchMigrations);
 
-        foreach ($searchMigrations as $migration) {
-            if ($migrationClass = $this->createMigrationClass($migration)) {
-                $migrationClass->down();
-                print_r("Success DOWN $migration! \n");
+            foreach ($searchMigrations as $migration) {
+                if ($migrationClass = $this->createMigrationClass($migration)) {
+                    $migrationClass->down();
+                    $this->showMessageUpDown('', $migration);
+                    //print_r("Success DOWN $migration! \n");
+                }
             }
-        }
+            return true;
 
-        return true;
+        } catch (Exception $e)
+        {
+            print_r("Error" . $e->getMessage() . "! \n");
+        }      
+        return false;
     }
 
     private function migrationSliceOffset(int $count, array $migrations): array
