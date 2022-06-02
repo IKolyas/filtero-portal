@@ -14,8 +14,10 @@ class MigrationService
 
     public function __construct()
     {
-        $this->migrations_path = $_SERVER['PWD'] . "/migrations/" ?? './';
-        $this->migration_example_path = $this->migrations_path . "/migration_template.php";
+        $this->migrationPath();
+        $this->migrationExamplePath();
+        //$this->migrations_path = $_SERVER['PWD'] . "/migrations/" ?? './';
+        //$this->migration_example_path = $this->migrations_path . "/migration_template.php";
     }
 
     public function __call($name, $arguments)
@@ -25,6 +27,16 @@ class MigrationService
         } else {
             print_r("Метод < $name > отсутствует! \n");
         }
+    }
+
+    private function migrationPath()
+    {
+        $this->migrations_path = $_SERVER['PWD'] . "/migrations/" ?? './';
+    }
+
+    private function migrationExamplePath()
+    {
+        $this->migration_example_path = $this->migrations_path . "/migration_template.php";
     }
 
     private function showMessageMigrate(string $create = '', string $delete = '')
@@ -104,7 +116,7 @@ class MigrationService
         {
             $params = explode(':', $migrationName);
             if ($params[0] === '-all') {
-                $count = (int) $params[1] ?? false;
+                $count = isset($params[1]) ? (int) $params[1] : false;
                 $this->upAll($count);
             }
             if ($migration = $this->getMigrationClass($migrationName)) {
