@@ -14,26 +14,28 @@ class DataBase
 
     public function __construct()
     {
-        $this->config = include $_SERVER['DOCUMENT_ROOT'] . "../config/main.php";;
+        $this->config = include $_SERVER['DOCUMENT_ROOT'] . "../config/main.php";
+        // die();
     }
 
     protected function getConnection(): ?\PDO
     {
         if (is_null($this->connection)) {
-            $this->connection = new \PDO (
+            $this->connection = new \PDO(
                 $this->buildDsn(),
                 $this->config['components']['db']['user'],
                 $this->config['components']['db']['password']
             );
-            $this->connection->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
 
+            $this->connection->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
         }
         return $this->connection;
     }
 
     private function buildDsn(): string
     {
-        return sprintf('%s:host=%s;dbname=%s;charset=%s',
+        return sprintf(
+            '%s:host=%s;dbname=%s;charset=%s',
             $this->config['components']['db']['driver'],
             $this->config['components']['db']['host'],
             $this->config['components']['db']['database'],
@@ -61,7 +63,6 @@ class DataBase
                 \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,
                 $className
             );
-
         }
         return $pdoStatement->fetchAll();
     }
@@ -75,5 +76,4 @@ class DataBase
     {
         return $this->getConnection()->lastInsertId();
     }
-
 }
