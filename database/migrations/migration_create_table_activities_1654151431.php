@@ -37,7 +37,7 @@ class migration_create_table_activities_1654151431 extends AbstractMigration
     public function down()
     {
         $row = "
-        DROP TABLE `activities`;
+        DROP TABLE IF EXISTS `activities`;
         ";
 
         return $this->connection->query($row);

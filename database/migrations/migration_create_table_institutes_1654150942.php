@@ -22,7 +22,7 @@ class migration_create_table_institutes_1654150942 extends AbstractMigration
     public function down()
     {
         $row = "
-        DROP TABLE `institutes`
+        DROP TABLE IF EXISTS `institutes`
         ";
 
         return $this->connection->query($row);
