@@ -1,10 +1,13 @@
 <?php
 
-define("DB_CONF", require($_SERVER['DOCUMENT_ROOT'] . "/../config.php"));
-
-
 return [
+    'views_dir' => realpath( __DIR__ . '/../') . "/views/",
+    'default_controller' => 'activities',
+    'controller_namespace' => 'app\controllers\\',
     'components' => [
+        'request' => [
+            'class' => \app\base\Request::class,
+        ],
         'db' => [
             'class' => \app\services\DataBase::class,
             'driver' => DB_CONF['driver'],
