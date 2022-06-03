@@ -13,9 +13,9 @@ $nameSpaceControllers = 'app\\controllers\\';
 $className = $nameSpaceControllers . ucfirst($controllerName) . 'Controller';
 
 if(class_exists($className)) {
-    $activityController = new $className();
+    $controller = new $className();
 
-    $activityController->$actionName();
+    $controller->$actionName();
 } else {
     echo "404 <br> Страница не найдена!";
 }

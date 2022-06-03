@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        {% for activity_types in activity_type %}
+            <h2>title: {{ activity_type.id }}</h2>
+            <h2>price: {{ activity_type.title }}</h2>
+        {% else %}
+            No activities have been found.
+        {% endfor %}
+
+    </div>
+</body>
+
+</html>
