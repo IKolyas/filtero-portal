@@ -11,11 +11,11 @@ $params = $request->getParams(); // ''
 $nameSpaceControllers = 'app\\controllers\\';
 
 $className = $nameSpaceControllers . ucfirst($controllerName) . 'Controller';
-
 if(class_exists($className)) {
+    
     $controller = new $className();
+    $controller->runAction($actionName);
 
-    $controller->$actionName();
 } else {
     echo "404 <br> Страница не найдена!";
 }
