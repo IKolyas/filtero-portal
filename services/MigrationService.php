@@ -54,7 +54,7 @@ class MigrationService
     {
         $params = explode(':', $migrationName);
         if ($params[0] === '-all') {
-            $count = (int) $params[1] ?? false;
+            $count = isset($params[1]) ? (int) $params[1] : 0;
             return $this->upAll($count);
         }
         if ($migration = $this->getMigrationClass($migrationName)) {
@@ -85,7 +85,7 @@ class MigrationService
         $params = explode(':', $migrationName);
 
         if ($params[0] === '-all') {
-            $count = $params[1] ?? false;
+            $count = isset($params[1]) ? (int) $params[1] : 0;
             return $this->downAll($count);
         }
         if ($migration = $this->getMigrationClass($migrationName)) {
