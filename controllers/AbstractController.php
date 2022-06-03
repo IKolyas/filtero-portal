@@ -2,12 +2,42 @@
 
 namespace app\controllers;
 
+use Twig\Environment;
+use Twig\Loader\FilesystemLoader;
+
 abstract class AbstractController
 {
-    public function __call(string $name, array $arguments)
+
+    protected string $defaultAction = 'index';
+    protected string $defaultTemplate = 'main.html.twig';
+    protected string $notFound = '404.html.twig';
+    protected bool $useMainTemplate = true;
+    protected string $action;
+
+    public function runAction($action = null): void
     {
-        // TODO: Implement __call() method.
-        echo "404 <br> Страница не найдена!";
+        $this->action = $action ?: $this->defaultAction;
+        $method = "action" . ucfirst($this->action);
+
+        if(method_exists($this, $method)) {
+            $this->$method();
+        } else {
+            echo $this->render($this->notFound);
+        }
+    }
+
+    protected function render(string $template, array $params = []): string
+    {
+        $loader = new FilesystemLoader(__DIR__ . '/../templates');
+        $twig = new Environment($loader);
+
+        $content = $twig->render($template, $params);
+
+        if($this->useMainTemplate) {
+
+            return $twig->render($this->defaultTemplate, ['content' => $content]);
+        }
+        return $content;
     }
 
 }

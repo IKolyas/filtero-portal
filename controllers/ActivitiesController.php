@@ -7,23 +7,18 @@ use app\services\DataBase as DataBase;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
-class ActivityController extends AbstractController
+class ActivitiesController extends AbstractController
 {
 
-    public function index()
+    public function actionIndex(): void
     {
-
         $db = DataBase::getInstance();
         $activities = $db->queryAll("SELECT * FROM activities", []);
 
-        $loader = new FilesystemLoader(__DIR__ . '/../templates');
-        $twig = new Environment($loader);
-
-        echo $twig->render('activities.html.twig', ['activities' => $activities]);
-
+        echo $this->render('activities\index.html.twig', ['activities' => $activities]);
     }
 
-    public function show()
+    public function actionShow()
     {
         $params = (new Request())->getParams();
         if((int) $params) {

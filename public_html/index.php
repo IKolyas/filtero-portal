@@ -11,11 +11,9 @@ $params = $request->getParams(); // ''
 $nameSpaceControllers = 'app\\controllers\\';
 
 $className = $nameSpaceControllers . ucfirst($controllerName) . 'Controller';
-
 if(class_exists($className)) {
-    $activityController = new $className();
-
-    $activityController->$actionName();
+    $controller = new $className();
+    $controller->runAction($actionName);
 } else {
     echo "404 <br> Страница не найдена!";
 }
