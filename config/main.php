@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'views_dir' => realpath( __DIR__ . '/../') . "/views/",
+    'views_dir' => realpath(__DIR__ . '/../') . "/views/",
     'default_controller' => 'activities',
     'controller_namespace' => 'app\controllers\\',
     'components' => [
@@ -15,7 +15,7 @@ return [
             'database' => DB_CONF['database'],
             'user' => DB_CONF['user'],
             'password' => DB_CONF['password'],
-            'charset' =>  DB_CONF['charset']
+            'charset' => DB_CONF['charset']
         ]
     ]
 ];

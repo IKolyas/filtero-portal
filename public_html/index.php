@@ -6,7 +6,14 @@ define("DB_CONF", include ($_SERVER['DOCUMENT_ROOT'] . "/../config.php"));
 
 $config = include $_SERVER['DOCUMENT_ROOT'] . "/../config/main.php";
 
-\app\base\Application::getInstance()->run($config);
+
+function app() {
+    return \app\base\Application::getInstance();
+}
+app()->run($config);
+
+
+
 
 //$request = new \app\base\Request();
 //
