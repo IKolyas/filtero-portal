@@ -16,6 +16,9 @@ return [
             'user' => DB_CONF['user'],
             'password' => DB_CONF['password'],
             'charset' => DB_CONF['charset']
+        ],
+        'userRepository' => [
+            'class' => \app\models\repositories\UserRepository::class,
         ]
     ]
 ];
