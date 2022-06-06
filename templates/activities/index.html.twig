@@ -1,11 +1,34 @@
 <div>
-    {% for activity in activities %}
-        <h2>title: {{ activity.title }}</h2>
-        <h2>price: {{ activity.price }}</h2>
-        <h2>price_month: {{ activity.price_month }}</h2>
-        <h2>contacts: {{ activity.contacts }}</h2>
-    {% else %}
-        No activities have been found.
-    {% endfor %}
+    <table class="table caption-top">
+        <caption class="fw-bold">Список активностей</caption>
+        <thead  class="table-primary">
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Учреждение</th>
+                <th scope="col">Возраст</th>
+                <th scope="col">Раз в неделю</th>
+                <th scope="col">Продолжительность</th>
+                <th scope="col">Цена</th>
+                <th scope="col">Цена за месяц</th>
+                <th scope="col">Контакты</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for activity in activities %}
+                <tr>
+                    <td>{{ activity.title }}</td>
+                    <td>Учреждение</td>
+                    <td>Возраст</td>
+                    <td>Раз в неделю</td>
+                    <td>Продолжительность</td>
+                    <td>{{ activity.price }} ₽</td>
+                    <td>{{ activity.price_month }} ₽</td>
+                    <td>{{ activity.contacts }}</td>
+                </tr>
+            {% else %}
+                Список активностей пуст.
+            {% endfor %}
+        </tbody>
+</table>
 
 </div>
