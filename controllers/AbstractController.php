@@ -2,8 +2,8 @@
 
 namespace app\controllers;
 
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
+use Twig\Environment,
+    Twig\Loader\FilesystemLoader;
 
 abstract class AbstractController
 {
