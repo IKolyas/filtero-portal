@@ -2,8 +2,8 @@
 
 namespace app\controllers;
 
-use app\base\Request;
-use app\services\DataBase as DataBase;
+use app\base\Request,
+    app\services\DataBase as DataBase;
 
 class ActivitiesController extends AbstractController
 {
