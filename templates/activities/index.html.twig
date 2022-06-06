@@ -1,34 +1,49 @@
-<div>
-<<<<<<< HEAD
-    <table class="table caption-top">
-        <caption class="fw-bold">Список активностей</caption>
-        <thead  class="table-primary">
-            <tr>
-                <th scope="col">Название</th>
-                <th scope="col">Учреждение</th>
-                <th scope="col">Возраст</th>
-                <th scope="col">Раз в неделю</th>
-                <th scope="col">Продолжительность</th>
-                <th scope="col">Цена</th>
-                <th scope="col">Цена за месяц</th>
-                <th scope="col">Контакты</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for activity in activities %}
+<div class="container min-vh-100">
+        <form class="d-flex justify-content-center" role="search">
+            <input class="form-control w-50 me-2" type="search" placeholder="Поиск" aria-label="Search">
+            <button class="btn btn-outline-primary" type="submit">Найти</button>
+        </form>
+        <table class="table mt-5">
+            <thead  class="table-primary">
                 <tr>
-                    <td>{{ activity.title }}</td>
-                    <td>Учреждение</td>
-                    <td>Возраст</td>
-                    <td>Раз в неделю</td>
-                    <td>Продолжительность</td>
-                    <td>{{ activity.price }} ₽</td>
-                    <td>{{ activity.price_month }} ₽</td>
-                    <td>{{ activity.contacts }}</td>
+                    <th scope="col">Название <i class="fa fa-sort"></i></th>
+                    <th scope="col">Учреждение <i class="fa fa-sort"></i></th>
+                    <th scope="col">Возраст <i class="fa fa-sort"></i></th>
+                    <th scope="col">Раз в неделю <i class="fa fa-sort"></i></th>
+                    <th scope="col">Продолжительность <i class="fa fa-sort"></i></th>
+                    <th scope="col">Цена <i class="fa fa-sort"></i></th>
+                    <th scope="col">Цена за месяц <i class="fa fa-sort"></i></th>
+                    <th scope="col">Контакты</th>
                 </tr>
-            {% else %}
-                Список активностей пуст.
-            {% endfor %}
-        </tbody>
-</table>
+            </thead>
+            <tbody class="table-light">
+                {% for activity in activities %}
+                    <tr>
+                        <td>{{ activity.title }}</td>
+                        <td>Учреждение</td>
+                        <td>Возраст</td>
+                        <td>Раз в неделю</td>
+                        <td>Продолжительность</td>
+                        <td>{{ activity.price }} ₽</td>
+                        <td>{{ activity.price_month }} ₽</td>
+                        <td>{{ activity.contacts }}</td>
+                    </tr>
+                {% else %}
+                    Список активностей пуст.
+                {% endfor %}
+            </tbody>
+        </table>
+        <nav  class="" aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link">←</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">→</a>
+                </li>
+            </ul>
+        </nav>
 </div>
