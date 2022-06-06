@@ -1,6 +1,8 @@
 <?php
 
 use \app\services\MigrationService as MigrationService;
+define("DB_CONF", include ($_SERVER['DOCUMENT_ROOT'] . "../config.php"));
+
 
 $action = $_SERVER['argv'][1] ?? false;
 $migrationName = $_SERVER['argv'][2] ?? false;

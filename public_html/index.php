@@ -12,6 +12,26 @@ function app() {
 }
 app()->run($config);
 
+$userRepository = new \app\models\repositories\UserRepository();
+
+//echo $userRepository->add([
+//    'first_name' => 'Igor',
+//    'last_name' => 'Savenok',
+//    'login' => 'igor',
+//    'password' => 'igor',
+//    'email' => 'igor@igor.ig',
+//    'is_admin' => 1,
+//]);
+
+//echo $userRepository->update([
+//    'id' => 2,
+//    'is_admin' => 1,
+//    'email' => 'igor@mail.ru',
+//]);
+
+//echo $userRepository->delete(2);
+
+
 
 
 

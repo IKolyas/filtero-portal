@@ -12,10 +12,13 @@ class DataBase
 
     private ?\PDO $connection = null;
 
-    public function __construct()
+    public function __construct($is_console = false)
     {
-        $this->config = include $_SERVER['DOCUMENT_ROOT'] . "/../config/main.php";
-        // die();
+        if($is_console) {
+            $this->config = include "../config/main.php";
+        } else {
+            $this->config = include $_SERVER['DOCUMENT_ROOT'] . "/../config/main.php";
+        }
     }
 
     protected function getConnection(): ?\PDO
