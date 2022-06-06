@@ -9,7 +9,7 @@ abstract class AbstractMigration
 
     public function __construct()
     {
-        $this->connection = DataBase::getInstance();
+        $this->connection = new DataBase(true);
     }
 
     abstract public function up();

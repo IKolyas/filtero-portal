@@ -14,7 +14,8 @@ class migration_create_table_activities_1654151431 extends AbstractMigration
             `id` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
             `title` VARCHAR(255) UNIQUE NOT NULL,
             `institute_id` BIGINT,
-            `activity_id` BIGINT,
+            `activity_type_id` BIGINT,            
+            `user_id` BIGINT,
             `age_from` INT,
             `age_to` INT,
             `amount_of_week` INT,
@@ -22,12 +23,11 @@ class migration_create_table_activities_1654151431 extends AbstractMigration
             `price` FLOAT,
             `price_month` FLOAT,
             `contacts` TEXT,
-            `created_at` TIMESTAMP,
-            `updated_at` TIMESTAMP,
-            `user_id` BIGINT,
-            FOREIGN KEY (`activity_id`) REFERENCES `activity_types` (`id`),
-            FOREIGN KEY (`institute_id`) REFERENCES `institutes` (`id`),
-            FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+            `created_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
+            `updated_at` TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP,
+            FOREIGN KEY (`activity_type_id`) REFERENCES `activity_types` (`id`) ON DELETE SET NULL,
+            FOREIGN KEY (`institute_id`) REFERENCES `institutes` (`id`) ON DELETE SET NULL,
+            FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL
         );
         ";
 
