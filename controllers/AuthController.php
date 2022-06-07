@@ -1,9 +1,12 @@
 <?php
 namespace app\controllers;
+use app\requests\RegistrationRequest;
 use app\services\DataBase as DataBase;
 
 class AuthController extends AbstractController
 {
+
+    protected string $defaultAction = 'login';
 
     public function actionLogin()
     {
@@ -17,39 +20,28 @@ class AuthController extends AbstractController
 
             echo $this->render('auth\login.html.twig');
         }
-        
+
     }
 
     public function actionRegistration()
     {
-        
+
         $is_post = app()->request->isPost();
+        $request = new RegistrationRequest();
 
-        if($is_post) {
-
-            $name  = app()->request->post('name');
-            $email = app()->request->post('email');
-            $password = app()->request->post('password');
-
-            $this->addUser($name, $email, $password);
-            
+        if($is_post && $request->validate()) {
+            if($this->createUser($request->validate())) {
+               app()->path->redirect('/users');
+            }
         } else {
-            echo $this->render('auth\registration.html.twig');
+            echo $this->render('auth\registration.html.twig', ['errors' => $request->errors(), 'old' => $request->post()]);
         }
-        
     }
 
-    private function addUser($name, $email, $password){
-        $userRepository = new \app\models\repositories\UserRepository();
-        $userRepository->add([
-
-            'login' => 'igor',
-            'is_admin' => 1,
-            'name' => $name,
-            'email' => $email,
-            'password' => $password,          
-        ]);
-
+    private function createUser($params): int
+    {
+        $user = app()->user;
+        return $user->create($params);
     }
 
 
