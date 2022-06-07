@@ -18,6 +18,8 @@ class migration_create_table_users_1654151282 extends AbstractMigration
             `password` VARCHAR(255) NOT NULL,
             `email` VARCHAR(255) UNIQUE NOT NULL,
             `is_admin` TINYINT DEFAULT 0,
+            `cookie_key` VARCHAR(255),
+            `verified`  TINYINT DEFAULT 0,
             `created_at` TIMESTAMP,
             `updated_at` TIMESTAMP
           );
