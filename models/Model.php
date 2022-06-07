@@ -10,26 +10,47 @@ abstract class Model
 
     protected ?RepositoryAbstract $repository;
 
-    public function find($id): ?User
+    protected function find(int $id): ?User
     {
-        return $this->repository->getOne($id)[0];
+        return $this->repository->getOne($id);
     }
 
-    public function findAll(): array
+    protected function findAll(): array
     {
         return $this->repository->getAll();
     }
 
-    public function update(): int
+    protected function update(): int
     {
-        $values = get_object_vars($this);
-        unset($values['repository']);
-        return $this->repository->update($values);
+        $fields = get_object_vars($this);
+        unset($fields['repository']);
+        return $this->repository->update($fields);
     }
 
-    public function create($values): int
+    protected function create($values): int
     {
         return $this->repository->add($values);
+    }
+
+    public static function __callStatic($name, $arguments)
+    {
+        if(method_exists(static::class, $name)) {
+            $class = new static();
+            switch (count($arguments)) {
+                case 1:
+                    return $class->$name($arguments[0]);
+                case 2:
+                    return $class->$name($arguments[0], $arguments[1]);
+                case 3:
+                    return $class->$name($arguments[0], $arguments[1], $arguments[2]);
+                case 4:
+                    return $class->$name($arguments[0], $arguments[1], $arguments[2], $arguments[3]);
+                default:
+                    return $class->$name($arguments);
+            }
+
+        }
+        return false;
     }
 
 }

@@ -1,7 +1,7 @@
 <?php
 namespace app\controllers;
+use app\models\User;
 use app\requests\RegistrationRequest;
-use app\services\DataBase as DataBase;
 
 class AuthController extends AbstractController
 {
@@ -40,8 +40,7 @@ class AuthController extends AbstractController
 
     private function createUser($params): int
     {
-        $user = app()->user;
-        return $user->create($params);
+        return User::create($params);
     }
 
 

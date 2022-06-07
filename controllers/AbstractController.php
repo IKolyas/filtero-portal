@@ -26,6 +26,7 @@ abstract class AbstractController
         }
     }
 
+//    TODO: Создать renderer функцию
     protected function render(string $template, array $params = []): string
     {
         $loader = new FilesystemLoader(__DIR__ . '/../templates');
