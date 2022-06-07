@@ -7,8 +7,10 @@ define("DB_CONF", include ($_SERVER['DOCUMENT_ROOT'] . "/../config.php"));
 $config = include $_SERVER['DOCUMENT_ROOT'] . "/../config/main.php";
 
 
+
 function app() {
     return \app\base\Application::getInstance();
+
 }
 app()->run($config);
 
