@@ -28,9 +28,9 @@ class Request
         }
     }
 
-    public function post(string $param)
+    public function post(): array
     {
-        return $_POST[$param];
+        return $_POST;
     }
 
     public function isGet(): bool

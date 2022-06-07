@@ -2,6 +2,8 @@
 
 namespace app\models\repositories;
 
+use app\models\User;
+
 class UserRepository extends RepositoryAbstract
 {
 
@@ -12,6 +14,7 @@ class UserRepository extends RepositoryAbstract
 
     public function getModelClassName(): string
     {
-        return 'users';
+        return User::class;
     }
+
 }

@@ -3,6 +3,7 @@
 namespace app\services;
 
 use app\traits\SingleTone;
+use PDO;
 
 class DataBase
 {
@@ -63,7 +64,7 @@ class DataBase
         $pdoStatement = $this->query($sql, $params);
         if (isset($className)) {
             $pdoStatement->setFetchMode(
-                \PDO::FETCH_CLASS | \PDO::FETCH_PROPS_LATE,
+                PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE,
                 $className
             );
         }

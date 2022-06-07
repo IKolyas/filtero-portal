@@ -46,7 +46,7 @@ class Application
     {
 //        Если не найден компонент, проверяем есть ли он в конфиге, создаём его через фабрику и помещаем в $this->components
 
-        if (is_null($this->components) || is_null($this->components[$name])) {
+        if (is_null($this->components) || empty($this->components[$name])) {
             if ($params = $this->config['components'][$name]) {
                 $this->components[$name] = $this->componentsFactory->createComponent($name, $params);
             } else {
