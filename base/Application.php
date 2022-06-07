@@ -21,6 +21,7 @@ class Application
         $this->componentsFactory = new ComponentsFactory();
         $this->config = $config;
         $controllerName = $this->request->getControllerName() ?: $this->config['default_controller'];
+        $params = $this->request->isPost() ? $this->request->post() : $this->request->getParams();
         $actionName = $this->request->getActionName();
 
 //      Получаем имя класса контроллера с пространством имён
@@ -31,7 +32,7 @@ class Application
         if (class_exists($controllerClass)) {
 //            TODO: Добавить тип renderer в конструктор
             $controller = new $controllerClass();
-            $controller->runAction($actionName);
+            $controller->runAction($actionName, $params);
         } else {
             echo "404";
         }
