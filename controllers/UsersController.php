@@ -8,8 +8,10 @@ class UsersController extends AbstractController
 {
     protected string $defaultTemplate = 'custom_name.html.twig';
 
-    public function actionIndex()
+    public function actionIndex($params = [])
     {
+
+        var_dump($params);
         $db = DataBase::getInstance();
         $users = $db->queryAll("SELECT * FROM `users`", []);
 

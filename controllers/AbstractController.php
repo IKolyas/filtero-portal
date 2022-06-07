@@ -14,13 +14,13 @@ abstract class AbstractController
     protected bool $useMainTemplate = true;
     protected string $action;
 
-    public function runAction($action = null): void
+    public function runAction($action = null, $params = []): void
     {
         $this->action = $action ?: $this->defaultAction;
         $method = "action" . ucfirst($this->action);
 
         if(method_exists($this, $method)) {
-            $this->$method();
+            $this->$method($params);
         } else {
             echo $this->render($this->notFound);
         }
