@@ -5,8 +5,14 @@ return [
     'default_controller' => 'activities',
     'controller_namespace' => 'app\controllers\\',
     'components' => [
+        'user' => [
+            'class' => \app\models\User::class,
+        ],
         'request' => [
             'class' => \app\base\Request::class,
+        ],
+        'path' => [
+            'class' => \app\services\Path::class,
         ],
         'db' => [
             'class' => \app\services\DataBase::class,
@@ -19,6 +25,6 @@ return [
         ],
         'userRepository' => [
             'class' => \app\models\repositories\UserRepository::class,
-        ]
+        ],
     ]
 ];

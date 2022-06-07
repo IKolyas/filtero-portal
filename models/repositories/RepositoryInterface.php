@@ -9,7 +9,7 @@ interface RepositoryInterface
 
     public function getBy($value, string $column = 'id'): array;
 
-    public function getOne(string $value, string $column): string;
+    public function getOne(string $value, string $column): array;
 
     public function add(array $params): int;
 
