@@ -1,12 +1,87 @@
-<div>
-    {% for activity in activities %}
-        <h2>title: {{ activity.title }}</h2>
-        <h2>price: {{ activity.price }}</h2>
-        <h2>price_month: {{ activity.price_month }}</h2>
-        <h2>contacts: {{ activity.contacts }}</h2>
-        <h2>user: {{ activity.user_id }}</h2>
-    {% else %}
-        No activities have been found.
-    {% endfor %}
-
+<div class="container min-vh-100">
+        <form class="search d-flex justify-content-center" role="search">
+            <input class="form-control w-50 me-2" type="search" placeholder="Поиск" aria-label="Search">
+            <button class="btn btn-outline-primary" type="submit">Найти</button>
+        </form>
+        <!--<table class="table mt-5 table-borderless">
+            <thead>
+                <tr>
+                    <th scope="col">Название <button class="sort_button"><i class="fa-solid fa-arrow-down"></i></button></th>
+                    <th scope="col">Учреждение <button class="sort_button"><i class="fa-solid fa-arrow-down"></i></button></th>
+                    <th scope="col">Возраст <button class="sort_button"><i class="fa-solid fa-arrow-down"></i></button></th>
+                    <th scope="col">Раз в неделю <button class="sort_button"><i class="fa-solid fa-arrow-down"></i></button></th>
+                    <th scope="col">Продолжительность <button class="sort_button"><i class="fa-solid fa-arrow-down"></i></button></th>
+                    <th scope="col">Цена <button class="sort_button"><i class="fa-solid fa-arrow-down"></i></button></th>
+                    <th scope="col">Цена за месяц <button class="sort_button"><i class="fa-solid fa-arrow-down"></i></button></th>
+                    <th scope="col">Контакты</th>
+                </tr>
+            </thead>
+            <tbody class="table">
+                {% for activity in activities %}
+                    <tr>
+                        <td>{{ activity.title }}</td>
+                        <td>Учреждение</td>
+                        <td>Возраст</td>
+                        <td>Раз в неделю</td>
+                        <td>Продолжительность</td>
+                        <td>{{ activity.price }} ₽</td>
+                        <td>{{ activity.price_month }} ₽</td>
+                        <td>{{ activity.contacts }}</td>
+                    </tr>
+                {% else %}
+                    Список активностей пуст.
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="card">
+            <h5 class="card-header">Изучение английского</h5>
+            <div class="card-body d-flex">
+                <div class="card-left-side">
+                    <h5 class="card-title">Учреждение</h5>
+                    <p class="card-text">Возраст 7-14</p>
+                    <p class="card-text">5 раз в неделю</p>
+                    <p class="card-text">80 минут</p>
+                </div>
+                <div class="card-right-side justify-content-end">
+                    <h5 class="card-title"> Цена 500 р.</h5>
+                    <h5 class="card-title"> Цена в месяц 6000 р.</h5>
+                </div>
+            </div>
+            <h6 class="card-title">Контакты</h6>
+            <p class="card-text">г. Тюмень, ул. Республики 36б тел. 8 (800)353-45-45</p>
+        </div>-->
+        {% for activity in activities %}
+            <div id="card-main-container" class="mb-3">
+            <div class="col-md-6 col-lg-10">
+                <h5 class="fw-bold">{{ activity.title }}</h5>
+                <p class="mb-3">Школа № 454</p>
+                <span class="text-secondary">Возраст: {{ activity.age_from }}-{{ activity.age_to }} лет</span>
+                <br>
+                <span class="text-secondary">Продолжительность: {{ activity.duration_time }} минут</span>
+                <br>
+                <span class="text-secondary">В неделю: {{ activity.amount_of_week}} раз</span>
+                <br>
+                <span class="text-secondary fw-bold">Контакты: {{ activity.contacts}} </span>
+            </div>
+            <div class="col-md-3 col-lg-2">
+                <h5 class="font-weight-bold">{{ activity.price }}  ₽/занятие</h5>
+                <h6 class="text-secondary">{{ activity.price_month }}₽/месяц</h6>
+            </div>
+        </div>
+        {% else %}
+            Список активностей пуст.
+        {% endfor %}
+        <nav  class="" aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link">←</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">→</a>
+                </li>
+            </ul>
+        </nav>
 </div>
