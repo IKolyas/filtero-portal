@@ -6,7 +6,6 @@ use app\models\repositories\RepositoryAbstract;
 
 abstract class Model
 {
-    protected int $id;
 
     protected ?RepositoryAbstract $repository;
 

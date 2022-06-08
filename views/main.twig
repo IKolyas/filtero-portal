@@ -19,7 +19,7 @@
             justify-content: center;
             align-items: center;
             margin: 0;
-            height: 100%;
+            min-height: calc(100vh - 56px);
         }
         .not_found {
             display: flex;
@@ -119,16 +119,16 @@
 <header>
     <nav class="navbar navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#">Filtero</a>
+            <a class="navbar-brand fw-bold" href="/">FilterO</a>
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         $USERNAME
                     </a>
                     <ul class="dropdown-menu position-absolute dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#"> <i class="fa-solid fa-address-card"></i>Профиль</a></li>
+                        <li><a class="dropdown-item" href="/auth"> <i class="fa-solid fa-address-card"></i>Профиль</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#"><i class="fa-solid fa-door-open"></i>Выход</a></li>
+                        <li><a class="dropdown-item" href="/auth"><i class="fa-solid fa-door-open"></i>Выход</a></li>
                     </ul>
                     </li>
                 </ul>
