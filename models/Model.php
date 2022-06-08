@@ -32,13 +32,17 @@ abstract class Model
         return $this->repository->add($values);
     }
 
+    /**
+     * @throws \Exception
+     */
     public static function __callStatic($name, $arguments)
     {
         if(method_exists(static::class, $name)) {
             $class = new static();
             return $class->$name(...$arguments);
+        } else {
+            throw new \Exception("Метод $name не существует в экземпляре класса " . static::class);
         }
-        return false;
     }
 
 }

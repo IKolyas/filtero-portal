@@ -26,4 +26,5 @@ interface RepositoryInterface
     public function getTableName(): string;
 
     public function getModelClassName(): string;
+
 }

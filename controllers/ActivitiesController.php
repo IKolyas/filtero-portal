@@ -10,10 +10,7 @@ class ActivitiesController extends AbstractController
 
     public function actionIndex(): void
     {
-        $db = DataBase::getInstance();
-        $activities = $db->queryAll("SELECT * FROM activities", []);
-
-        echo $this->render('activities\index.html.twig', ['activities' => $activities]);
+        echo $this->render('activities.index', ['activities' => []]);
     }
 
 }

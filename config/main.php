@@ -1,13 +1,11 @@
 <?php
 
 return [
-    'views_dir' => realpath(__DIR__ . '/../') . "/views/",
-    'default_controller' => 'activities',
+    'views_dir' => realpath(__DIR__ . '/../') . "/" . CONFIG['views_dir'] . "/",
+    'default_controller' => CONFIG['default_controller'],
     'controller_namespace' => 'app\controllers\\',
     'components' => [
-        'user' => [
-            'class' => \app\models\User::class,
-        ],
+//       BASE
         'request' => [
             'class' => \app\base\Request::class,
         ],
@@ -16,15 +14,26 @@ return [
         ],
         'db' => [
             'class' => \app\services\DataBase::class,
-            'driver' => DB_CONF['driver'],
-            'host' => DB_CONF['host'],
-            'database' => DB_CONF['database'],
-            'user' => DB_CONF['user'],
-            'password' => DB_CONF['password'],
-            'charset' => DB_CONF['charset']
+            'driver' => CONFIG['db_driver'],
+            'host' => CONFIG['db_host'],
+            'database' => CONFIG['db_database'],
+            'user' => CONFIG['db_user'],
+            'password' => CONFIG['db_password'],
+            'charset' => CONFIG['db_charset']
         ],
+        'renderer' => [
+            'class' => \app\services\renderers\TwigRenderer::class,
+        ],
+        'session' => [
+            'class' => \app\base\Session::class,
+        ],
+
+//       PROJECT ENTITIES
         'userRepository' => [
             'class' => \app\models\repositories\UserRepository::class,
+        ],
+        'user' => [
+            'class' => \app\models\User::class,
         ],
     ]
 ];
