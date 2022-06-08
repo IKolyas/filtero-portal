@@ -15,7 +15,7 @@ class AdminController extends AbstractController
         $activities = Activity::findAll();
         $user = User::findAll()[0];
         foreach ($activities as $activity) {
-            $activity->age = "С $activity->age_from по $activity->age_to";
+            $activity->age = $activity->getAgeRange();
             $activity->institute = Institute::find($activity->institute_id)->title;
             $activity->type = ActivityType::find($activity->activity_type_id)->title;
         }
