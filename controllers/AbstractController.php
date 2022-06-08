@@ -2,17 +2,22 @@
 
 namespace app\controllers;
 
-use Twig\Environment,
-    Twig\Loader\FilesystemLoader;
+use app\services\renderers\RendererInterface;
 
 abstract class AbstractController
 {
 
     protected string $defaultAction = 'index';
-    protected string $defaultTemplate = 'main.html.twig';
-    protected string $notFound = '404.html.twig';
+    protected string $defaultTemplate = 'main';
+    protected string $notFound = '404';
     protected bool $useMainTemplate = true;
     protected string $action;
+    protected RendererInterface $renderer;
+
+    public function __construct(RendererInterface $renderer)
+    {
+        $this->renderer = $renderer;
+    }
 
     public function runAction($action = null, $params = []): void
     {
@@ -22,20 +27,15 @@ abstract class AbstractController
         if(method_exists($this, $method)) {
             $this->$method($params);
         } else {
-            echo $this->render($this->notFound);
+            echo $this->renderer->render($this->notFound);
         }
     }
 
     protected function render(string $template, array $params = []): string
     {
-        $loader = new FilesystemLoader(__DIR__ . '/../templates');
-        $twig = new Environment($loader);
-
-        $content = $twig->render($template, $params);
-
+        $content = $this->renderer->render($template, $params);
         if($this->useMainTemplate) {
-
-            return $twig->render($this->defaultTemplate, ['content' => $content]);
+            return $this->renderer->render($this->defaultTemplate, ['content' => $content]);
         }
         return $content;
     }

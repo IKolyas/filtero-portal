@@ -25,16 +25,17 @@ class Application
         $actionName = $this->request->getActionName();
 
 //      Получаем имя класса контроллера с пространством имён
+
         $controllerClass = $this->config['controller_namespace'] . ucfirst($controllerName) . "Controller";
 
 //        TODO: else Exception 404
 //        Если класс найден, попытка вызвать у класса соответствующий метод
         if (class_exists($controllerClass)) {
 //            TODO: Добавить тип renderer в конструктор
-            $controller = new $controllerClass();
+            $controller = new $controllerClass($this->renderer);
             $controller->runAction($actionName, $params);
         } else {
-            echo "404";
+            $this->path->redirect('notFound');
         }
     }
 

@@ -109,7 +109,7 @@ php migrations.php down -all:n
 ```sh
 class MIGRATION_NAME extends AbstractMigration
 {
-    public function up()
+    public_html function up()
     {
         $row = "";
 
@@ -117,7 +117,7 @@ class MIGRATION_NAME extends AbstractMigration
 
     }
 
-    public function down()
+    public_html function down()
     {
         $row = "";
 

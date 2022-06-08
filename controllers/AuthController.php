@@ -1,7 +1,7 @@
 <?php
 namespace app\controllers;
+use app\models\User;
 use app\requests\RegistrationRequest;
-use app\services\DataBase as DataBase;
 
 class AuthController extends AbstractController
 {
@@ -18,7 +18,7 @@ class AuthController extends AbstractController
 
         } else {
 
-            echo $this->render('auth\login.html.twig');
+            echo $this->render('auth.login');
         }
 
     }
@@ -34,14 +34,13 @@ class AuthController extends AbstractController
                app()->path->redirect('/users');
             }
         } else {
-            echo $this->render('auth\registration.html.twig', ['errors' => $request->errors(), 'old' => $request->post()]);
+            echo $this->render('auth.registration', ['errors' => $request->errors(), 'old' => $request->post()]);
         }
     }
 
     private function createUser($params): int
     {
-        $user = app()->user;
-        return $user->create($params);
+        return User::create($params);
     }
 
 
