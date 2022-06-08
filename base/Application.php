@@ -21,19 +21,21 @@ class Application
         $this->componentsFactory = new ComponentsFactory();
         $this->config = $config;
         $controllerName = $this->request->getControllerName() ?: $this->config['default_controller'];
+        $params = $this->request->isPost() ? $this->request->post() : $this->request->getParams();
         $actionName = $this->request->getActionName();
 
 //      Получаем имя класса контроллера с пространством имён
+
         $controllerClass = $this->config['controller_namespace'] . ucfirst($controllerName) . "Controller";
 
 //        TODO: else Exception 404
 //        Если класс найден, попытка вызвать у класса соответствующий метод
         if (class_exists($controllerClass)) {
 //            TODO: Добавить тип renderer в конструктор
-            $controller = new $controllerClass();
-            $controller->runAction($actionName);
+            $controller = new $controllerClass($this->renderer);
+            $controller->runAction($actionName, $params);
         } else {
-            echo "404";
+            $this->path->redirect('notFound');
         }
     }
 
@@ -45,7 +47,7 @@ class Application
     {
 //        Если не найден компонент, проверяем есть ли он в конфиге, создаём его через фабрику и помещаем в $this->components
 
-        if (is_null($this->components) || is_null($this->components[$name])) {
+        if (is_null($this->components) || empty($this->components[$name])) {
             if ($params = $this->config['components'][$name]) {
                 $this->components[$name] = $this->componentsFactory->createComponent($name, $params);
             } else {

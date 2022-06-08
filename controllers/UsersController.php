@@ -2,18 +2,23 @@
 
 namespace app\controllers;
 
-use app\services\DataBase as DataBase;
+
+use app\models\User;
 
 class UsersController extends AbstractController
 {
-    protected string $defaultTemplate = 'custom_name.html.twig';
 
     public function actionIndex()
     {
-        $db = DataBase::getInstance();
-        $users = $db->queryAll("SELECT * FROM `users`", []);
+        $users = User::findAll();
+        echo $this->render('users.index', ['users' => $users]);
+    }
 
-        echo $this->render('users\index.html.twig', ['users' => $users]);
+    public function actionShow($id)
+    {
+        if ((int)$id && $user = User::find($id)) {
+            echo $this->render('users.show', ['user' => $user]);
+        }
     }
 
 }

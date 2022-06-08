@@ -2,6 +2,7 @@
 
 namespace app\models\repositories;
 
+use app\models\Model;
 use app\services\DataBase;
 
 abstract class RepositoryAbstract implements RepositoryInterface
@@ -25,11 +26,11 @@ abstract class RepositoryAbstract implements RepositoryInterface
 
     public function getBy($value, string $column = 'id'): array
     {
-        $sql = "SELECT * FROM {$this->tableName} WHERE {$column} :value";
+        $sql = "SELECT * FROM {$this->tableName} WHERE {$column} = :value";
         return $this->getQuery($sql, ['value' => $value]);
     }
 
-    public function getOne($value, string $column = 'id'): string
+    public function getOne($value, string $column = 'id'): ?Model
     {
         return $this->getBy($value, $column)[0];
     }
@@ -59,7 +60,7 @@ abstract class RepositoryAbstract implements RepositoryInterface
 
         foreach ($params as $key => $value) {
             $paramsList[":{$key}"] = $value;
-            if($key !== 'id') {
+            if ($key !== 'id') {
                 $columns[] = "`$key`" . '=' . ":{$key}";
             }
         }
@@ -84,7 +85,7 @@ abstract class RepositoryAbstract implements RepositoryInterface
 
     public function getQuery(string $sql, array $params = []): array
     {
-        return $this->dataBase->queryAll($sql, $params,$this->getModelClassName());
+        return $this->dataBase->queryAll($sql, $params, $this->getModelClassName());
     }
 
     abstract public function getTableName(): string;
