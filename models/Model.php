@@ -9,7 +9,7 @@ abstract class Model
 
     protected ?RepositoryAbstract $repository;
 
-    protected function find(int $id): ?User
+    protected function find(int $id): ?Model
     {
         return $this->repository->getOne($id);
     }
