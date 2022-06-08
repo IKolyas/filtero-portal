@@ -34,6 +34,7 @@ abstract class AbstractController
     protected function render(string $template, array $params = []): string
     {
         $content = $this->renderer->render($template, $params);
+
         if($this->useMainTemplate) {
             return $this->renderer->render($this->defaultTemplate, ['content' => $content]);
         }
