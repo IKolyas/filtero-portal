@@ -16,7 +16,6 @@
     <nav class="navbar navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand fw-bold" href="/">FilterO</a>
-            <a href="/admin" class="nav-link text-white">Панель администратора</a>
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white" href="/admin" id="navbarDropdown" role="button"
@@ -24,12 +23,12 @@
                         $USERNAME
                     </a>
                     <ul class="dropdown-menu position-absolute dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/auth"> <i class="fa-solid fa-address-card"></i>Профиль</a>
-                        </li>
+                        <li><a href="/admin" class="dropdown-item"><i class="fa-solid fa-hammer"></i> Панель администратора</a></li>
+                        <li><a class="dropdown-item" href="/auth"> <i class="fa-solid fa-address-card"></i> Профиль</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="/auth"><i class="fa-solid fa-door-open"></i>Выход</a></li>
+                        <li><a class="dropdown-item" href="/auth"><i class="fa-solid fa-door-open"></i> Выход</a></li>
                     </ul>
                 </li>
             </ul>
