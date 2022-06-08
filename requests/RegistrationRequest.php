@@ -6,6 +6,8 @@ use app\base\Request;
 
 class RegistrationRequest extends Request
 {
+    protected string $reguler_password = '/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/';
+    protected string $reguler_email = '/[0-9a-z]+@[a-z]/';
     protected array $fields = [
         'first_name',
         'last_name',
@@ -28,8 +30,12 @@ class RegistrationRequest extends Request
             if(empty($params[$val] || !is_string($params[$val])))
                 $this->errors[$val] = 'Значение не является строкой или не заполнено!';
         }
-        if(strlen($params['password']) < 8)
-            $this->errors['password'] = 'Длина пароля меньше 8 символов';
+        if(!preg_match($this->reguler_password, $params['password']))
+            $this->errors['password'] = 'Пароль должен состоять из цифр и латинских букв верхнего и нижнего регистра и длина должна быть не менее 8 символов!';
+
+    
+        if (!preg_match($this->reguler_email, $params['email']))
+            $this->errors['email'] = 'Неверный формат электронной почты';
 
         return empty($this->errors) ? $params : false;
     }
