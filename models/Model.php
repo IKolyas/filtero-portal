@@ -36,19 +36,7 @@ abstract class Model
     {
         if(method_exists(static::class, $name)) {
             $class = new static();
-            switch (count($arguments)) {
-                case 1:
-                    return $class->$name($arguments[0]);
-                case 2:
-                    return $class->$name($arguments[0], $arguments[1]);
-                case 3:
-                    return $class->$name($arguments[0], $arguments[1], $arguments[2]);
-                case 4:
-                    return $class->$name($arguments[0], $arguments[1], $arguments[2], $arguments[3]);
-                default:
-                    return $class->$name($arguments);
-            }
-
+            return $class->$name(...$arguments);
         }
         return false;
     }
