@@ -7,13 +7,13 @@ use app\models\ActivityType;
 use app\models\Institute;
 use app\models\User;
 
-
-class ActivitiesController extends AbstractController
+class AdminController extends AbstractController
 {
 
-    public function actionIndex(): void
+    public function actionIndex()
     {
         $activities = Activity::findAll();
+        $user = User::findAll()[0];
         foreach ($activities as $activity) {
             $activity->age = $activity->getAgeRange();
             $activity->institute = Institute::find($activity->institute_id)->title;
@@ -23,7 +23,16 @@ class ActivitiesController extends AbstractController
         $institutes = Institute::findAll();
         $types = ActivityType::findAll();
 
-        echo $this->render('activities.index', compact('activities', 'institutes', 'types'));
+        echo $this->render('admin.index', compact('activities', 'institutes', 'types', 'user'));
     }
 
+    public function actionCreateActivity()
+    {
+
+        if (app()->request->isPost()) {
+            if (Activity::create(app()->request->post())) {
+                app()->path->redirect('/admin');
+            }
+        }
+    }
 }

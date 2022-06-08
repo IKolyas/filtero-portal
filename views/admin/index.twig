@@ -1,0 +1,104 @@
+<style>
+    .admin_page {
+        width: 100%;
+        height: 100%;
+    }
+    .activity_list {
+        max-width: 100%;
+    }
+    .activity_action_btn:hover {
+        cursor: pointer;
+        transition: all 0.5s ease-in;
+        transform: scale(1.2);
+    }
+    .send_form_activities {
+        width: 100px;
+        height: 50px;
+    }
+</style>
+<div class="admin_page p-2">
+    <div class="nav_admin">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/admin">Активности</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Типы активностей</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Учреждения</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Пользователи</a>
+                {#            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>#}
+            </li>
+        </ul>
+    </div>
+
+    <div class="activity_create_form">
+        <form class="row" method="post" action="/admin/createActivity">
+            <div class="mb-3 col-4">
+                <label for="title" class="form-label">Название</label>
+                <input type="text" class="form-control" id="title" name="title" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 col-4">
+                <label for="institute_id" class="form-label">Учреждение</label>
+                <select class="form-select" aria-label="Default select example" id="institute_id" name="institute_id">
+                    <option selected>Выберете учреждение</option>
+                    {% for institute in institutes %}
+                        <option value="{{ institute.id }}">{{ institute.title }}</option>
+                    {% else %}
+
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3 col-4">
+                <label for="activity_type_id" class="form-label">Тип</label>
+                <select class="form-select" aria-label="Default select example" id="activity_type_id" name="activity_type_id">
+                    <option selected>Выберете тип</option>
+                    {% for type in types %}
+                        <option value="{{ type.id }}">{{ type.title }}</option>
+                    {% else %}
+
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3 col-2">
+                <label for="age_from" class="form-label">Возраст с</label>
+                <input type="text" class="form-control" id="age_from" name="age_from" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 col-2">
+                <label for="age_to" class="form-label">Возраст до</label>
+                <input type="text" class="form-control" id="age_to" name="age_to" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 col-2">
+                <label for="amount_of_week" class="form-label">Раз в неделю</label>
+                <input type="text" class="form-control" id="amount_of_week" name="amount_of_week" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 col-2">
+                <label for="duration_time" class="form-label">Продолжительность</label>
+                <input type="text" class="form-control" id="duration_time" name="duration_time" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 col-2">
+                <label for="price" class="form-label">Цена</label>
+                <input type="text" class="form-control" id="price" name="price" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 col-2">
+                <label for="price_month" class="form-label">Цена за месяц</label>
+                <input type="text" class="form-control" id="price_month" name="price_month" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3 col-10">
+                <label for="contacts" class="form-label">Контакты</label>
+                <textarea class="form-control" id="contacts" name="contacts" aria-describedby="emailHelp"></textarea>
+            </div>
+            <input type="hidden" name="user_id" value="{{ user.id }}">
+            <div class="send_form_activities col-2 ">
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </div>
+        </form>
+    </div>
+
+    {% include 'partials/activities_list.twig' %}
+
+</div>
+

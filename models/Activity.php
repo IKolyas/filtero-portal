@@ -26,5 +26,10 @@ class Activity extends Model
         $this->repository = new ActivityRepository();
     }
 
+    public function getAgeRange(): string
+    {
+        return "С $this->age_from по $this->age_to";
+    }
+
 
 }
