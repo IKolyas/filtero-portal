@@ -13,7 +13,8 @@ class RegistrationRequest extends Request
         'last_name',
         'login',
         'password',
-        'email'
+        'email',
+        'password_r'
     ];
 
     protected array $errors = [];
@@ -37,6 +38,9 @@ class RegistrationRequest extends Request
         if (!preg_match($this->reguler_email, $params['email']))
             $this->errors['email'] = 'Неверный формат электронной почты';
 
+        if (!($params['password'] == $params['password_r']))
+            $this->errors['password_r'] = 'Пароли не совпадают!';
+            
         return empty($this->errors) ? $params : false;
     }
 
