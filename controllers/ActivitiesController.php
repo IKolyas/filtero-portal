@@ -16,6 +16,7 @@ class ActivitiesController extends AbstractController
         $activities = Activity::findAll();
         foreach ($activities as $activity) {
             $activity->age = $activity->getAgeRange();
+            $activity->amountOfWeek = $activity->getAmountOfWeek();
             $activity->institute = Institute::find($activity->institute_id)->title;
             $activity->type = ActivityType::find($activity->activity_type_id)->title;
         }
