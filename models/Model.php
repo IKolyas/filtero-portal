@@ -9,9 +9,9 @@ abstract class Model
 
     protected ?RepositoryAbstract $repository;
 
-    protected function find(int $id): ?Model
+    protected function find($value, string $col = 'id'): ?Model
     {
-        return $this->repository->getOne($id);
+        return $this->repository->getOne($value, $col);
     }
 
     protected function findAll(): array

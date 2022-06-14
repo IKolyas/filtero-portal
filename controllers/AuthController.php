@@ -2,7 +2,6 @@
 namespace app\controllers;
 use app\models\User;
 use app\requests\RegistrationRequest;
-use app\services\DataBase as DataBase;
 
 
 class AuthController extends AbstractController
@@ -16,13 +15,19 @@ class AuthController extends AbstractController
         $is_post = app()->request->isPost();
         
         if($is_post) {
+
             $post_data = app()->request->post();
             $email = $post_data['email'];
             $password = $post_data['password'];
-            $this->varification($email, $password);
+
+            if($this->varification($email, $password)) {
+                app()->path->redirect('/activities');
+            } else {
+                echo $this->render('auth.login', ['error' => 'Пароль или логин неверный!']);
+            }
+        } else {
+            echo $this->render('auth.login');
         }
-        
-        echo $this->render('auth.login');
 
     }
 
@@ -31,10 +36,13 @@ class AuthController extends AbstractController
         $is_post = app()->request->isPost();
         $request = new RegistrationRequest();
 
-        if($is_post && $request->validate()) {
-            if($this->createUser($request->validate())) {
-                echo $this->render('auth.confirmEmail',);
+        
+        if($is_post && $fields = $request->validate()) {
 
+            unset($fields['password_r']);
+
+            if($this->createUser($fields)) {
+                echo $this->render('auth.confirm_email');
             }
         } else {
             echo $this->render('auth.registration', ['errors' => $request->errors(), 'old' => $request->post()]);
@@ -46,22 +54,15 @@ class AuthController extends AbstractController
         return User::create($params);
     }
 
-    private function varification($email, $password): void  
+    private function varification($email, $password): bool  
     {
-        $db = DataBase::getInstance();
-        $user_data = $db->queryOne("SELECT email, 'password' FROM users WHERE email = :email AND 'password' = :password" , 
-        [
-            ':email' => $email,
-            ':password' => $password
-        ]);
-        
-        if($user_data)
-        {
-            app()->path->redirect('/activities');
-        } else 
-        {
-            echo $this->render('auth.login', ['error' => 'Пароль или логин неверный!']);
-        }
+
+        $user = User::find($email, 'email');
+
+        if($user && $user->password == $password) return true;
+
+        return false;
+    
     }
 
 
