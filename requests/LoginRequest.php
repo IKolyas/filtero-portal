@@ -3,35 +3,35 @@
 namespace app\requests;
 
 use app\base\Request;
+use app\base\User;
 
-class RememberMeRequest extends Request
+class LoginRequest
 {
-      public function randomCookie($len)
+      private function getUserByCookeiDb($cookie_key)
       {
-            $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-            $pass = array();
-            $alphaLength = strlen($alphabet) - 1; 
-
-            for ($i = 0; $i < $len; $i++) {
-                  $n = rand(0, $alphaLength);
-                  $pass[] = $alphabet[$n];
-            }
-
-            return implode($pass);
-      }
-
-      public function setCookieUser($cookie_key, $time = 30)
-      {
-            setcookie('auth', $cookie_key, time()+ $time, '/');
-      }
-
-      public function setCookieKeyDb($user_id, $cookie_key)
-      {
+            $user = User::find($cookie_key, 'cookie_key');
             
+            return $user ? $user : false;
+
       }
 
-      public function GetAuthUser($password, $email)
+      private function getCookieKeyByUser()
       {
+            return isset($_COOKIE['auth']) ? $_COOKIE['auth'] : false;
+      }
+
+
+      public function isAuth()
+      {
+            app()->session();
+            $is_auth = false;
+            $cookie_key = $this->getCookieKeyByUser();
+
+            if($cookie_key)
+            {
+                  $is_auth = $this->getUserByCookeiDb($cookie_key);
+            }
+            return app()->session->get('user') ?? $is_auth;
 
       }
       
