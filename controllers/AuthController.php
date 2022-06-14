@@ -24,8 +24,6 @@ class AuthController extends AbstractController
         
         echo $this->render('auth.login');
 
-        
-        
     }
 
     public function actionRegistration()
@@ -51,7 +49,7 @@ class AuthController extends AbstractController
     private function varification($email, $password): void  
     {
         $db = DataBase::getInstance();
-        $user_data = $db->queryOne("SELECT email, password FROM users WHERE email = :email AND password = :password" , 
+        $user_data = $db->queryOne("SELECT email, 'password' FROM users WHERE email = :email AND 'password' = :password" , 
         [
             ':email' => $email,
             ':password' => $password
@@ -63,7 +61,6 @@ class AuthController extends AbstractController
         } else 
         {
             echo $this->render('auth.login', ['error' => 'Пароль или логин неверный!']);
-            //app()->path->redirect('/login', ['error' => 'пароль или логин неверный!']);
         }
     }
 
