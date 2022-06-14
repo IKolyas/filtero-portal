@@ -35,4 +35,15 @@ class Session
         session_destroy();
     }
 
+    public function getCookie(string $key)
+    {
+        return isset($_COOKIE[$key]) ? $_COOKIE[$key] : false;
+    }
+
+    // TODO: add time to config 
+    public function setCookie(string $key, $value, $time = '2000'): void
+    {
+        setcookie($key, $value, time() + $time, '/');   
+    }
+
 }

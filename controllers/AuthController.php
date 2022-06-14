@@ -19,7 +19,7 @@ class AuthController extends AbstractController
             $post_data = app()->request->post();
             $email = $post_data['email'];
             $password = $post_data['password'];
-            $is_remember = $post_data['rememberMe'];
+            $is_remember = $post_data['remember_me'];
 
             if($this->varification($email, $password)) {
                 if($is_remember)
@@ -75,9 +75,10 @@ class AuthController extends AbstractController
         $user = User::find($email, 'email');
         $randomCookie = User::randomCookie();
 
+        //TODO: update method
         $setCookieKeyDb = User::setCookieKeyDb($user->id, $randomCookie);
 
-        if($randomCookie && $setCookieKeyDb) User::setCokieUsre($randomCookie, 60*60*24*2);
+        if($randomCookie && $setCookieKeyDb) User::setCokieUser($randomCookie);
 
     }
 

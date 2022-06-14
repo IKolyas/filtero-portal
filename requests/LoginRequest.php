@@ -3,9 +3,9 @@
 namespace app\requests;
 
 use app\base\Request;
-use app\base\User;
+use app\models\User;
 
-class LoginRequest
+class LoginRequest extends Request
 {
       private function getUserByCookeiDb($cookie_key)
       {
@@ -15,17 +15,11 @@ class LoginRequest
 
       }
 
-      private function getCookieKeyByUser()
-      {
-            return isset($_COOKIE['auth']) ? $_COOKIE['auth'] : false;
-      }
-
 
       public function isAuth()
       {
-            app()->session();
             $is_auth = false;
-            $cookie_key = $this->getCookieKeyByUser();
+            $cookie_key = app()->session->getCookie('auth');
 
             if($cookie_key)
             {
