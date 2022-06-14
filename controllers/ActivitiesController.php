@@ -14,6 +14,7 @@ class ActivitiesController extends AbstractController
     public function actionIndex(): void
     {
         $activities = Activity::findAll();
+
         foreach ($activities as $activity) {
             $activity->age = $activity->getAgeRange();
             $activity->amountOfWeek = $activity->getAmountOfWeek();
