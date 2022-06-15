@@ -3,33 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Портал</title>
     <script src="https://kit.fontawesome.com/30ac606873.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link href="/src/css/main.css" rel="stylesheet">
+    <link href="/src/css/admin.css" rel="stylesheet">
 </head>
 <body class="d-flex flex-column min-vh-100">
 <header>
     <nav class="navbar navbar-dark bg-primary">
         <div class="container">
             <a class="navbar-brand fw-bold" href="/">FilterO</a>
-            <a href="/admin" class="nav-link text-white">Панель администратора</a>
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white" href="/admin" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
                         $USERNAME
                     </a>
                     <ul class="dropdown-menu position-absolute dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="/auth"> <i class="fa-solid fa-address-card"></i>Профиль</a>
-                        </li>
+                        <li><a href="/admin" class="dropdown-item"><i class="fa-solid fa-hammer"></i> Панель администратора</a></li>
+                        <li><a class="dropdown-item" href="/auth"> <i class="fa-solid fa-address-card"></i> Профиль</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
-                        <li><a class="dropdown-item" href="/auth"><i class="fa-solid fa-door-open"></i>Выход</a></li>
+                        <li><a class="dropdown-item" href="/auth"><i class="fa-solid fa-door-open"></i> Выход</a></li>
                     </ul>
                 </li>
             </ul>
@@ -50,5 +50,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
         crossorigin="anonymous"></script>
+<script src="/src/scripts/main.js"></script>
 </body>
 </html>

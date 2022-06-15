@@ -28,7 +28,20 @@ class Activity extends Model
 
     public function getAgeRange(): string
     {
-        return "С $this->age_from по $this->age_to";
+        return "$this->age_from - $this->age_to лет";
+    }
+
+    public function getAmountOfWeek(): string
+    {
+        if ($this->amount_of_week != 2 && $this->amount_of_week != 3 && $this->amount_of_week != 4) 
+        {
+            return "$this->amount_of_week раз";
+        }
+        else 
+        {
+            return "$this->amount_of_week раза";
+        }
+        
     }
 
 
