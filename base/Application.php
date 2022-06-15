@@ -24,14 +24,17 @@ class Application
         $params = $this->request->isPost() ? $this->request->post() : $this->request->getParams();
         $actionName = $this->request->getActionName();
 
-//      Получаем имя класса контроллера с пространством имён
 
+        
+        
+        //      Получаем имя класса контроллера с пространством имён
+        
         $controllerClass = $this->config['controller_namespace'] . ucfirst($controllerName) . "Controller";
-
-//        TODO: else Exception 404
-//        Если класс найден, попытка вызвать у класса соответствующий метод
+        
+        //        TODO: else Exception 404
+        //        Если класс найден, попытка вызвать у класса соответствующий метод
         if (class_exists($controllerClass)) {
-//            TODO: Добавить тип renderer в конструктор
+            //            TODO: Добавить тип renderer в конструктор
             $controller = new $controllerClass($this->renderer);
             $controller->runAction($actionName, $params);
         } else {

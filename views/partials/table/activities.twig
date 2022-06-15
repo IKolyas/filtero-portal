@@ -1,4 +1,4 @@
-<div class="activity_list d-none d-md-block">
+<div class="activity_list">
     <table class="table table-striped table-hover mt-5">
         <thead>
         <tr>
@@ -19,18 +19,18 @@
         {% for activity in activities %}
             <tr>
                 <th scope="row">{{ activity.id }}</th>
-                <td>{{ activity.title }}</td>
-                <td>{{ activity.institute }}</td>
-                <td>{{ activity.age }}</td>
-                <td>{{ activity.type }}</td>
-                <td>{{ activity.amount_of_week }}</td>
-                <td>{{ activity.duration_time }}</td>
-                <td>{{ activity.price }} ₽</td>
-                <td>{{ activity.price_month }} ₽</td>
-                <td>{{ activity.contacts }}</td>
+                <td class="js-types-content">{{ activity.title }}</td>
+                <td class="js-types-content">{{ activity.institute }}</td>
+                <td class="js-types-content" data-target-from="{{activity.age_from}}" data-target-to="{{activity.age_to}}">{{ activity.age }}</td>
+                <td class="js-types-content">{{ activity.type }}</td>
+                <td class="js-types-content">{{ activity.amount_of_week }}</td>
+                <td class="js-types-content">{{ activity.duration_time }}</td>
+                <td class="js-types-content">{{ activity.price }} ₽</td>
+                <td class="js-types-content">{{ activity.price_month }} ₽</td>
+                <td class="js-types-content">{{ activity.contacts }}</td>
                 <td>
-                    <i class="fa-solid fa-pencil text-success mx-2 activity_action_btn"></i>
-                    <i class="fa-solid fa-trash-can text-danger mx-2 activity_action_btn"></i>
+                    <a href="#" class="js-types-link__edit" data-id="{{ activity.id }}"><i class="fa-solid fa-pencil text-success mx-2 activity_action_btn"></i></a>
+                    <a href="/admin/deleteActivity?{{ activity.id }}"><i class="fa-solid fa-trash-can text-danger mx-2 activity_action_btn"></i></a>
                 </td>
             </tr>
         {% else %}
