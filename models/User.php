@@ -20,4 +20,28 @@ class User extends Model
         $this->repository = new UserRepository();
     }
 
+    public function randomCookie()
+    {
+        $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        $pass = array();
+        $alphabetLen = strlen($alphabet);
+        $cookieLen = 10;
+        for($i = 0; $i <= $cookieLen; $i++)
+        {
+            $n = rand(0, $alphabetLen);
+            $pass = $alphabet[$n];
+        }
+        return implode($pass);
+    }
+
+    public function setCokieUser ()
+    {
+        app()->session->setCookie('auth', $this->randomCookie());    
+    }
+
+    public function setCookieKeyDb($user_id, $cookie_key)
+    {
+        $this->update();
+    }
+
 }

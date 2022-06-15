@@ -32,7 +32,7 @@ abstract class RepositoryAbstract implements RepositoryInterface
 
     public function getOne($value, string $column = 'id'): ?Model
     {
-        return $this->getBy($value, $column)[0];
+        return $this->getBy($value, $column) ? $this->getBy($value, $column)[0] : null;
     }
 
     public function add(array $params): int

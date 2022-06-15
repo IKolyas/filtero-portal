@@ -3,6 +3,7 @@ namespace app\controllers;
 use app\models\User;
 use app\requests\RegistrationRequest;
 
+
 class AuthController extends AbstractController
 {
 
@@ -10,14 +11,27 @@ class AuthController extends AbstractController
 
     public function actionLogin()
     {
+
         $is_post = app()->request->isPost();
+        
         if($is_post) {
-            $email = app()->request->post('email');
-            $password = app()->request->post('password');
-            echo "$email <br> $password"; //go to admin
 
+            $post_data = app()->request->post();
+            $email = $post_data['email'];
+            $password = $post_data['password'];
+            $is_remember = $post_data['remember_me'];
+
+            if($this->varification($email, $password)) {
+                if($is_remember)
+                {
+                    $this->rememberUser($email);
+                }
+                app()->path->redirect('/activities');
+
+            } else {
+                echo $this->render('auth.login', ['error' => 'Пароль или логин неверный!']);
+            }
         } else {
-
             echo $this->render('auth.login');
         }
 
@@ -25,13 +39,16 @@ class AuthController extends AbstractController
 
     public function actionRegistration()
     {
-
         $is_post = app()->request->isPost();
         $request = new RegistrationRequest();
 
-        if($is_post && $request->validate()) {
-            if($this->createUser($request->validate())) {
-               app()->path->redirect('/users');
+        
+        if($is_post && $fields = $request->validate()) {
+
+            unset($fields['password_r']);
+
+            if($this->createUser($fields)) {
+                echo $this->render('auth.confirm_email');
             }
         } else {
             echo $this->render('auth.registration', ['errors' => $request->errors(), 'old' => $request->post()]);
@@ -43,5 +60,34 @@ class AuthController extends AbstractController
         return User::create($params);
     }
 
+    private function varification($email, $password): bool  
+    {
+
+        $user = User::find($email, 'email');
+
+        if($user && $user->password == $password) return true;
+
+        return false;
+    }
+
+    private function rememberUser($email)
+    {
+    
+        $user = User::find($email, 'email');
+        $randomCookie = User::randomCookie();
+        
+        app()->session->set('user', $user->first_name, $user->last_name, $user->email);
+
+        //TODO: update method
+        $setCookieKeyDb = User::setCookieKeyDb($user->id, $randomCookie);
+
+        if($randomCookie && $setCookieKeyDb) User::setCokieUser();
+
+    }
+
+    public function actionConfirmEmail()
+    {
+        echo $this->render('auth.confirmEmail');
+    }
 
 }
