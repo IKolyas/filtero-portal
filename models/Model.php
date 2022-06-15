@@ -21,8 +21,6 @@ abstract class Model
 
     protected function update(array $fields): int
     {
-        //$fields = get_object_vars($this);
-        // unset($fields['repository']);
         return $this->repository->update($fields);
     }
 

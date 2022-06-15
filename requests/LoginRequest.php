@@ -3,7 +3,6 @@
 namespace app\requests;
 
 use app\base\Request;
-use app\models\User;
 
 class LoginRequest extends Request
 {
