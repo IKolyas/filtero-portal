@@ -9,7 +9,7 @@ class LoginRequest extends Request
 {
       private function getUserByCookeiDb($cookie_key)
       {
-            $user = User::find($cookie_key, 'cookie_key');
+            $user = app()->user::find($cookie_key, 'cookie_key');
             
             return $user ? $user : false;
 
@@ -25,6 +25,7 @@ class LoginRequest extends Request
             {
                   $is_auth = $this->getUserByCookeiDb($cookie_key);
             }
+
             return app()->session->get('user') ?? $is_auth;
 
       }

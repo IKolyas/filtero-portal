@@ -19,10 +19,10 @@ abstract class Model
         return $this->repository->getAll();
     }
 
-    protected function update(): int
+    protected function update(array $fields): int
     {
-        $fields = get_object_vars($this);
-        unset($fields['repository']);
+        //$fields = get_object_vars($this);
+        // unset($fields['repository']);
         return $this->repository->update($fields);
     }
 
