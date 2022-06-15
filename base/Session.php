@@ -42,11 +42,12 @@ class Session
 
             if($cookie_key)
             {
-                  $is_auth = app()->cookie->getUserByCookeiDb($cookie_key);
+                $is_auth = app()->cookie->getUserByCookeiDb($cookie_key);
+            } elseif ($user = app()->session->get('user')) {
+                $is_auth = $user;
             }
 
-            return $this->get('user') ?? $is_auth;
+            return $is_auth;
 
       }
-
 }

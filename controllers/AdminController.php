@@ -10,14 +10,20 @@ use app\requests\LoginRequest;
 
 class AdminController extends AbstractController
 {
+    protected string $defaultAction = 'activities';
 
-    public function actionIndex()
+    const TABS = [
+        ['tab' => 'activities', 'title' => 'Активности', 'link' => '/admin/activities', 'is_active' => false],
+        ['tab' => 'types', 'title' => 'Типы', 'link' => '/admin/types', 'is_active' => false],
+        ['tab' => 'institutes', 'title' => 'Учреждения', 'link' => '/admin/institutes', 'is_active' => false],
+        ['tab' => 'users', 'title' => 'Пользователи', 'link' => '/admin/users', 'is_active' => false],
+    ];
+
+    public function actionActivities()
     {
 
-        $request = app()->session->isAuth();
-
-        if($request) {
-            $auth_user = app()->session->get('user');
+        if($auth_user = app()->session->isAuth()) {
+            
             $activities = Activity::findAll();
             $user = User::findAll()[0];
             foreach ($activities as $activity) {
@@ -25,12 +31,12 @@ class AdminController extends AbstractController
                 $activity->institute = Institute::find($activity->institute_id)->title;
                 $activity->type = ActivityType::find($activity->activity_type_id)->title;
             }
-    
             $institutes = Institute::findAll();
             $types = ActivityType::findAll();
-    
-            echo $this->render('admin.index', compact('activities', 'institutes', 'types', 'user', 'auth_user'));
 
+            $tabs = $this->tabActivate('activities');
+
+            echo $this->render('admin.index', compact('activities', 'institutes', 'types', 'user', 'auth_user', 'tabs'));
         } else {
             app()->path->redirect('/auth/login');
         }
@@ -40,21 +46,27 @@ class AdminController extends AbstractController
     {
         $types = ActivityType::findAll();
 
-        echo $this->render('admin.types', compact('types'));
+        $tabs = $this->tabActivate('types');
+
+        echo $this->render('admin.index', compact('types', 'tabs'));
     }
 
     public function actionInstitutes()
     {
         $institutes = Institute::findAll();
 
-        echo $this->render('admin.institutes', compact('institutes'));
+        $tabs = $this->tabActivate('institutes');
+
+        echo $this->render('admin.index', compact('institutes','tabs'));
     }
 
-    public function actionUser()
+    public function actionUsers()
     {
         $user = User::findAll();
+
+        $tabs = $this->tabActivate('users');
         
-        echo $this->render('admin.user', compact('user'));
+        echo $this->render('admin.index', compact('user', 'tabs'));
 
     }
 
@@ -92,7 +104,7 @@ class AdminController extends AbstractController
 
         if (app()->request->isPost()) {
             if (User::create(app()->request->post())) {
-                app()->path->redirect('/admin/user');
+                app()->path->redirect('/admin/users');
             }
         }
     }
@@ -128,7 +140,7 @@ class AdminController extends AbstractController
     {
         if (app()->request->isGet()) {
             if (User::delete(app()->request->getParams())) {
-                app()->path->redirect('/admin/user');
+                app()->path->redirect('/admin/users');
             }
         }
     }
@@ -168,9 +180,18 @@ class AdminController extends AbstractController
             
             if($type_id) {
                 if (User::update($request)) {
-                    app()->path->redirect('/admin/user');
+                    app()->path->redirect('/admin/users');
                 }
             }
         }
+    }
+
+    private function tabActivate($tab_name): array
+    {
+        $tabs = self::TABS;
+        return array_map(function ($tab) use ($tab_name) {
+            if ($tab['tab'] == $tab_name) $tab['is_active'] = true;
+            return $tab;
+        }, $tabs);
     }
 }

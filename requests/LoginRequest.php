@@ -6,6 +6,7 @@ use app\base\Request;
 
 class LoginRequest extends Request
 {
+
       protected string $regular_password = '/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/';
       protected string $regular_email = '/[0-9a-z]+@[a-z]/';
 
@@ -39,7 +40,8 @@ class LoginRequest extends Request
 
 
       }
-      
+
+    
       public function errors(): array
       {
             return $this->errors;

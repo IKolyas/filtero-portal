@@ -46,12 +46,13 @@ class AuthController extends AbstractController
         $is_post = app()->request->isPost();
         $request = new RegistrationRequest();
 
-
-        if ($is_post && $fields = $request->validate()) {
+        
+        if($is_post && $fields = $request->validate()) {
 
             unset($fields['password_r']);
 
-            if ($this->createUser($fields)) {
+            if(User::create($fields)) {
+                
                 echo $this->render('auth.confirm_email');
             }
         } else {
@@ -59,12 +60,8 @@ class AuthController extends AbstractController
         }
     }
 
-    private function createUser($params): int
-    {
-        return User::create($params);
-    }
+    private function varification($email, $password)  
 
-    private function varification($email, $password)
     {
 
         $user = User::find($email, 'email');

@@ -16,13 +16,13 @@
 <header>
     <nav class="navbar navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="/">FilterO</a>
+            <a class="navbar-brand fw-bold" href="/">FilterO-Portal</a>
             <ul class="navbar-nav">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white" href="/admin" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">
                     {% if auth_user %}
-                        <h2>{{ auth_user.first_name }}</h2>
+                        {{ auth_user.first_name }}
                     {% else %}
                         Панель управления
                     {% endif %}

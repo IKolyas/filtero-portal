@@ -12,7 +12,9 @@
             <th scope="col">Цена <i class="fa-solid fa-arrow-down"></i></th>
             <th scope="col">Цена за месяц <i class="fa-solid fa-arrow-down"></i></th>
             <th scope="col">Контакты</th>
-            <th scope="col">Действия</th>
+            {% if user_auth and page_admin %}
+                <th scope="col">Действия</th>
+            {% endif %}
         </tr>
         </thead>
         <tbody>
@@ -28,10 +30,12 @@
                 <td>{{ activity.price }} ₽</td>
                 <td>{{ activity.price_month }} ₽</td>
                 <td>{{ activity.contacts }}</td>
-                <td>
-                    <i class="fa-solid fa-pencil text-success mx-2 activity_action_btn"></i>
-                    <i class="fa-solid fa-trash-can text-danger mx-2 activity_action_btn"></i>
-                </td>
+                {% if user_auth and page_admin %}
+                    <td>
+                        <i class="fa-solid fa-pencil text-success mx-2 activity_action_btn"></i>
+                        <i class="fa-solid fa-trash-can text-danger mx-2 activity_action_btn"></i>
+                    </td>
+                {% endif %}
             </tr>
         {% else %}
             <tr>
