@@ -35,15 +35,18 @@ class Session
         session_destroy();
     }
 
-    public function getCookie(string $key)
-    {
-        return isset($_COOKIE[$key]) ? $_COOKIE[$key] : false;
-    }
+    public function isAuth()
+      {
+            $is_auth = false;
+            $cookie_key = app()->cookie->getCookie('auth');
 
-    // TODO: add time to config 
-    public function setCookie(string $key, $value, $time = '2000'): void
-    {
-        setcookie($key, $value, time() + $time, '/');   
-    }
+            if($cookie_key)
+            {
+                  $is_auth = app()->cookie->getUserByCookeiDb($cookie_key);
+            }
+
+            return $this->get('user') ?? $is_auth;
+
+      }
 
 }

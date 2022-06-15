@@ -14,9 +14,9 @@ class AdminController extends AbstractController
     public function actionIndex()
     {
 
-        $request = new LoginRequest();
+        $request = app()->session->isAuth();
 
-        if($request->isAuth()) {
+        if($request) {
             $auth_user = app()->session->get('user');
             $activities = Activity::findAll();
             $user = User::findAll()[0];

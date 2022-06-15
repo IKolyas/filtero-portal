@@ -39,14 +39,11 @@ img {
         <div class="form-outline mb-4">
           <input type="password" id="password" class="form-control" name = "password" />
           <label class="form-label" for="password">Пароль</label>
-
-          <div>
-            {% if error %}
-              <span class = "text-danger"> {{error}} </span>
-            {% endif %}
+          {% if error %}
+            <div class="alert alert-danger" role="alert"> {{error}} </div>
+          {% endif %} 
         </div>
-        </div>
-      
+             
         
 
         <!-- 2 column grid layout for inline styling -->
