@@ -19,7 +19,9 @@ abstract class Model
         return $this->repository->getAll();
     }
 
-    protected function update(array $fields): int
+
+    protected function update($fields): int
+
     {
         return $this->repository->update($fields);
     }
@@ -27,6 +29,11 @@ abstract class Model
     protected function create($values): int
     {
         return $this->repository->add($values);
+    }
+
+    protected function delete($values): int
+    {
+        return $this->repository->delete($values);
     }
 
     /**
