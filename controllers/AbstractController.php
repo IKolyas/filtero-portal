@@ -36,7 +36,9 @@ abstract class AbstractController
         $content = $this->renderer->render($template, $params);
 
         if($this->useMainTemplate) {
-            return $this->renderer->render($this->defaultTemplate, ['content' => $content]);
+//            TODO: вынести логику
+            $auth_user = app()->session->auth();
+            return $this->renderer->render($this->defaultTemplate, ['content' => $content, 'auth_user' => $auth_user]);
         }
         return $content;
     }

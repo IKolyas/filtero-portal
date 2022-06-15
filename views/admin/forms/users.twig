@@ -19,15 +19,18 @@
         </div>
         <div class="mb-3 col-6">
             <label for="email" class="form-label">Е-майл</label>
-            <input type="text" class="form-control js-types-input" id="email" name="email" aria-describedby="emailHelp">
+            <input type="email" class="form-control js-types-input" id="email" name="email" aria-describedby="emailHelp">
         </div>
         <div class="mb-3 col-2">
             <label for="is_admin" class="form-label">Админ или нет</label>
-            <input type="text" class="form-control js-types-input" id="is_admin" name="is_admin" aria-describedby="emailHelp">
+            <select class="form-control js-types-input" id="is_admin" name="is_admin" aria-describedby="emailHelp">
+                <option selected value="1">да</option>
+                <option selected value="0">нет</option>
+            </select>
         </div>
         <div class="send_form_activities col-3 ">
             <button class="btn btn-secondary mx-3 js-button-clear">Очистить</button>
-            <button type="submit" class="btn btn-primary">Отправить</button>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
         </div>
         <p class="h5 text-success js-types-notification">Идет редактирование "типа активности": </p>
     </form>

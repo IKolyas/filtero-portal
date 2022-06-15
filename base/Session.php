@@ -43,7 +43,29 @@ class Session
     // TODO: add time to config 
     public function setCookie(string $key, $value, $time = '2000'): void
     {
-        setcookie($key, $value, time() + $time, '/');   
+        setcookie($key, $value, time() + $time, '/');
+    }
+
+    private function getUserByCookieDb($cookie_key): bool
+    {
+        $user = app()->user::find($cookie_key, 'cookie_key');
+
+        return $user ?: false;
+    }
+
+    public function auth()
+    {
+
+        $is_auth = false;
+        $cookie_key = app()->session->getCookie('auth');
+
+        if ($cookie_key) {
+            $is_auth = $this->getUserByCookieDb($cookie_key);
+        } elseif ($user = app()->session->get('user')) {
+            $is_auth = $user;
+        }
+        return $is_auth;
+
     }
 
 }
