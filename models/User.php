@@ -23,25 +23,15 @@ class User extends Model
     public function randomCookie()
     {
         $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-        $pass = array();
+        $pass = "";
         $alphabetLen = strlen($alphabet);
-        $cookieLen = 10;
-        for($i = 0; $i <= $cookieLen; $i++)
+        for($i = 0; $i < 15; $i++)
         {
-            $n = rand(0, $alphabetLen);
-            $pass = $alphabet[$n];
+            $n = rand(0, $alphabetLen-1);
+            $pass .= $alphabet[$n];
         }
-        return implode($pass);
-    }
-
-    public function setCokieUser ()
-    {
-        app()->session->setCookie('auth', $this->randomCookie());    
-    }
-
-    public function setCookieKeyDb($user_id, $cookie_key)
-    {
-        $this->update();
+        
+        return $pass;
     }
 
 }

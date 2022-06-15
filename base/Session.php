@@ -12,7 +12,7 @@ class Session
 
     public function get(string $key)
     {
-        return $this->exists($key) ? $_SESSION[$key] : false;
+        return $this->exists($key) ? $_SESSION[$key] : null;
     }
 
     public function set(string $key, $value): void

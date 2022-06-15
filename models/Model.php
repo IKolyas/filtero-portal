@@ -19,7 +19,9 @@ abstract class Model
         return $this->repository->getAll();
     }
 
+
     protected function update($fields): int
+
     {
         return $this->repository->update($fields);
     }

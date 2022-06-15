@@ -17,15 +17,17 @@ class AuthController extends AbstractController
         if($is_post) {
 
             $post_data = app()->request->post();
+
             $email = $post_data['email'];
             $password = $post_data['password'];
             $is_remember = $post_data['remember_me'];
 
-            if($this->varification($email, $password)) {
+            if($user = $this->varification($email, $password)) {
                 if($is_remember)
                 {
-                    $this->rememberUser($email);
+                    $this->rememberUser($user);
                 }
+                app()->session->set('user', ['first_name' => $user->first_name, 'last_name' => $user->last_name]);
                 app()->path->redirect('/activities');
 
             } else {
@@ -60,28 +62,26 @@ class AuthController extends AbstractController
         return User::create($params);
     }
 
-    private function varification($email, $password): bool  
+    private function varification($email, $password)  
     {
 
         $user = User::find($email, 'email');
 
-        if($user && $user->password == $password) return true;
+        if($user && $user->password == $password) return $user;
 
         return false;
     }
 
-    private function rememberUser($email)
+    private function rememberUser($user)
     {
     
-        $user = User::find($email, 'email');
         $randomCookie = User::randomCookie();
-        
-        app()->session->set('user', $user->first_name, $user->last_name, $user->email);
 
-        //TODO: update method
-        $setCookieKeyDb = User::setCookieKeyDb($user->id, $randomCookie);
+        $setCookieKeyDb = User::update(['id' => $user->id, 'cookie_key' => $randomCookie]);
 
-        if($randomCookie && $setCookieKeyDb) User::setCokieUser();
+        if($setCookieKeyDb) {
+            app()->session->setCookie('auth', $randomCookie);
+        } 
 
     }
 

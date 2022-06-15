@@ -17,6 +17,7 @@ class AdminController extends AbstractController
         $request = new LoginRequest();
 
         if($request->isAuth()) {
+            $auth_user = app()->session->get('user');
             $activities = Activity::findAll();
             $user = User::findAll()[0];
             foreach ($activities as $activity) {
@@ -28,7 +29,8 @@ class AdminController extends AbstractController
             $institutes = Institute::findAll();
             $types = ActivityType::findAll();
     
-            echo $this->render('admin.activities', compact('activities', 'institutes', 'types', 'user'));
+            echo $this->render('admin.index', compact('activities', 'institutes', 'types', 'user', 'auth_user'));
+
         } else {
             app()->path->redirect('/auth/login');
         }
