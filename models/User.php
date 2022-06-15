@@ -34,21 +34,14 @@ class User extends Model
         return implode($pass);
     }
 
-    public function setCokieUser ($cookie_key)
+    public function setCokieUser ()
     {
-        app()->session->setCookie($cookie_key, $this->randomCookie());    
+        app()->session->setCookie('auth', $this->randomCookie());    
     }
 
     public function setCookieKeyDb($user_id, $cookie_key)
     {
         $this->update();
     }
-
-    public function setSessionUser($value)
-    {
-        app()->session();
-        $set_sessin = app()->session->set('user', $value);
-    }
-
 
 }

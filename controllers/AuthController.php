@@ -72,13 +72,16 @@ class AuthController extends AbstractController
 
     private function rememberUser($email)
     {
+    
         $user = User::find($email, 'email');
         $randomCookie = User::randomCookie();
+        
+        app()->session->set('user', $user->first_name, $user->last_name, $user->email);
 
         //TODO: update method
         $setCookieKeyDb = User::setCookieKeyDb($user->id, $randomCookie);
 
-        if($randomCookie && $setCookieKeyDb) User::setCokieUser($randomCookie);
+        if($randomCookie && $setCookieKeyDb) User::setCokieUser();
 
     }
 
