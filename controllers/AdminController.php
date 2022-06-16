@@ -19,27 +19,30 @@ class AdminController extends AbstractController
         ['tab' => 'users', 'title' => 'Пользователи', 'link' => '/admin/users', 'is_active' => false],
     ];
 
+    public function runAction($action = null, $params = []): void
+    {
+        if(!app()->session->auth()) app()->path->redirect('/auth/login');
+
+        parent::runAction($action, $params);
+    }
+
     public function actionActivities()
     {
-
-        if($auth_user = app()->session->isAuth()) {
-            
-            $activities = Activity::findAll();
-            $user = User::findAll()[0];
-            foreach ($activities as $activity) {
-                $activity->age = $activity->getAgeRange();
-                $activity->institute = Institute::find($activity->institute_id)->title;
-                $activity->type = ActivityType::find($activity->activity_type_id)->title;
-            }
-            $institutes = Institute::findAll();
-            $types = ActivityType::findAll();
-
-            $tabs = $this->tabActivate('activities');
-
-            echo $this->render('admin.index', compact('activities', 'institutes', 'types', 'user', 'auth_user', 'tabs'));
-        } else {
-            app()->path->redirect('/auth/login');
+        $activities = Activity::findAll();
+        $auth_user = app()->session->auth();
+        foreach ($activities as $activity) {
+            $activity->age = $activity->getAgeRange();
+            $activity->institute = Institute::find($activity->institute_id)->title;
+            $activity->type = ActivityType::find($activity->activity_type_id)->title;
         }
+        $institutes = Institute::findAll();
+        $types = ActivityType::findAll();
+
+        $tabs = $this->tabActivate('activities');
+
+
+        echo $this->render('admin.index', compact('activities', 'institutes', 'types', 'auth_user', 'tabs'));
+
     }
 
     public function actionTypes()
