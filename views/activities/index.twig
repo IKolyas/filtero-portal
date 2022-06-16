@@ -32,4 +32,52 @@
         </div>
     </div>
 </div>
+<script>
+     var last_id = 1;
+     $.ajax({
+            url: 'index.php',         /* Куда пойдет запрос */
+            method: 'GET', 
+            cache: false,            /* Метод передачи (post или get) */         /* Тип данных в ответе (xml, json, script, html). */
+            data: {last_id: last_id},     /* Параметры передаваемые в запросе. */
+            success: function(data){   /* функция которая будет выполнена после успешного запроса.  */
+                //alert(data);            /* В переменной data содержится ответ от index.php. */
+            }
+        });
+    $(window).scroll(function () {
+        if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+            last_id += 2;
+            loadMoreData();
+        }
+    });
+
+
+    function loadMoreData() {
+        $.ajax({
+            url: 'index.php',         /* Куда пойдет запрос */
+            method: 'POST',         /* Метод передачи (post или get) */
+            dataType: 'html',          /* Тип данных в ответе (xml, json, script, html). */
+            data: {last_id: last_id},     /* Параметры передаваемые в запросе. */
+            success: function(data){   /* функция которая будет выполнена после успешного запроса.  */
+                //alert(data);            /* В переменной data содержится ответ от index.php. */
+            }
+        });
+    }
+
+    mybutton = document.getElementById("buttonToTop");
+
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+    } else {
+        mybutton.style.display = "none";
+    }
+    }
+
+    function topFunction() {
+        document.body.scrollTop = 0; 
+        document.documentElement.scrollTop = 0; 
+    }
+</script> 
 
