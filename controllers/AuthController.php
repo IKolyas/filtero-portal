@@ -85,6 +85,6 @@ class AuthController extends AbstractController
 
     public function actionConfirmEmail()
     {
-        echo $this->render('auth.confirmEmail');
+        echo $this->render('auth.confirm_email');
     }
 }
