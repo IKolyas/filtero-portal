@@ -5,14 +5,11 @@ namespace app\database\migrations;
 
 use app\database\AbstractMigration as AbstractMigration;
 
-class migration_alter_user_table_add_cookie_column_1655209444 extends AbstractMigration
+class migration_insert_base_user_for_users_table_1655384235 extends AbstractMigration
 {
     public function up()
     {
-        $row = "
-        ALTER TABLE users
-        ADD COLUMN cookie_key VARCHAR(255);
-        ";
+        $row = "INSERT INTO `users` (`login`, `email`, `password`) VALUES ('admin', 'admin@admin.com', 'password')";
 
         return $this->connection->query($row);
 
@@ -20,9 +17,7 @@ class migration_alter_user_table_add_cookie_column_1655209444 extends AbstractMi
 
     public function down()
     {
-        $row = "
-        ALTER TABLE users DROP COLUMN cookie_key;
-        ";
+        $row = "DELETE FROM `users` WHERE `email` = 'admin@admin.com'";
 
         return $this->connection->query($row);
     }
