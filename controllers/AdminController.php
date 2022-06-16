@@ -21,7 +21,7 @@ class AdminController extends AbstractController
 
     public function runAction($action = null, $params = []): void
     {
-        if(!app()->session->auth()) app()->path->redirect('/auth/login');
+        if(!app()->session->isAuth()) app()->path->redirect('/auth/login');
 
         parent::runAction($action, $params);
     }
@@ -29,7 +29,7 @@ class AdminController extends AbstractController
     public function actionActivities()
     {
         $activities = Activity::findAll();
-        $auth_user = app()->session->auth();
+        $auth_user = app()->session->isAuth ();
         foreach ($activities as $activity) {
             $activity->age = $activity->getAgeRange();
             $activity->institute = Institute::find($activity->institute_id)->title;

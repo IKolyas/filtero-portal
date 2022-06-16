@@ -4,7 +4,6 @@ namespace app\controllers;
 
 use app\models\User;
 use app\requests\RegistrationRequest;
-use app\requests\LoginRequest;
 use app\traits\RandomCookie;
 
 class AuthController extends AbstractController
@@ -14,7 +13,7 @@ class AuthController extends AbstractController
     protected string $defaultAction = 'login';
 
     public function actionLogin()
-    {
+    {       
 
         $is_post = app()->request->isPost();
 
@@ -60,6 +59,26 @@ class AuthController extends AbstractController
         }
     }
 
+    public function actionConfirmEmail()
+    {
+        echo $this->render('auth.confirm_email');
+    }
+
+    public function actionLogout()
+    {
+        if (app()->session->exists('user')){
+
+            app()->session->delete('user');
+        }
+
+        if (app()->cookie->exists('auth')){
+            
+            app()->cookie->setCookie('auth', '', time(), '/');
+        }
+        
+        app()->path->redirect('/');
+    }
+    
     private function varification($email, $password)  
 
     {
@@ -83,8 +102,5 @@ class AuthController extends AbstractController
         }
     }
 
-    public function actionConfirmEmail()
-    {
-        echo $this->render('auth.confirm_email');
-    }
+   
 }

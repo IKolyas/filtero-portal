@@ -20,6 +20,10 @@ class Cookie
             $user = app()->user::find($cookie_key, 'cookie_key');
             
             return $user ? $user : false;
+      }
 
+      public function exists($key)
+      {
+            return isset($_COOKIE[$key]);
       }
 }
