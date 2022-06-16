@@ -1,5 +1,5 @@
-<div class="d-flex flex-column">
-    <form class="wrapper d-flex justify-content-center align-self-center mt-3 w-100" role="search">
+<div class="container d-flex flex-column">
+    <form class=" d-flex justify-content-center align-self-center w-100" role="search">
         <input class="form-control me-2 mw-100" type="search" placeholder="Поиск" aria-label="Search">
         <button class="btn btn-outline-primary" type="submit">Найти</button>
     </form>
@@ -23,8 +23,13 @@
         </div>
         <i class="fa-solid fa-arrow-down-short-wide fa-xl text-primary align-self-center ms-auto" role="button"></i>
     </div>
-
-    {% include 'partials/activities_list.twig' %}
-    {% include 'partials/activities_list_mobile.twig' %}
-
+        {% include 'partials/activities_list.twig' %}
+        {% include 'partials/activities_list_mobile.twig' %}
+        <button onclick="topFunction()" class="btn btn-primary rounded-circle button_to_top" id="buttonToTop" title="Go to top"><i class="fa-solid fa-angles-up"></i></button>
+        <div class="loader d-flex justify-content-center">
+            <div class="spinner-border spinner-border-md text-primary" role="status">
+            <span class="sr-only"></span>
+        </div>
+    </div>
 </div>
+
