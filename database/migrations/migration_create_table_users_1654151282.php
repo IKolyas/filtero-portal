@@ -12,12 +12,13 @@ class migration_create_table_users_1654151282 extends AbstractMigration
         $row = "
         CREATE TABLE IF NOT EXISTS `users` (
             `id` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-            `first_name` VARCHAR(255) NOT NULL,
-            `last_name` VARCHAR(255) NOT NULL,
+            `first_name` VARCHAR(255),
+            `last_name` VARCHAR(255),
             `login` VARCHAR(255) NOT NULL UNIQUE,
             `password` VARCHAR(255) NOT NULL,
             `email` VARCHAR(255) UNIQUE NOT NULL,
             `is_admin` TINYINT DEFAULT 0,
+            `cookie_key` VARCHAR(255),
             `created_at` TIMESTAMP,
             `updated_at` TIMESTAMP
           );

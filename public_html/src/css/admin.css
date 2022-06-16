@@ -1,0 +1,24 @@
+.admin_page {
+  width: 95%;
+  height: 100%;
+}
+
+.activity_list {
+  max-width: 100%;
+}
+
+.activity_action_btn:hover {
+  cursor: pointer;
+  transition: all 0.5s ease-in;
+  transform: scale(1.2);
+}
+
+.send_form_activities {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 16px;
+}
+
+.js-types-notification {
+  visibility: hidden;
+}

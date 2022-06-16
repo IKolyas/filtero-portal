@@ -27,6 +27,9 @@ return [
         'session' => [
             'class' => \app\base\Session::class,
         ],
+        'cookie' => [
+            'class' => \app\base\Cookie::class,
+        ],
 
 //       PROJECT ENTITIES
         'userRepository' => [

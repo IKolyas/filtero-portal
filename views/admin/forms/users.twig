@@ -1,0 +1,37 @@
+<div class="activity_create_form">
+    <form class="row js-types-form" method="post" action="/admin/createUser">
+        <input  type="hidden" class="form-control js-type-id" name="">
+        <div class="mb-3 col-6">
+            <label for="first_name" class="form-label">Имя</label>
+            <input type="text" class="form-control js-types-input" id="first_name" name="first_name" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3 col-6">
+            <label for="last_name" class="form-label">Фамилия</label>
+            <input type="text" class="form-control js-types-input" id="last_name" name="last_name" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3 col-6">
+            <label for="login" class="form-label">Логин</label>
+            <input type="text" class="form-control js-types-input" id="login" name="login" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3 col-6">
+            <label for="password" class="form-label">Пароль</label>
+            <input type="text" class="form-control js-types-input" id="password" name="password" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3 col-6">
+            <label for="email" class="form-label">Е-майл</label>
+            <input type="email" class="form-control js-types-input" id="email" name="email" aria-describedby="emailHelp">
+        </div>
+        <div class="mb-3 col-2">
+            <label for="is_admin" class="form-label">Админ или нет</label>
+            <select class="form-control js-types-input" id="is_admin" name="is_admin" aria-describedby="emailHelp">
+                <option selected value="1">да</option>
+                <option selected value="0">нет</option>
+            </select>
+        </div>
+        <div class="send_form_activities col-3 ">
+            <button class="btn btn-secondary mx-3 js-button-clear">Очистить</button>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </div>
+        <p class="h5 text-success js-types-notification">Идет редактирование "типа активности": </p>
+    </form>
+</div>

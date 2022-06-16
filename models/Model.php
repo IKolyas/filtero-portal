@@ -9,9 +9,9 @@ abstract class Model
 
     protected ?RepositoryAbstract $repository;
 
-    protected function find(int $id): ?Model
+    protected function find($value, string $col = 'id'): ?Model
     {
-        return $this->repository->getOne($id);
+        return $this->repository->getOne($value, $col);
     }
 
     protected function findAll(): array
@@ -19,16 +19,21 @@ abstract class Model
         return $this->repository->getAll();
     }
 
-    protected function update(): int
+
+    protected function update($fields): int
+
     {
-        $fields = get_object_vars($this);
-        unset($fields['repository']);
         return $this->repository->update($fields);
     }
 
     protected function create($values): int
     {
         return $this->repository->add($values);
+    }
+
+    protected function delete($values): int
+    {
+        return $this->repository->delete($values);
     }
 
     /**
