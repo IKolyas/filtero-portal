@@ -2,7 +2,10 @@
 
 namespace app\controllers;
 
-use app\services\DataBase as DataBase;
+use app\models\Activity;
+use app\models\ActivityType;
+use app\models\Institute;
+use app\models\User;
 
 
 class ActivitiesController extends AbstractController
@@ -10,10 +13,19 @@ class ActivitiesController extends AbstractController
 
     public function actionIndex(): void
     {
-        $db = DataBase::getInstance();
-        $activities = $db->queryAll("SELECT * FROM activities", []);
+        $activities = Activity::findAll();
 
-        echo $this->render('activities\index.html.twig', ['activities' => $activities]);
+        foreach ($activities as $activity) {
+            $activity->age = $activity->getAgeRange();
+            $activity->amountOfWeek = $activity->getAmountOfWeek();
+            $activity->institute = Institute::find($activity->institute_id)->title;
+            $activity->type = ActivityType::find($activity->activity_type_id)->title;
+        }
+
+        $institutes = Institute::findAll();
+        $types = ActivityType::findAll();
+
+        echo $this->render('activities.index', compact('activities', 'institutes', 'types'));
     }
 
 }

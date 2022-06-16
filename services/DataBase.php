@@ -56,7 +56,7 @@ class DataBase
 
     public function queryOne(string $sql, array $params = [])
     {
-        return $this->queryAll($sql, $params)[0];
+        return $this->queryAll($sql, $params);
     }
 
     public function queryAll(string $sql, array $params = [], string $className = null)

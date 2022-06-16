@@ -1,7 +1,7 @@
 <?php
 
 use \app\services\MigrationService as MigrationService;
-define("DB_CONF", include ($_SERVER['DOCUMENT_ROOT'] . "../config.php"));
+define("CONFIG", include ($_SERVER['DOCUMENT_ROOT'] . "../config.php"));
 
 
 $action = $_SERVER['argv'][1] ?? false;

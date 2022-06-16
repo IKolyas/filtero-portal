@@ -8,9 +8,9 @@ class Request
     protected string $requestSting = '';
     protected string $requestMethod;
     protected string $urlPattern = "#(?P<controller>\w+)[/]?(?P<action>\w+)?[/]?[?]?(?P<get>.*)#ui";
-    protected string $controllerName;
-    protected string $actionName;
-    protected string $params;
+    protected string $controllerName = '';
+    protected string $actionName = '';
+    protected string $params = '';
 
     public function __construct()
     {

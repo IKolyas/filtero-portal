@@ -1,7 +1,8 @@
 <?php
 namespace app\controllers;
+use app\models\User;
 use app\requests\RegistrationRequest;
-use app\services\DataBase as DataBase;
+
 
 class AuthController extends AbstractController
 {
@@ -10,39 +11,77 @@ class AuthController extends AbstractController
 
     public function actionLogin()
     {
+
         $is_post = app()->request->isPost();
+        
         if($is_post) {
-            $email = app()->request->post('email');
-            $password = app()->request->post('password');
-            echo "$email <br> $password"; //go to admin
 
+            $post_data = app()->request->post();
+
+            $email = $post_data['email'];
+            $password = $post_data['password'];
+            $is_remember = $post_data['remember_me'];
+
+            if($user = $this->varification($email, $password)) {
+                if($is_remember)
+                {
+                    $this->rememberUser($user);
+                }
+                app()->session->set('user', ['first_name' => $user->first_name, 'last_name' => $user->last_name]);
+                app()->path->redirect('/activities');
+
+            } else {
+                echo $this->render('auth.login', ['error' => 'Пароль или логин неверный!']);
+            }
         } else {
-
-            echo $this->render('auth\login.html.twig');
+            echo $this->render('auth.login');
         }
 
     }
 
     public function actionRegistration()
     {
-
         $is_post = app()->request->isPost();
         $request = new RegistrationRequest();
+        
+        if($is_post && $fields = $request->validate()) {
 
-        if($is_post && $request->validate()) {
-            if($this->createUser($request->validate())) {
-               app()->path->redirect('/users');
+            unset($fields['password_r']);
+
+            if(User::create($fields)) {
+                echo $this->render('auth.confirm_email');
             }
         } else {
-            echo $this->render('auth\registration.html.twig', ['errors' => $request->errors(), 'old' => $request->post()]);
+            echo $this->render('auth.registration', ['errors' => $request->errors(), 'old' => $request->post()]);
         }
     }
 
-    private function createUser($params): int
+    private function varification($email, $password)  
     {
-        $user = app()->user;
-        return $user->create($params);
+
+        $user = User::find($email, 'email');
+
+        if($user && $user->password == $password) return $user;
+
+        return false;
     }
 
+    private function rememberUser($user)
+    {
+    
+        $randomCookie = User::randomCookie();
+
+        $setCookieKeyDb = User::update(['id' => $user->id, 'cookie_key' => $randomCookie]);
+
+        if($setCookieKeyDb) {
+            app()->session->setCookie('auth', $randomCookie);
+        } 
+
+    }
+
+    public function actionConfirmEmail()
+    {
+        echo $this->render('auth.confirmEmail');
+    }
 
 }

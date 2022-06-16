@@ -2,6 +2,8 @@
 
 namespace app\models\repositories;
 
+use app\models\Model;
+
 interface RepositoryInterface
 {
 
@@ -9,7 +11,7 @@ interface RepositoryInterface
 
     public function getBy($value, string $column = 'id'): array;
 
-    public function getOne(string $value, string $column): array;
+    public function getOne(string $value, string $column): ?Model;
 
     public function add(array $params): int;
 
@@ -24,4 +26,5 @@ interface RepositoryInterface
     public function getTableName(): string;
 
     public function getModelClassName(): string;
+
 }
