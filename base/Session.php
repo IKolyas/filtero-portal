@@ -35,37 +35,19 @@ class Session
         session_destroy();
     }
 
-    public function getCookie(string $key)
-    {
-        return isset($_COOKIE[$key]) ? $_COOKIE[$key] : false;
-    }
+    public function isAuth()
+      {
+            $is_auth = false;
+            $cookie_key = app()->cookie->getCookie('auth');
 
-    // TODO: add time to config 
-    public function setCookie(string $key, $value, $time = '2000'): void
-    {
-        setcookie($key, $value, time() + $time, '/');
-    }
+            if($cookie_key)
+            {
+                $is_auth = app()->cookie->getUserByCookeiDb($cookie_key);
+            } elseif ($user = app()->session->get('user')) {
+                $is_auth = $user;
+            }
 
-    private function getUserByCookieDb($cookie_key): bool
-    {
-        $user = app()->user::find($cookie_key, 'cookie_key');
+            return $is_auth;
 
-        return $user ?: false;
-    }
-
-    public function auth()
-    {
-
-        $is_auth = false;
-        $cookie_key = app()->session->getCookie('auth');
-
-        if ($cookie_key) {
-            $is_auth = $this->getUserByCookieDb($cookie_key);
-        } elseif ($user = app()->session->get('user')) {
-            $is_auth = $user;
-        }
-        return $is_auth;
-
-    }
-
+      }
 }

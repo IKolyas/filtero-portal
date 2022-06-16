@@ -28,7 +28,9 @@ class RegistrationRequest extends Request
             $this->errors['empty_fields'] = $this->fields;
 
         foreach ($this->fields as $key => $val) {
+            
             if(empty($params[$val] || !is_string($params[$val])))
+            
                 $this->errors[$val] = 'Значение не является строкой или не заполнено!';
         }
         if(!preg_match($this->reguler_password, $params['password']))
