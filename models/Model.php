@@ -14,7 +14,7 @@ abstract class Model
         return $this->repository->getOne($value, $col);
     }
 
-    protected function findAll(): array
+    protected function findAll(): ?array
     {
         return $this->repository->getAll();
     }

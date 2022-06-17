@@ -5,7 +5,6 @@ namespace app\controllers;
 use app\models\Activity;
 use app\models\ActivityType;
 use app\models\Institute;
-use app\models\User;
 
 
 class ActivitiesController extends AbstractController

@@ -30,7 +30,7 @@ class AuthController extends AbstractController
 
                     $this->rememberUser($user);
                 }
-                app()->session->set('user', ['first_name' => $user->first_name, 'last_name' => $user->last_name]);
+                app()->session->set('user', $user);
                 app()->path->redirect('/activities');
             } else {
                 echo $this->render('auth.login', ['error' => 'Пароль или логин неверный!']);
