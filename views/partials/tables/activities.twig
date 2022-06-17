@@ -20,8 +20,8 @@
             <tr>
                 <th scope="row">{{ activity.id }}</th>
                 <td class="js-types-content">{{ activity.title }}</td>
-                <td class="js-types-content">{{ activity.institute }}</td>
-                <td class="js-types-content">{{ activity.type }}</td>
+                <td class="js-types-content" data-target-institute-id="{{ activity.institute_id }}">{{ activity.institute }}</td>
+                <td class="js-types-content" data-target-type-id="{{ activity.type_id }}">{{ activity.type }}</td>
                 <td>
                     {{ activity.age }}
                     <div class="js-types-content d-none">{{activity.age_from}}</div>

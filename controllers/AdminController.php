@@ -29,11 +29,14 @@ class AdminController extends AbstractController
     public function actionActivities()
     {
         $activities = Activity::findAll();
+        $user = User::findAll()[0];
         $auth_user = app()->session->isAuth ();
         foreach ($activities as $activity) {
             $activity->age = $activity->getAgeRange();
             $activity->institute = Institute::find($activity->institute_id)->title;
+            $activity->institute_id = Institute::find($activity->institute_id)->id;
             $activity->type = ActivityType::find($activity->activity_type_id)->title;
+            $activity->type_id = ActivityType::find($activity->activity_type_id)->id;
         }
         $institutes = Institute::findAll();
         $types = ActivityType::findAll();
@@ -41,7 +44,7 @@ class AdminController extends AbstractController
         $tabs = $this->tabActivate('activities');
 
 
-        echo $this->render('admin.index', compact('activities', 'institutes', 'types', 'auth_user', 'tabs'));
+        echo $this->render('admin.index', compact('activities', 'user', 'institutes', 'types', 'auth_user', 'tabs'));
 
     }
 
@@ -145,6 +148,20 @@ class AdminController extends AbstractController
         if (app()->request->isGet()) {
             if (User::delete(app()->request->getParams())) {
                 app()->path->redirect('/admin/users');
+            }
+        }
+    }
+
+    public function actionUpdateActivity()
+    {
+        if (app()->request->isPost()) {
+            $request = app()->request->post();
+            $type_id = Activity::find($request['id']);
+            
+            if($type_id) {
+                if (Activity::update($request)) {
+                    app()->path->redirect('/admin');
+                }
             }
         }
     }

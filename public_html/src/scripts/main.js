@@ -44,15 +44,40 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         let idLink = link.getAttribute('data-id');
         
-        inputs.forEach(()=>{
+        inputs.forEach((input)=>{
+          // console.log('input', input.tagName);
           ++idActiveInput;
-          inputs[idActiveInput].value = content.innerHTML;
-          inputs[idActiveInput].value = idActiveInput;
-          
-          if (isFirstClick) {
+          if (inputs[idActiveInput].tagName == 'INPUT') {
+            inputs[idActiveInput].value = content.innerHTML;
+            inputs[idActiveInput].value = idActiveInput;
+          }
+          if (inputs[idActiveInput].classList.contains('js-institute-id')) {
+            // let valueSelect = inputs[idActiveInput].option;;
+            // console.log('--', valueSelect);
+            let valueOptions = inputs[idActiveInput].querySelectorAll('option')
+            if (valueOptions.length > 0) {
+              // console.log(valueOptions.getAttribute('data-target-institute-id'));
+              let instituteId = link.parentElement
+                .parentElement
+                .querySelector('[data-target-institute-id]')
+                .getAttribute('data-target-institute-id');
+              
+      
+              valueOptions.forEach((elem)=>{
+                if (elem.value != instituteId) {
+                  elem.removeAttribute('selected');
+                } else { 
+                  elem.setAttribute('selected', instituteId);
+                }
+              });
+            }
+          }
+
+          // TODO: da
+          if (isFirstClick && !inputs[idActiveInput].classList.contains('js-institute-id')) {
             startIdCurrentContent = (idActiveInput + currentIdContent);
             inputs[idActiveInput].value = contents[startIdCurrentContent].innerHTML;
-          } else {
+          } else if (!inputs[idActiveInput].classList.contains('js-institute-id')) {
             startIdCurrentContent = (idActiveInput + currentIdContent);
             inputs[idActiveInput].value = contents[startIdCurrentContent].innerHTML;
           }

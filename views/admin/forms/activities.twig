@@ -7,8 +7,8 @@
         </div>
         <div class="mb-3 col-4">
             <label for="institute_id" class="form-label">Учреждение</label>
-            <select class="form-select js-types-input" aria-label="Default select example" id="institute_id" name="institute_id">
-                <option selected>Выберете учреждение</option>
+            <select class="form-select js-types-input js-institute-id" aria-label="Default select example" id="institute_id" name="institute_id">
+                
                 {% for institute in institutes %}
                     <option value="{{ institute.id }}">{{ institute.title }}</option>
                 {% else %}
