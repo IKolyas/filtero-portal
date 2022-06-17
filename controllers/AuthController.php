@@ -22,7 +22,7 @@ class AuthController extends AbstractController
             $post_data = app()->request->post();
 
             $email = $post_data['email'];
-            $password = $post_data['password'];
+            $password = md5($post_data['password']);
             $is_remember = $post_data['remember_me'];
 
             if ($user = $this->varification($email, $password)) {

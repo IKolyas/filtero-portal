@@ -42,7 +42,8 @@ class RegistrationRequest extends Request
 
         if (!($params['password'] == $params['password_r']))
             $this->errors['password_r'] = 'Пароли не совпадают!';
-            
+        
+        $params['password'] = $params['password'] ?: md5($params['password']);
         return empty($this->errors) ? $params : false;
     }
 
