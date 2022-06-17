@@ -89,3 +89,6 @@ footer {
     text-decoration: none !important;
 }
 
+.price-rub::after {
+    content: ' ₽';
+  }

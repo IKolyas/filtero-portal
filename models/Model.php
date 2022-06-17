@@ -28,6 +28,9 @@ abstract class Model
 
     protected function create($values): int
     {
+        echo ('<br>' . '<br>' . '<br>' . '<br>' . '<br>' . '<br>' . '<br>' . '---');
+                var_dump($values);
+                die();
         return $this->repository->add($values);
     }
 

@@ -77,6 +77,7 @@ class AdminController extends AbstractController
     {
 
         if (app()->request->isPost()) {
+
             if (Activity::create(app()->request->post())) {
                 app()->path->redirect('/admin');
             }
