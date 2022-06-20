@@ -2,6 +2,12 @@
 namespace app\controllers;
 use app\models\User;
 use app\requests\RegistrationRequest;
+require_once ("../services/Mailer.php");
+use app\services\Mailer;
+
+    $email = new Mailer();
+    $email->sendEmail();
+ 
 
 
 class AuthController extends AbstractController
@@ -81,7 +87,7 @@ class AuthController extends AbstractController
 
     public function actionConfirmEmail()
     {
-        echo $this->render('auth.confirmEmail');
+        echo $this->render('auth.confirm_email');
     }
 
 }
