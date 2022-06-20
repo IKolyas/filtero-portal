@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use app\models\User;
-use app\requests\RegistrationRequest;
 use app\traits\RandomCookie;
 
 class AuthController extends AbstractController
@@ -40,30 +39,6 @@ class AuthController extends AbstractController
         }
     }
 
-    public function actionRegistration()
-    {
-        $is_post = app()->request->isPost();
-        $request = new RegistrationRequest();
-
-        
-        if($is_post && $fields = $request->validate()) {
-
-            unset($fields['password_r']);
-
-            if(User::create($fields)) {
-                
-                echo $this->render('auth.confirm_email');
-            }
-        } else {
-            echo $this->render('auth.registration', ['errors' => $request->errors(), 'old' => $request->post()]);
-        }
-    }
-
-    public function actionConfirmEmail()
-    {
-        echo $this->render('auth.confirm_email');
-    }
-
     public function actionLogout()
     {
         if (app()->session->exists('user')){
@@ -80,9 +55,7 @@ class AuthController extends AbstractController
     }
     
     private function varification($email, $password)  
-
     {
-
         $user = User::find($email, 'email');
 
         if ($user && $user->password == $password) return $user;
@@ -92,7 +65,6 @@ class AuthController extends AbstractController
 
     private function rememberUser($user)
     {
-
         $randomCookie = $this->randomCookie();
 
         $setCookieKeyDb = User::update(['id' => $user->id, 'cookie_key' => $randomCookie]);
