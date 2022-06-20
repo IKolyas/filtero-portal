@@ -1,0 +1,28 @@
+<div class="card_list mb-2 d-block d-md-none">
+
+    {% for activity in activities %}
+        <div id="card-main-container" class="activity_card d-block mb-3">
+            <div class="d-flex">
+                <div class="col">
+                    <div class="fw-bold">{{ activity.title }}</div>
+                    <div class="mb-2">{{ activity.institute}}<br>
+                        <div class="text-primary">{{ activity.type }}</div></div>
+                </div>
+                <div class="">
+                    <div class="text-end">{{ activity.price }}  ₽/занятие</div>
+                    <div class="card_price_month text-secondary text-end">{{ activity.price_month }} ₽/месяц</div>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <div class="text-secondary card_secondary_info">Возраст: {{ activity.age }}</div>
+                <div  class="text-secondary card_secondary_info">Продолжительность: {{ activity.duration_time }} минут</div >
+                <div  class="text-secondary card_secondary_info">В неделю: {{ activity.amountOfWeek}}</div >
+                <div  class="text-secondary fw-bold card_secondary_info">Контакты: {{ activity.contacts}} </div >
+            </div>
+        </div>
+    {% else %}
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <h2>Список активностей пуст</h2>
+        </div>
+    {% endfor %}
+</div>

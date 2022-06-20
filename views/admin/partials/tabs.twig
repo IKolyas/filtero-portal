@@ -1,0 +1,13 @@
+<div class="nav_admin">
+    <ul class="nav nav-tabs">
+        {% for tab in tabs %}
+            <li class="nav-item">
+                <a class="nav-link {% if tab.is_active %} active {% endif %}"
+                   aria-current="page"
+                   href={{tab.link}}>
+                    {{tab.title}}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

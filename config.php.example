@@ -1,0 +1,12 @@
+<?php
+
+return [
+    'db_driver' => 'mysql',
+    'db_host' => 'localhost',
+    'db_database' => 'a0678406_db',
+    'db_user' => 'root',
+    'db_password' => 'root',
+    'db_charset' => 'utf8',
+    'views_dir' => 'views',
+    'default_controller' => 'activities',
+];

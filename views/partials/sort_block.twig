@@ -1,0 +1,26 @@
+<div>
+    <form class="wrapper d-flex justify-content-center align-self-center mt-3 mx-auto" role="search">
+        <input class="form-control me-2 mw-100" type="search" placeholder="Поиск" aria-label="Search">
+        <button class="btn btn-outline-primary" type="submit">Найти</button>
+    </form>
+    <div class="d-flex mt-3">
+        <div class="dropdown me-2">
+            <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Тип</button>
+            <div class="dropdown-menu">
+                {% for type in types %}
+                    <a href="#" class="dropdown-item">{{ type.title }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="dropdown me-2">
+            <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Сортировать</button>
+            <div class="dropdown-menu">
+                <a href="#" class="dropdown-item">Название</a>
+                <a href="#" class="dropdown-item">Учреждение</a>
+                <a href="#" class="dropdown-item">Тип</a>
+                <a href="#" class="dropdown-item">Цена</a>
+            </div>
+        </div>
+        <i class="fa-solid fa-arrow-down-short-wide fa-xl text-primary align-self-center ms-auto" role="button"></i>
+    </div>
+</div>
