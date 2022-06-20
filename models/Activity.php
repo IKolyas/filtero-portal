@@ -43,6 +43,10 @@ class Activity extends Model
         }
         
     }
+    protected  function getPage(int $last_id): array
+    {
+        return $this->repository->findPage($last_id);
+    }
 
 
 }
