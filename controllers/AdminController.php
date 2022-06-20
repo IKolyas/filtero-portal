@@ -30,7 +30,7 @@ class AdminController extends AbstractController
     {
         $activities = Activity::findAll();
         $user = User::findAll()[0];
-        $auth_user = app()->session->isAuth ();
+        $auth_user = app()->session->isAuth();
         foreach ($activities as $activity) {
             $activity->age = $activity->getAgeRange();
             $activity->institute = Institute::find($activity->institute_id)->title;

@@ -1,0 +1,20 @@
+<div id="card-main-container" class="activity_card d-block mb-3">
+    {{ activity.id }}</h1>
+    <div class="d-flex">
+        <div class="col">
+            <div class="fw-bold">{{ activity.title }}</div>
+            <div class="mb-2">{{ activity.institute}}<br>
+                <div class="text-primary">{{ activity.type }}</div></div>
+        </div>
+        <div class="">
+            <div class="text-end">{{ activity.price }}  ₽/занятие</div>
+            <div class="card_price_month text-secondary text-end">{{ activity.price_month }} ₽/месяц</div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="text-secondary card_secondary_info">Возраст: {{ activity.age }}</div>
+        <div  class="text-secondary card_secondary_info">Продолжительность: {{ activity.duration_time }} минут</div >
+        <div  class="text-secondary card_secondary_info">В неделю: {{ activity.amountOfWeek}}</div >
+        <div  class="text-secondary fw-bold card_secondary_info">Контакты: {{ activity.contacts}} </div >
+    </div>
+</div>

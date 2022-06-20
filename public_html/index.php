@@ -1,5 +1,5 @@
 <?php
-
+//phpinfo();
 include $_SERVER['DOCUMENT_ROOT'] . "/../vendor/autoload.php";
 
 define("CONFIG", include ($_SERVER['DOCUMENT_ROOT'] . "/../config.php"));

@@ -33,32 +33,26 @@
     </div>
 </div>
 <script>
-     var last_id = 1;
-     $.ajax({
-            url: 'index.php',         /* Куда пойдет запрос */
-            method: 'GET', 
-            cache: false,            /* Метод передачи (post или get) */         /* Тип данных в ответе (xml, json, script, html). */
-            data: {last_id: last_id},     /* Параметры передаваемые в запросе. */
-            success: function(data){   /* функция которая будет выполнена после успешного запроса.  */
-                //alert(data);            /* В переменной data содержится ответ от index.php. */
-            }
-        });
+    let last_id = 1;
     $(window).scroll(function () {
         if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
-            last_id += 2;
+            last_id = document.querySelectorAll('.activity_card').length;
             loadMoreData();
         }
     });
 
+    let cardListMobile = document.querySelector('.card_list')
+    let cardList = document.querySelector('.activity_list_rows')
 
     function loadMoreData() {
         $.ajax({
-            url: 'index.php',         /* Куда пойдет запрос */
-            method: 'POST',         /* Метод передачи (post или get) */
-            dataType: 'html',          /* Тип данных в ответе (xml, json, script, html). */
+            url: '/activities/index/',         /* Куда пойдет запрос */
+            method: 'GET',         /* Метод передачи (post или get) */
+            dataType: 'json',          /* Тип данных в ответе (xml, json, script, html). */
             data: {last_id: last_id},     /* Параметры передаваемые в запросе. */
             success: function(data){   /* функция которая будет выполнена после успешного запроса.  */
-                //alert(data);            /* В переменной data содержится ответ от index.php. */
+                cardListMobile.innerHTML += data.html_mobile;           /* В переменной data содержится ответ от index.php. */
+                cardList.innerHTML += data.html;           /* В переменной data содержится ответ от index.php. */
             }
         });
     }

@@ -17,9 +17,9 @@ class ActivityRepository extends RepositoryAbstract
         return Activity::class;
     }
 
-    public function findPage(int $last_id)
+    public function findPage(int $last, int $paginate): array
     {   
-        $sql = "SELECT * FROM activities LIMIT $last_id, 3";
+        $sql = "SELECT * FROM activities LIMIT {$last}, {$paginate}";
         return $this->getQuery($sql, []);
         
     }

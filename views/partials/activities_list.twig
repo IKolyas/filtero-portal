@@ -17,26 +17,9 @@
             {% endif %}
         </tr>
         </thead>
-        <tbody>
+        <tbody class="activity_list_rows">
         {% for activity in activities %}
-            <tr>
-                <th scope="row">{{ activity.id }}</th>
-                <td>{{ activity.title }}</td>
-                <td>{{ activity.institute }}</td>
-                <td>{{ activity.age }}</td>
-                <td>{{ activity.type }}</td>
-                <td>{{ activity.amount_of_week }}</td>
-                <td>{{ activity.duration_time }}</td>
-                <td>{{ activity.price }} ₽</td>
-                <td>{{ activity.price_month }} ₽</td>
-                <td>{{ activity.contacts }}</td>
-                {% if user_auth and page_admin %}
-                    <td>
-                        <i class="fa-solid fa-pencil text-success mx-2 activity_action_btn"></i>
-                        <i class="fa-solid fa-trash-can text-danger mx-2 activity_action_btn"></i>
-                    </td>
-                {% endif %}
-            </tr>
+            {% include 'activities/item.twig' %}
         {% else %}
             <tr>
                 <th colspan="10" class="text-center">Список активностей пуст.</th>

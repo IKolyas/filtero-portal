@@ -1,11 +1,15 @@
 {
   "require": {
     "twig/twig": "^3.0",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "ext-json": "*"
   },
   "autoload": {
     "psr-4": {
       "app\\": "./"
     }
+  },
+  "config": {
+    "platform-check": false
   }
 }
