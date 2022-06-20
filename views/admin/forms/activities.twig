@@ -1,13 +1,13 @@
 <div class="activity_create_form">
     <form class="row js-types-form" method="post" action="/admin/createActivity">
-        <input  type="hidden" class="form-control js-type-id" name="">
         <div class="mb-3 col-4">
             <label for="title" class="form-label">Название</label>
+            <input  type="hidden" class="form-control js-type-id" name="">
             <input type="text" class="form-control js-types-input" id="title" name="title" aria-describedby="emailHelp">
         </div>
         <div class="mb-3 col-4">
             <label for="institute_id" class="form-label">Учреждение</label>
-            <select class="form-select js-types-input" aria-label="Default select example" id="institute_id" name="institute_id">
+            <select class="form-select js-types-input js-institute-id" aria-label="Default select example" id="institute_id" name="institute_id">
                 <option selected>Выберете учреждение</option>
                 {% for institute in institutes %}
                     <option value="{{ institute.id }}">{{ institute.title }}</option>
@@ -18,7 +18,7 @@
         </div>
         <div class="mb-3 col-4">
             <label for="activity_type_id" class="form-label">Тип</label>
-            <select class="form-select js-types-input" aria-label="Default select example" id="activity_type_id" name="activity_type_id">
+            <select class="form-select js-types-input js-types-id" aria-label="Default select example" id="activity_type_id" name="activity_type_id">
                 <option selected>Выберете тип</option>
                 {% for type in types %}
                     <option value="{{ type.id }}">{{ type.title }}</option>
@@ -52,10 +52,10 @@
             <input type="number" class="form-control js-types-input" id="price_month" name="price_month" aria-describedby="emailHelp">
         </div>
         <div class="mb-3 col-9">
-            <label for="contacts" class="form-label js-types-input">Контакты</label>
-            <textarea class="form-control" id="contacts" name="contacts" aria-describedby="emailHelp"></textarea>
+            <label for="contacts" class="form-label">Контакты</label>
+            <textarea class="form-control js-types-input" id="contacts" name="contacts" aria-describedby="emailHelp"></textarea>
         </div>
-        <input type="hidden" name="user_id" value="{{ user.id }}">
+        <input class="form-control" type="hidden" name="user_id" value="{{ user.id }}">
         <div class="send_form_activities col-3 ">
             <button class="btn btn-secondary mx-3 js-button-clear">Очистить</button>
             <button type="submit" class="btn btn-primary">Сохранить</button>

@@ -21,7 +21,6 @@ abstract class Model
 
 
     protected function update($fields): int
-
     {
         return $this->repository->update($fields);
     }

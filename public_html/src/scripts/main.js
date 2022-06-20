@@ -31,6 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let idActiveLink = -1;
     links.forEach((link)=> {
       ++idActiveLink;
+      let parentLink = link.parentElement.parentElement
       let idItemLink = idActiveLink;
       let inputLenght = inputs.length;
       let currentIdContent = idItemLink * inputLenght;
@@ -44,15 +45,59 @@ document.addEventListener("DOMContentLoaded", () => {
         e.preventDefault();
         let idLink = link.getAttribute('data-id');
         
-        inputs.forEach(()=>{
+        inputs.forEach((input)=>{
           ++idActiveInput;
-          inputs[idActiveInput].value = content.innerHTML;
-          inputs[idActiveInput].value = idActiveInput;
-          
-          if (isFirstClick) {
+          if (inputs[idActiveInput].tagName == 'INPUT') {
+            inputs[idActiveInput].value = content.innerHTML;
+            inputs[idActiveInput].value = idActiveInput;
+          }
+
+          if (inputs[idActiveInput].classList.contains('js-institute-id')) {
+            let valueOptions = inputs[idActiveInput].querySelectorAll('option')
+            if (valueOptions.length > 0) {
+              let instituteId = parentLink
+              .querySelector('[data-target-institute-id]')
+              .getAttribute('data-target-institute-id');
+              
+              valueOptions.forEach((elem)=>{
+                // console.log('--', elem);
+                if (elem.value != instituteId) {
+                  elem.removeAttribute('selected');
+                } else { 
+                  elem.setAttribute('selected', instituteId);
+                }
+              });
+            }
+          }
+
+          if (inputs[idActiveInput].classList.contains('js-types-id')) {
+            let valueOptions = inputs[idActiveInput].querySelectorAll('option')
+            if (valueOptions.length > 0) {
+              let typesId = parentLink
+              .querySelector('[data-target-type-id]')
+              .getAttribute('data-target-type-id');
+              
+              valueOptions.forEach((elem)=>{
+                if (elem.value != typesId) {
+                  elem.removeAttribute('selected');
+                } else { 
+                  elem.setAttribute('selected', typesId);
+                }
+              });
+            }
+          }
+
+          // TODO: da
+          if (
+            isFirstClick && !inputs[idActiveInput].classList.contains('js-institute-id') &&
+            !inputs[idActiveInput].classList.contains('js-types-id')
+            ) {
             startIdCurrentContent = (idActiveInput + currentIdContent);
             inputs[idActiveInput].value = contents[startIdCurrentContent].innerHTML;
-          } else {
+          } else if (
+            !inputs[idActiveInput].classList.contains('js-institute-id') &&
+            !inputs[idActiveInput].classList.contains('js-types-id')
+          ) {
             startIdCurrentContent = (idActiveInput + currentIdContent);
             inputs[idActiveInput].value = contents[startIdCurrentContent].innerHTML;
           }

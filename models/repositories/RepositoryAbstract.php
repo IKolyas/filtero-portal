@@ -66,7 +66,6 @@ abstract class RepositoryAbstract implements RepositoryInterface
         }
         $columns = implode(', ', $columns);
 
-
         $sql = "UPDATE {$this->tableName} SET {$columns} WHERE `id` = :id";
 
         return $this->save($sql, $paramsList);
