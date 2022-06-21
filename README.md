@@ -35,21 +35,28 @@ RewriteCond %{SCRIPT_FILENAME} !-f
 RewriteRule ^(.*)$ ./index.php?route=$1
 ```
 
+## УСТАНОВИТЬ ЗАВИСИМОСТИ
+```angular2html
+composer install
+```
+
 ## СТРУКТУРА БД
 	
 ![image](https://user-images.githubusercontent.com/63105949/171395714-0591d7ac-f2e9-42ca-b3c5-3eb314a578dc.png)
 
 ## МИГРАЦИИ
 
-## ДЕЙСТВИЯ С МИГРАЦИЯМИ(создать/удалить)
+## СОЗДАНИЕ И УДАЛЕНИЕ ФАЙЛОВ МИГРАЦИЙ:
 ```sh                      //переход в директорию database
-php migrations.php [action] [name] //действие (action) с миграцией (name)
+php migrations.php [action] [migration_name]
 ```
+
+## Действия:
 ### Создание миграции
 ```sh
 create
 ```
-Создает миграцию с именем create_user_table:
+Создает файл миграции create_user_table.php:
 
 ```sh
 php migrations.php create create_user_table
@@ -59,17 +66,16 @@ php migrations.php create create_user_table
 ```sh
 drop
 ```
-Удаляет миграцию с именем create_user_table:
+Удаляет файл миграции create_user_table.php:
 
 ```sh
-php migrations.php drop create_user_table
+php migrations.php drop create_user_table.php
 ```
-## ДЕЙСТВИЯ МИГРАЦИЙ (накатить/откатить)
-```sh                      //переход в директорию database
-php migrations.php [migration_action] [migration_name_1234567890.php] 
-//действие миграции(migration_action) с именем файла (migration_name_1234567890.php)
+## ПРИМЕНЕНИЕ И ОТКАТ МИГРАЦИЙ
+```sh
+php migrations.php [action] [migration_name] 
 ```
-### Накатить миграцию
+### Применить миграцию
 ```sh
 up
 ```
@@ -78,13 +84,13 @@ up
 ```sh
 php migrations.php up migration_name_1234567890.php
 ```
-### Накатить все миграции последовательно
+### Применить все миграции последовательно
 ```sh
 php migrations.php up -all
 ```
-### Накатить последние n миграций
+### Применить последние "n" - количество миграций
 ```sh
-php migrations.php up -all:n
+php migrations.php up -all:[n]
 ```
 ### Откатить миграцию
 ```sh
@@ -99,13 +105,13 @@ php migrations.php down migration_name_1234567890.php
 ```sh
 php migrations.php down -all
 ```
-### Откатить последние n миграций
+### Откатить последние "n" - количество миграций
 ```sh
-php migrations.php down -all:n
+php migrations.php down -all:[n]
 ```
 ## ШАБЛОН МИГРАЦИЙ
 Шаблон находится в файле migration_template.php
-В созданной на основе шаблона миграции, в параметры row записываются sql запросы. В метод up() для накатывания. В метод down() для откатывания. 
+В созданной на основе шаблона миграции, в параметры row записываются sql команды. Метод up() для применения.Метод down() для отката. 
 ```sh
 class MIGRATION_NAME extends AbstractMigration
 {

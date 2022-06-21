@@ -30,7 +30,7 @@ class AdminController extends AbstractController
     {
         $activities = Activity::findAll();
         $user = User::findAll()[0];
-        $auth_user = app()->session->isAuth ();
+        $auth_user = app()->session->isAuth();
         foreach ($activities as $activity) {
             $activity->age = $activity->getAgeRange();
             $activity->institute = Institute::find($activity->institute_id)->title;
@@ -83,6 +83,8 @@ class AdminController extends AbstractController
 
             if (Activity::create(app()->request->post())) {
                 app()->path->redirect('/admin');
+            } else {
+                app()->path->redirect('/exception?type=database&action=create');
             }
         }
     }
@@ -157,7 +159,6 @@ class AdminController extends AbstractController
         if (app()->request->isPost()) {
             $request = app()->request->post();
             $type_id = Activity::find($request['id']);
-            
             if($type_id) {
                 if (Activity::update($request)) {
                     app()->path->redirect('/admin');
@@ -195,11 +196,10 @@ class AdminController extends AbstractController
     }
     public function actionUpdateUser()
     {
-        if (app()->request->isPost()) {
-            $request = app()->request->post();
-            $type_id = User::find($request['id']);
-            
-            if($type_id) {
+        $request = app()->request->post();
+        if ($request) {
+            $user = User::find($request['id']);
+            if($user) {
                 if (User::update($request)) {
                     app()->path->redirect('/admin/users');
                 }

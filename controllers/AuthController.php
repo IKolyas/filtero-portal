@@ -42,19 +42,18 @@ class AuthController extends AbstractController
     public function actionLogout()
     {
         if (app()->session->exists('user')){
-
             app()->session->delete('user');
         }
 
         if (app()->cookie->exists('auth')){
-            
             app()->cookie->setCookie('auth', '', time(), '/');
         }
         
         app()->path->redirect('/');
     }
     
-    private function varification($email, $password)  
+
+    private function varification($email, $password)
     {
         $user = User::find($email, 'email');
 
