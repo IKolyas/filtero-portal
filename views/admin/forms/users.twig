@@ -1,6 +1,6 @@
 <div class="activity_create_form">
-    <form class="row js-types-form" method="post" action="/admin/createUser">
-        <input  type="hidden" class="form-control js-type-id" name="">
+    <form class="row js-types-form" id="form-edit" method="post" action="/admin/createUser">
+        <input  type="hidden" class="form-control" name="id">
         <div class="mb-3 col-6">
             <label for="first_name" class="form-label">Имя</label>
             <input type="text" class="form-control js-types-input" id="first_name" name="first_name" aria-describedby="emailHelp">
@@ -15,16 +15,16 @@
         </div>
         <div class="mb-3 col-6">
             <label for="password" class="form-label">Пароль</label>
-            <input type="text" class="form-control js-types-input" id="password" name="password" aria-describedby="emailHelp">
+            <input type="text" class="form-control js-types-input" id="login" name="password" aria-describedby="emailHelp">
         </div>
         <div class="mb-3 col-6">
-            <label for="email" class="form-label">Е-майл</label>
+            <label for="email" class="form-label">e-mail</label>
             <input type="email" class="form-control js-types-input" id="email" name="email" aria-describedby="emailHelp">
         </div>
         <div class="mb-3 col-2">
             <label for="is_admin" class="form-label">Админ или нет</label>
             <select class="form-control js-types-input" id="is_admin" name="is_admin" aria-describedby="emailHelp">
-                <option selected value="1">да</option>
+                <option value="1">да</option>
                 <option selected value="0">нет</option>
             </select>
         </div>

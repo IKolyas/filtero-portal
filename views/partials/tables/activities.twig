@@ -18,22 +18,22 @@
         <tbody>
         {% for activity in activities %}
             <tr>
-                <th scope="row">{{ activity.id }}</th>
-                <td class="js-types-content">{{ activity.title }}</td>
-                <td class="js-types-content" data-target-institute-id="{{ activity.institute_id }}">{{ activity.institute }}</td>
-                <td class="js-types-content" data-target-type-id="{{ activity.type_id }}">{{ activity.type }}</td>
+                <th scope="row" data-field="id">{{ activity.id }}</th>
+                <td data-field="title">{{ activity.title }}</td>
+                <td data-field="institute_id" data-target-institute-id="{{ activity.institute_id }}">{{ activity.institute }}</td>
+                <td data-field="activity_type_id" data-target-type-id="{{ activity.type_id }}">{{ activity.type }}</td>
                 <td>
                     {{ activity.age }}
-                    <div class="js-types-content d-none">{{activity.age_from}}</div>
-                    <div class="js-types-content d-none">{{activity.age_to}}</div>
+                    <div class="d-none" data-field="age_from">{{activity.age_from}}</div>
+                    <div class="d-none" data-field="age_to">{{activity.age_to}}</div>
                 </td>
-                <td class="js-types-content">{{ activity.amount_of_week }}</td>
-                <td class="js-types-content">{{ activity.duration_time }}</td>
-                <td class="js-types-content price-rub">{{ activity.price }}</td>
-                <td class="js-types-content price-rub">{{ activity.price_month }}</td>
-                <td class="js-types-content">{{ activity.contacts }}</td>
+                <td data-field="amount_of_week">{{ activity.amount_of_week }}</td>
+                <td data-field="duration_time">{{ activity.duration_time }}</td>
+                <td class="price-rub" data-field="price">{{ activity.price }}</td>
+                <td class="price-rub" data-field="price_month">{{ activity.price_month }}</td>
+                <td data-field="contacts">{{ activity.contacts }}</td>
                 <td>
-                    <a href="#" class="js-types-link__edit" data-id="{{ activity.id }}"><i class="fa-solid fa-pencil text-success mx-2 activity_action_btn"></i></a>
+                    <i class="fa-solid fa-pencil text-success mx-2 js-types-link__edit activity_action_btn"></i>
                     <a href="/admin/deleteActivity?{{ activity.id }}"><i class="fa-solid fa-trash-can text-danger mx-2 activity_action_btn"></i></a>
                 </td>
             </tr>
