@@ -157,7 +157,6 @@ class AdminController extends AbstractController
         if (app()->request->isPost()) {
             $request = app()->request->post();
             $type_id = Activity::find($request['id']);
-            
             if($type_id) {
                 if (Activity::update($request)) {
                     app()->path->redirect('/admin');
@@ -195,10 +194,9 @@ class AdminController extends AbstractController
     }
     public function actionUpdateUser()
     {
-        if (app()->request->isPost()) {
-            $request = app()->request->post();
+        $request = app()->request->post();
+        if ($request) {
             $user = User::find($request['id']);
-
             if($user) {
                 if (User::update($request)) {
                     app()->path->redirect('/admin/users');
