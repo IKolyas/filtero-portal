@@ -5,14 +5,13 @@ namespace app\controllers;
 use app\models\Activity;
 use app\models\ActivityType;
 use app\models\Institute;
-
+use Exception;
 
 class ActivitiesController extends AbstractController
 {
 
     public function actionIndex(): void
     {
-        //$activities = Activity::findAll();
         $activities = Activity::getPage(1);
 
         foreach ($activities as $activity) {
@@ -26,6 +25,7 @@ class ActivitiesController extends AbstractController
         $types = ActivityType::findAll();
 
         echo $this->render('activities.index', compact('activities', 'institutes', 'types'));
+        throw new Exception("Ошибка подключения к базе данных");
     }
 
 }
