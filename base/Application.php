@@ -38,7 +38,7 @@ class Application
         } else {
             $exception = new Exceptions();
             $exception->errorHandler(4, 'test');
-            //$this->path->redirect('notFound');
+            $this->path->redirect('notFound');
         }
     }
 
@@ -51,9 +51,7 @@ class Application
             if ($params = $this->config['components'][$name]) {
                 $this->components[$name] = $this->componentsFactory->createComponent($name, $params);
             } else {
-                // throw new \Exception("Не найдена конфигурация для компонента {$name}");
-                $exception = new Exceptions();
-                $exception->displayError(4, 'test');
+                throw new \Exception("Не найдена конфигурация для компонента {$name}");
             }
         }
         return $this->components[$name];
