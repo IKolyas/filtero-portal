@@ -5,6 +5,7 @@ namespace app\controllers;
 use app\models\Activity;
 use app\models\ActivityType;
 use app\models\Institute;
+use app\requests\ActivitiesRequest;
 
 
 class ActivitiesController extends AbstractController
@@ -19,20 +20,9 @@ class ActivitiesController extends AbstractController
 
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
         {
-            $request = app()->request->getParams();
-            $filters = [];
-            $params = explode('&', $request);
+            $request = new ActivitiesRequest();
 
-            foreach ($params as $param) {
-                $parseParam = explode('=', $param);
-                $filters[$parseParam[0]] = $parseParam[1];
-            }
-
-            $last_id = $filters['last_id'];
-
-//            $activities = Activity::getPage($last_id, self::PAGINATE);
-
-            $activities = Activity::search($last_id, self::PAGINATE, $filters['search'] ?? '');
+            $activities = Activity::search($request->filter(), self::PAGINATE);
 
             $html_mobile = '';
             $html = '';

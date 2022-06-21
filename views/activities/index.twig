@@ -1,3 +1,11 @@
+<style>
+    .order_btn {
+        transition: transform .8s ease-in-out;
+    }
+    .checked {
+        transform: rotate(180deg);
+    }
+</style>
 <div class="container d-flex flex-column">
     <form class=" d-flex justify-content-center align-self-center w-100" role="search">
         <input class="form-control me-2 mw-100 is-input-search" type="search" placeholder="Поиск" aria-label="Search">
@@ -14,14 +22,14 @@
         </div>
         <div class="dropdown me-2">
             <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Сортировать</button>
-            <div class="dropdown-menu">
-                <a href="#" class="dropdown-item">Название</a>
-                <a href="#" class="dropdown-item">Учреждение</a>
-                <a href="#" class="dropdown-item">Тип</a>
-                <a href="#" class="dropdown-item">Цена</a>
-            </div>
+            <select class="js-order-by-fields">
+                <option value="title">Название</option>
+                <option value="amount_of_week">Раз в неделю</option>
+                <option value="duration_time">Продолжительность</option>
+                <option value="price">Цена</option>
+            </select>
         </div>
-        <i class="fa-solid fa-arrow-down-short-wide fa-xl text-primary align-self-center ms-auto" role="button"></i>
+        <i class="fa-solid fa-arrow-down-short-wide fa-xl text-primary align-self-center js-order-items order_btn" role="button"></i>
     </div>
         {% include 'partials/activities_list.twig' %}
         {% include 'partials/activities_list_mobile.twig' %}
@@ -36,22 +44,47 @@
 
 
 {#    TODO: использовать fetch. Отказаться от JQ#}
-    let last_id = 0;
 
+    const params = {
+        offset: 0,
+        search: null,
+        order_by: 'title',
+        order: 'ASC'
+    }
+
+    // let offset = 0;
     let search = document.querySelector('.is-input-search');
+    let orderBy = document.querySelector('.js-order-by-fields');
+
+    let order = document.querySelector('.js-order-items');
+
+    order.addEventListener('click', (e) => {
+        if (params.order === 'ASC') {
+            params.order = 'DESC';
+        } else {
+            params.order = 'ASC';
+        }
+        e.target.classList.toggle("checked")
+        loadMoreData(params, true);
+    })
 
     search.addEventListener('input', (e) => {
-        if(e.target.value.length >= 3) {
-            last_id = 0;
-            loadMoreData({last_id: last_id, search: e.target.value}, true);
+        if(e.target.value.length >= 1) {
+            params.offset = 0;
+            params.search = search.value
+            loadMoreData(params, true);
         }
+    })
+
+    orderBy.addEventListener('change', (e) => {
+        params.order_by = e.target.value;
+        loadMoreData(params, true);
     })
 
     $(window).scroll(function () {
         if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
-            last_id = document.querySelectorAll('.activity_card').length;
-            console.log(search.value)
-            loadMoreData({last_id: last_id, search: search.value});
+            params.offset = document.querySelectorAll('.activity_card').length;
+            loadMoreData(params);
         }
     });
 

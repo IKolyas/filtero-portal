@@ -28,13 +28,37 @@ class ActivityRepository extends RepositoryAbstract
         return $this->getQuery($sql, []);
     }
 
-    public function search(int $last, int $paginate, string $sql_search): array
+    public function search(array $params, int $paginate = 100): array
     {
-        $sql = "SELECT * FROM activities WHERE 
-                             {$this->searchFields[0]} LIKE '%{$sql_search}%'
-                             OR
-                             {$this->searchFields[1]} LIKE '%{$sql_search}%'
-                             LIMIT {$last}, {$paginate}";
+        $offset = 0;
+
+        if(isset($params['offset'])) {
+            $offset = $params['offset'];
+            unset($params['offset']);
+        }
+
+        $sql = "SELECT * FROM activities ";
+
+        if(!empty($this->searchFields) && isset($params['search'])) {
+            $sql .= "WHERE ";
+
+            foreach ($this->searchFields as $key => $field) {
+                $sql .= "{$field} LIKE '%{$params['search']}%' ";
+                if($key !== count($this->searchFields) - 1) $sql .= "OR ";
+            }
+
+        }
+
+        if(isset($params['order_by'])) {
+            $sql .= "ORDER BY {$params['order_by']} ";
+        }
+
+        if(isset($params['order'])) {
+            $sql .= "{$params['order']}";
+        }
+
+        $sql .= " LIMIT {$offset}, {$paginate}";
+
         return $this->getQuery($sql, []);
     }
 }
