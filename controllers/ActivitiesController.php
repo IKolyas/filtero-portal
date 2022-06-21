@@ -20,9 +20,19 @@ class ActivitiesController extends AbstractController
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
         {
             $request = app()->request->getParams();
-            $last_id = explode('=', $request)[1];
+            $filters = [];
+            $params = explode('&', $request);
 
-            $activities = Activity::getPage($last_id, self::PAGINATE);
+            foreach ($params as $param) {
+                $parseParam = explode('=', $param);
+                $filters[$parseParam[0]] = $parseParam[1];
+            }
+
+            $last_id = $filters['last_id'];
+
+//            $activities = Activity::getPage($last_id, self::PAGINATE);
+
+            $activities = Activity::search($last_id, self::PAGINATE, $filters['search'] ?? '');
 
             $html_mobile = '';
             $html = '';
@@ -47,7 +57,7 @@ class ActivitiesController extends AbstractController
         echo $this->render('activities.index', compact('activities', 'institutes', 'types'));
     }
 
-    public function getActivitiesFields(&$activities): void 
+    private function getActivitiesFields(&$activities): void
     {
         foreach ($activities as $activity) {
             $activity->age = $activity->getAgeRange();

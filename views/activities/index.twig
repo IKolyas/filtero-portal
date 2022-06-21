@@ -1,6 +1,6 @@
 <div class="container d-flex flex-column">
     <form class=" d-flex justify-content-center align-self-center w-100" role="search">
-        <input class="form-control me-2 mw-100" type="search" placeholder="Поиск" aria-label="Search">
+        <input class="form-control me-2 mw-100 is-input-search" type="search" placeholder="Поиск" aria-label="Search">
         <button class="btn btn-outline-primary" type="submit">Найти</button>
     </form>
     <div class="d-flex mt-3">
@@ -33,26 +33,45 @@
     </div>
 </div>
 <script>
-    let last_id = 1;
+
+
+{#    TODO: использовать fetch. Отказаться от JQ#}
+    let last_id = 0;
+
+    let search = document.querySelector('.is-input-search');
+
+    search.addEventListener('input', (e) => {
+        if(e.target.value.length >= 3) {
+            last_id = 0;
+            loadMoreData({last_id: last_id, search: e.target.value}, true);
+        }
+    })
+
     $(window).scroll(function () {
         if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
             last_id = document.querySelectorAll('.activity_card').length;
-            loadMoreData();
+            console.log(search.value)
+            loadMoreData({last_id: last_id, search: search.value});
         }
     });
 
     let cardListMobile = document.querySelector('.card_list')
     let cardList = document.querySelector('.activity_list_rows')
 
-    function loadMoreData() {
+    function loadMoreData(params, is_search) {
         $.ajax({
             url: '/activities/index/', 
             method: 'GET',         
             dataType: 'json',          
-            data: {last_id: last_id},     
-            success: function(data){   
-                cardListMobile.innerHTML += data.html_mobile;           
-                cardList.innerHTML += data.html;          
+            data: params,
+            success: function(data){
+                if(is_search) {
+                    cardListMobile.innerHTML = data.html_mobile;
+                    cardList.innerHTML = data.html;
+                } else {
+                    cardListMobile.innerHTML += data.html_mobile;
+                    cardList.innerHTML += data.html;
+                }
             },
             complete: function () {
                 $('#spinner').hide();
