@@ -55,7 +55,9 @@ body {
     cursor: pointer; /* Add a mouse pointer on hover */
     font-size: 18px; /* Increase font size */
   }
-  
+#spinner {
+    align-self: center;
+}
 
 /*table {*/
 

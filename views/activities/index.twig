@@ -26,7 +26,7 @@
         {% include 'partials/activities_list.twig' %}
         {% include 'partials/activities_list_mobile.twig' %}
         <button onclick="topFunction()" class="btn btn-primary rounded-circle button_to_top" id="buttonToTop" title="Go to top"><i class="fa-solid fa-angles-up"></i></button>
-        <div class="loader d-flex justify-content-center">
+        <div id="spinner">
             <div class="spinner-border spinner-border-md text-primary" role="status">
             <span class="sr-only"></span>
         </div>
@@ -46,14 +46,18 @@
 
     function loadMoreData() {
         $.ajax({
-            url: '/activities/index/',         /* Куда пойдет запрос */
-            method: 'GET',         /* Метод передачи (post или get) */
-            dataType: 'json',          /* Тип данных в ответе (xml, json, script, html). */
-            data: {last_id: last_id},     /* Параметры передаваемые в запросе. */
-            success: function(data){   /* функция которая будет выполнена после успешного запроса.  */
-                cardListMobile.innerHTML += data.html_mobile;           /* В переменной data содержится ответ от index.php. */
-                cardList.innerHTML += data.html;           /* В переменной data содержится ответ от index.php. */
+            url: '/activities/index/', 
+            method: 'GET',         
+            dataType: 'json',          
+            data: {last_id: last_id},     
+            success: function(data){   
+                cardListMobile.innerHTML += data.html_mobile;           
+                cardList.innerHTML += data.html;          
+            },
+            complete: function () {
+                $('#spinner').hide();
             }
+            
         });
     }
 
@@ -73,5 +77,6 @@
         document.body.scrollTop = 0; 
         document.documentElement.scrollTop = 0; 
     }
+    
 </script> 
 
