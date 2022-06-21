@@ -197,9 +197,9 @@ class AdminController extends AbstractController
     {
         if (app()->request->isPost()) {
             $request = app()->request->post();
-            $type_id = User::find($request['id']);
-            
-            if($type_id) {
+            $user = User::find($request['id']);
+
+            if($user) {
                 if (User::update($request)) {
                     app()->path->redirect('/admin/users');
                 }

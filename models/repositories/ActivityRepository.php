@@ -18,9 +18,8 @@ class ActivityRepository extends RepositoryAbstract
     }
 
     public function findPage(int $last, int $paginate): array
-    {   
+    {
         $sql = "SELECT * FROM activities LIMIT {$last}, {$paginate}";
         return $this->getQuery($sql, []);
-        
     }
 }
