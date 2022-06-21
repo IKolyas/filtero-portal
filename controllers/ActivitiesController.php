@@ -7,7 +7,6 @@ use app\models\ActivityType;
 use app\models\Institute;
 use app\requests\ActivitiesRequest;
 
-
 class ActivitiesController extends AbstractController
 {
 
@@ -16,7 +15,6 @@ class ActivitiesController extends AbstractController
 
     public function actionIndex(): void
     {
-        //$activities = Activity::findAll();
 
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest')
         {
@@ -45,6 +43,7 @@ class ActivitiesController extends AbstractController
         $types = ActivityType::findAll();
 
         echo $this->render('activities.index', compact('activities', 'institutes', 'types'));
+        throw new Exception("Ошибка подключения к базе данных");
     }
 
     private function getActivitiesFields(&$activities): void

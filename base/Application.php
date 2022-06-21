@@ -3,6 +3,7 @@
 namespace app\base;
 
 use app\traits\SingleTone;
+use app\services\Exceptions;
 
 /**
  * @property $components
@@ -24,9 +25,6 @@ class Application
         $params = $this->request->isPost() ? $this->request->post() : $this->request->getParams();
         $actionName = $this->request->getActionName();
 
-
-        
-        
         //      Получаем имя класса контроллера с пространством имён
         
         $controllerClass = $this->config['controller_namespace'] . ucfirst($controllerName) . "Controller";
@@ -38,14 +36,13 @@ class Application
             $controller = new $controllerClass($this->renderer);
             $controller->runAction($actionName, $params);
         } else {
-            $this->path->redirect('notFound');
+            $exception = new Exceptions();
+            $exception->errorHandler(4, 'test');
+            //$this->path->redirect('notFound');
         }
     }
 
-    /**
-     * @throws \ReflectionException
-     * @throws \Exception
-     */
+
     public function __get($name)
     {
 //        Если не найден компонент, проверяем есть ли он в конфиге, создаём его через фабрику и помещаем в $this->components
@@ -54,7 +51,9 @@ class Application
             if ($params = $this->config['components'][$name]) {
                 $this->components[$name] = $this->componentsFactory->createComponent($name, $params);
             } else {
-                throw new \Exception("Не найдена конфигурация для компонента {$name}");
+                // throw new \Exception("Не найдена конфигурация для компонента {$name}");
+                $exception = new Exceptions();
+                $exception->displayError(4, 'test');
             }
         }
         return $this->components[$name];

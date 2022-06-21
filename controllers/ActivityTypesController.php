@@ -11,6 +11,5 @@ class ActivityTypesController extends AbstractController
         $db = DataBase::getInstance();
         $activity_types = $db->queryAll("SELECT * FROM activity_types", []);
         echo $this->render('activityTypes.index', ['activity_types' => $activity_types]);
-
     }
 }
