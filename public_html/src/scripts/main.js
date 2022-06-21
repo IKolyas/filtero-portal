@@ -1,124 +1,78 @@
 document.addEventListener("DOMContentLoaded", () => {
-  if (document.querySelector('.js-types-link__edit')) {
-    
-    const links = document.querySelectorAll('.js-types-link__edit');
-    const inputs = document.querySelectorAll('.js-types-input');
-    const contents = document.querySelectorAll('.js-types-content');
-    const notification = document.querySelector('.js-types-notification');
-    const form = document.querySelector('.js-types-form');
-    const typeId = document.querySelector('.js-type-id');
+
+    let btnEdit = document.querySelectorAll('.js-types-link__edit');
+    let form = document.getElementById('form-edit');
+    let formEditFields = form.getElementsByTagName('input');
+    let formEditFieldsTextarea = form.getElementsByTagName('textarea');
+    let formEditFieldsSelect = form.getElementsByTagName('select');
     const buttonClear = document.querySelector('.js-button-clear');
-    
-    let actionForm = form.action
-    let paramsActionForm = actionForm.split("/admin/create");
-    
-    typeId.style.display = "none";
-    buttonClear.addEventListener('click', (e)=> {
-      e.preventDefault();
-      inputs.forEach((input)=>{
-        input.value = '';
-      });
-      typeId.value = '';
-      typeId.name = '';
-      notification.style.visibility = "hidden";
 
-      actionForm = form.action
-      paramsActionForm = actionForm.split("/admin/update");
-      form.action = "/admin/create" + paramsActionForm[1];
-    });
-    
-    
-    let idActiveLink = -1;
-    links.forEach((link)=> {
-      ++idActiveLink;
-      let parentLink = link.parentElement.parentElement
-      let idItemLink = idActiveLink;
-      let inputLenght = inputs.length;
-      let currentIdContent = idItemLink * inputLenght;
-      
-      const content = contents[idItemLink];
-      
-      let isFirstClick = true;
-      let startIdCurrentContent = 0;
-      let idActiveInput = -1;
-      link.addEventListener('click', (e) => {
+    let startEdit = false;
+
+    buttonClear.addEventListener('click', (e) => {
         e.preventDefault();
-        let idLink = link.getAttribute('data-id');
-        
-        inputs.forEach((input)=>{
-          ++idActiveInput;
-          if (inputs[idActiveInput].tagName == 'INPUT') {
-            inputs[idActiveInput].value = content.innerHTML;
-            inputs[idActiveInput].value = idActiveInput;
-          }
-
-          if (inputs[idActiveInput].classList.contains('js-institute-id')) {
-            let valueOptions = inputs[idActiveInput].querySelectorAll('option')
-            if (valueOptions.length > 0) {
-              let instituteId = parentLink
-              .querySelector('[data-target-institute-id]')
-              .getAttribute('data-target-institute-id');
-              
-              valueOptions.forEach((elem)=>{
-                // console.log('--', elem);
-                if (elem.value != instituteId) {
-                  elem.removeAttribute('selected');
-                } else { 
-                  elem.setAttribute('selected', instituteId);
-                }
-              });
-            }
-          }
-
-          if (inputs[idActiveInput].classList.contains('js-types-id')) {
-            let valueOptions = inputs[idActiveInput].querySelectorAll('option')
-            if (valueOptions.length > 0) {
-              let typesId = parentLink
-              .querySelector('[data-target-type-id]')
-              .getAttribute('data-target-type-id');
-              
-              valueOptions.forEach((elem)=>{
-                if (elem.value != typesId) {
-                  elem.removeAttribute('selected');
-                } else { 
-                  elem.setAttribute('selected', typesId);
-                }
-              });
-            }
-          }
-
-          // TODO: da
-          if (
-            isFirstClick && !inputs[idActiveInput].classList.contains('js-institute-id') &&
-            !inputs[idActiveInput].classList.contains('js-types-id')
-            ) {
-            startIdCurrentContent = (idActiveInput + currentIdContent);
-            inputs[idActiveInput].value = contents[startIdCurrentContent].innerHTML;
-          } else if (
-            !inputs[idActiveInput].classList.contains('js-institute-id') &&
-            !inputs[idActiveInput].classList.contains('js-types-id')
-          ) {
-            startIdCurrentContent = (idActiveInput + currentIdContent);
-            inputs[idActiveInput].value = contents[startIdCurrentContent].innerHTML;
-          }
-        });
-        isFirstClick = false;
-        idActiveInput = -1;
-        
-        typeId.value = idLink;
-        typeId.name = 'id';
-        if (notification.innerHTML.indexOf(content.innerHTML) < 0) {
-
-          notification.innerHTML = 'Идет редактирование "типа активности": ';
-          notification.innerHTML = 'Идет редактирование "типа активности": ' + contents[currentIdContent].innerHTML;
+        if(startEdit) {
+            form.action = "/admin/create" + form.action.split("/admin/update")[1];
         }
-        notification.style.visibility = "visible";
-        
-        form.action = "/admin/update" + paramsActionForm[1];
-      });
-    });
-  }
+
+        form.querySelectorAll('input').forEach((e) => {
+            e.value = "";
+        });
+        form.querySelectorAll('textarea').forEach((e) => {
+            e.value = "";
+        });
+        form.querySelectorAll('select').forEach((e) => {
+            e.querySelectorAll('option').forEach((option, key) => {
+                key !== 0 ? option.removeAttribute('selected') : option.setAttribute('selected', true)
+            })
+        })
+        startEdit = false;
+    })
+
+    let addDataToChangeInput = (active_row, edit_fields) => {
+        for(let field of edit_fields) {
+            let selector = active_row.querySelector(`[data-field='${field.name}']`);
+            if(field.tagName === 'INPUT' || field.tagName === 'TEXTAREA') {
+                if(selector) {
+                    field.value = selector.innerHTML;
+                }
+            } else if (field.tagName === 'SELECT') {
+                field.querySelectorAll('option').forEach(option => {
+                    if(selector.hasAttribute('data-target-institute-id')) {
+                        option.value !== selector.getAttribute('data-target-institute-id')
+                            ? option.removeAttribute('selected')
+                            : option.setAttribute('selected', true)
+                    } else if(selector.hasAttribute('data-target-type-id')) {
+                        option.value !== selector.getAttribute('data-target-type-id')
+                            ? option.removeAttribute('selected')
+                            : option.setAttribute('selected', true)
+                    } else {
+                        option.value !== selector.innerHTML
+                            ? option.removeAttribute('selected')
+                            : option.setAttribute('selected', true)
+                    }
+
+                })
+            }
+        }
+    }
+
+    if (btnEdit.length > 0 && formEditFields.length > 0) {
+        btnEdit.forEach(btn => {
+            btn.addEventListener('click', e => {
+                if(!startEdit) {
+                    form.action = "/admin/update" + form.action.split("/admin/create")[1];
+                    startEdit = true;
+                }
+                let row = btn.parentElement.parentElement;
+                addDataToChangeInput(row, formEditFields);
+                if(formEditFieldsTextarea.length > 0) {
+                    addDataToChangeInput(row, formEditFieldsTextarea);
+                }
+                if(formEditFieldsSelect.length > 0) {
+                    addDataToChangeInput(row, formEditFieldsSelect);
+                }
+            })
+        })
+    }
 });
-
-
-// 
