@@ -43,7 +43,13 @@ class Activity extends Model
         }
         
     }
-    protected  function getPage(int $last, int $paginate): array
+
+    protected function search(array $params, int $paginate): array
+    {
+        return $this->repository->search($params, $paginate);
+    }
+
+    protected function getPage(int $last, int $paginate): array
     {
         return $this->repository->findPage($last, $paginate);
     }
