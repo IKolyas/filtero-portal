@@ -43,7 +43,6 @@ class ActivitiesController extends AbstractController
         $types = ActivityType::findAll();
 
         echo $this->render('activities.index', compact('activities', 'institutes', 'types'));
-        throw new Exception("Ошибка подключения к базе данных");
     }
 
     private function getActivitiesFields(&$activities): void

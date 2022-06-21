@@ -1,7 +1,7 @@
-
-
-<h1>Произошла ошибка: </h1><br>
-<p><b>Код ошибки: </b> {{$errno}}</p>
-<p><b>Текст ошибки: </b> {{$errstr}}</p>
-<p><b>Файл, в котором произошла ошибка: </b> {{$errfile}}</p>
-<p><b>Строка, в котором произошла ошибка: </b> {{$errline}}</p>
+<div class="my-2">
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Инициатор ошибки: <strong>{{ type }}</strong> <br>
+        Сообщение: <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>

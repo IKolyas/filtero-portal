@@ -83,6 +83,8 @@ class AdminController extends AbstractController
 
             if (Activity::create(app()->request->post())) {
                 app()->path->redirect('/admin');
+            } else {
+                app()->path->redirect('/exception?type=database&action=create');
             }
         }
     }
