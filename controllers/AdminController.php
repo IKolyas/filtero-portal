@@ -6,11 +6,12 @@ use app\models\Activity;
 use app\models\ActivityType;
 use app\models\Institute;
 use app\models\User;
-use app\requests\LoginRequest;
 
 class AdminController extends AbstractController
 {
     protected string $defaultAction = 'activities';
+
+   
 
     const TABS = [
         ['tab' => 'activities', 'title' => 'Активности', 'link' => '/admin/activities', 'is_active' => false],
@@ -84,7 +85,10 @@ class AdminController extends AbstractController
             if (Activity::create(app()->request->post())) {
                 app()->path->redirect('/admin');
             } else {
-                app()->path->redirect('/exception?type=database&action=create');
+
+                $exception = $this->messenger->sendMessage('database', 'create');
+                echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
+                // app()->path->redirect('/exception?type=database&action=create');
             }
         }
     }
@@ -95,6 +99,10 @@ class AdminController extends AbstractController
         if (app()->request->isPost()) {
             if (Institute::create(app()->request->post())) {
                 app()->path->redirect('/admin/institutes');
+            } else {
+
+                $exception = $this->messenger->sendMessage('database', 'create');
+                echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
             }
         }
     }
@@ -104,6 +112,10 @@ class AdminController extends AbstractController
         if (app()->request->isPost()) {
             if (ActivityType::create(app()->request->post())) {
                 app()->path->redirect('/admin/types');
+            } else {
+
+                $exception = $this->messenger->sendMessage('database', 'create');
+                echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
             }
         }
     }
@@ -114,6 +126,10 @@ class AdminController extends AbstractController
         if (app()->request->isPost()) {
             if (User::create(app()->request->post())) {
                 app()->path->redirect('/admin/users');
+            } else {
+
+                $exception = $this->messenger->sendMessage('database', 'create');
+                echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
             }
         }
     }
@@ -123,6 +139,10 @@ class AdminController extends AbstractController
         if (app()->request->isGet()) {
             if (Activity::delete(app()->request->getParams())) {
                 app()->path->redirect('/admin');
+            } else {
+
+                $exception = $this->messenger->sendMessage('database', 'delete');
+                echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
             }
         }
     }
@@ -132,6 +152,11 @@ class AdminController extends AbstractController
         if (app()->request->isGet()) {
             if (Institute::delete(app()->request->getParams())) {
                 app()->path->redirect('/admin/institutes');
+            } else {
+
+                $exception = $this->messenger->sendMessage('database', 'delete');
+
+                echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
             }
         }
     }
@@ -141,6 +166,10 @@ class AdminController extends AbstractController
         if (app()->request->isGet()) {
             if (ActivityType::delete(app()->request->getParams())) {
                 app()->path->redirect('/admin/types');
+            } else {
+
+                $exception = $this->messenger->sendMessage('database', 'delete');
+                echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
             }
         }
     }
@@ -150,6 +179,10 @@ class AdminController extends AbstractController
         if (app()->request->isGet()) {
             if (User::delete(app()->request->getParams())) {
                 app()->path->redirect('/admin/users');
+            } else {
+
+                $exception = $this->messenger->sendMessage('database', 'delete');
+                echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
             }
         }
     }
@@ -162,6 +195,10 @@ class AdminController extends AbstractController
             if($type_id) {
                 if (Activity::update($request)) {
                     app()->path->redirect('/admin');
+                } else {
+
+                    $exception = $this->messenger->sendMessage('database', 'update');
+                    echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
                 }
             }
         }
@@ -176,6 +213,10 @@ class AdminController extends AbstractController
             if($type_id) {
                 if (Institute::update($request)) {
                     app()->path->redirect('/admin/institutes');
+                } else {
+
+                    $exception = $this->messenger->sendMessage('database', 'update');
+                    echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
                 }
             }
         }
@@ -190,6 +231,10 @@ class AdminController extends AbstractController
             if($type_id) {
                 if (ActivityType::update($request)) {
                     app()->path->redirect('/admin/types');
+                } else {
+                    
+                    $exception = $this->messenger->sendMessage('database', 'update');
+                    echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
                 }
             }
         }
@@ -202,6 +247,10 @@ class AdminController extends AbstractController
             if($user) {
                 if (User::update($request)) {
                     app()->path->redirect('/admin/users');
+                } else {
+
+                    $exception = $this->messenger->sendMessage('database', 'update');
+                    echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
                 }
             }
         }

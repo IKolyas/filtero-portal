@@ -2,16 +2,20 @@
 
 namespace app\controllers;
 
-use app\services\DataBase as DataBase;
+use app\models\Institute;
 
 class institutesController extends AbstractController
 {
     public function actionIndex()
     {
-
-        $db = DataBase::getInstance();
-        $institutes = $db->queryAll("SELECT * FROM institutes", []);
-        echo $this->render('institutes\index.html.twig', ['institutes' => $institutes]);
-
+        $institutes = Institute::findAll();
+        
+        if($institutes) { 
+            echo $this->render('institutes.index', ['institutes' => $institutes]);
+        } else {
+            $exception = $this->messenger->sendMessage('database', 'connection');
+            echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
+        }
+        
     }
 }
