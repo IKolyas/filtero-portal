@@ -7,6 +7,7 @@ use app\models\ActivityType;
 use app\models\Institute;
 use app\models\User;
 use app\requests\LoginRequest;
+use app\services\ExceptionMessenger;
 
 class AdminController extends AbstractController
 {
