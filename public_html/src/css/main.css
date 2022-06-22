@@ -56,7 +56,15 @@ body {
     font-size: 18px; /* Increase font size */
   }
 #spinner {
+    display: none;
     align-self: center;
+    position: fixed;
+    top: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
 }
 
 /*table {*/
