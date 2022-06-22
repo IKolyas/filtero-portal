@@ -12,7 +12,7 @@ class AuthController extends AbstractController
     protected string $defaultAction = 'login';
 
     public function actionLogin()
-    {       
+    {
 
         $is_post = app()->request->isPost();
 
@@ -26,11 +26,10 @@ class AuthController extends AbstractController
 
             if ($user = $this->varification($email, $password)) {
                 if ($is_remember) {
-
                     $this->rememberUser($user);
                 }
-                app()->session->set('user', $user);
-                app()->path->redirect('/activities');
+                app()->session->set('user', ['first_name' => $user->first_name, 'id' => $user->id]);
+                app()->path->redirect('/admin');
             } else {
                 echo $this->render('auth.login', ['error' => 'Пароль или логин неверный!']);
             }

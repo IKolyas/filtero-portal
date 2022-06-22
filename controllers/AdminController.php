@@ -7,6 +7,7 @@ use app\models\ActivityType;
 use app\models\Institute;
 use app\models\User;
 
+
 class AdminController extends AbstractController
 {
     protected string $defaultAction = 'activities';

@@ -65,6 +65,7 @@ body {
   }
 #spinner {
     align-self: center;
+    display: none;
 }
 
 /*table {*/

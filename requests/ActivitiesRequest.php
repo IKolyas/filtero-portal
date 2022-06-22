@@ -26,10 +26,14 @@ class ActivitiesRequest extends Request
 
         $params = explode('&', $request);
 
+        if (empty($params)) return [];
+
         foreach ($params as $param) {
             $parseParam = explode('=', $param);
             $this->filter[$parseParam[0]] = $parseParam[1];
         }
+
+        if(isset($this->filter['search']) && strlen($this->filter['search']) === 0) unset($this->filter['search']);
 
         return $this->filter;
     }

@@ -44,14 +44,27 @@ class Activity extends Model
         
     }
 
-    protected function search(array $params, int $paginate): array
+    protected function select(array $fields): Activity
     {
-        return $this->repository->search($params, $paginate);
+        $this->repository->select($fields);
+        return $this;
     }
 
-    protected function getPage(int $last, int $paginate): array
+    public function search(array $params, int $paginate): Activity
     {
-        return $this->repository->findPage($last, $paginate);
+        $this->repository->search($params, $paginate);
+        return $this;
+    }
+
+    public function leftJoin(string $table, string $for_key, string $prim_key): Activity
+    {
+        $this->repository->leftJoin($table, $for_key, $prim_key);
+        return $this;
+    }
+
+    public function get(): array
+    {
+        return $this->repository->getQuery($this->repository->query, []);
     }
 
 

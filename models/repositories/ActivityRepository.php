@@ -7,6 +7,8 @@ use app\models\Activity;
 class ActivityRepository extends RepositoryAbstract
 {
 
+    public string $query;
+
     protected array $searchFields = [
         'title',
         'contacts'
@@ -22,13 +24,13 @@ class ActivityRepository extends RepositoryAbstract
         return Activity::class;
     }
 
-    public function findPage(int $last, int $paginate): array
+    public function select(array $fields)
     {
-        $sql = "SELECT * FROM activities LIMIT {$last}, {$paginate}";
-        return $this->getQuery($sql, []);
+        $fields = !empty($fields) ? implode(', ', $fields) : "*";
+        $this->query = "SELECT {$fields} FROM {$this->getTableName()} ";
     }
 
-    public function search(array $params, int $paginate = 100): array
+    public function search(array $params, int $paginate = 100): void
     {
         $offset = 0;
 
@@ -37,28 +39,29 @@ class ActivityRepository extends RepositoryAbstract
             unset($params['offset']);
         }
 
-        $sql = "SELECT * FROM activities ";
-
         if(!empty($this->searchFields) && isset($params['search'])) {
-            $sql .= "WHERE ";
+            $this->query .= "WHERE ";
 
             foreach ($this->searchFields as $key => $field) {
-                $sql .= "{$field} LIKE '%{$params['search']}%' ";
-                if($key !== count($this->searchFields) - 1) $sql .= "OR ";
+                $this->query .= "{$field} LIKE '%{$params['search']}%' ";
+                if($key !== count($this->searchFields) - 1) $this->query .= "OR ";
             }
 
         }
 
         if(isset($params['order_by'])) {
-            $sql .= "ORDER BY {$params['order_by']} ";
+            $this->query .= "ORDER BY {$params['order_by']} ";
         }
 
         if(isset($params['order'])) {
-            $sql .= "{$params['order']}";
+            $this->query .= "{$params['order']}";
         }
 
-        $sql .= " LIMIT {$offset}, {$paginate}";
+        $this->query .= " LIMIT {$offset}, {$paginate}";
+    }
 
-        return $this->getQuery($sql, []);
+    public function leftJoin(string $table, string $for_key, string $prim_key): void
+    {
+        $this->query .= "LEFT JOIN {$table} ON {$prim_key} = {$for_key} ";
     }
 }
