@@ -1,32 +1,35 @@
 <style>
     .order_btn {
-        transition: transform .8s ease-in-out;
+        transition: transform .5s ease-in-out;
     }
     .checked {
         transform: rotate(180deg);
     }
 </style>
-<div class="container d-flex flex-column">
+<div class="container d-flex flex-column mt-4 mb-4">
     <form class=" d-flex justify-content-center align-self-center w-100" role="search">
         <input class="form-control me-2 mw-100 is-input-search" type="search" placeholder="Поиск" aria-label="Search">
-        <button class="btn btn-outline-primary" type="submit">Найти</button>
+{#        <button class="btn btn-outline-primary" type="submit">Найти</button>#}
     </form>
     <div class="d-flex mt-3">
+{#        <div class="dropdown me-2">#}
+{#            <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Тип</button>#}
+{#            <div class="dropdown-menu">#}
+{#                {% for type in types %}#}
+{#                    <a href="#" class="dropdown-item">{{ type.title }}</a>#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#        </div>#}
         <div class="dropdown me-2">
-            <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Тип</button>
-            <div class="dropdown-menu">
-                {% for type in types %}
-                    <a href="#" class="dropdown-item">{{ type.title }}</a>
-                {% endfor %}
-            </div>
+            <select class="btn btn-primary dropdown-toggle js-order-by-fields">
+                <option value="id" selected>Сортировка</option>
+                <option value="title">Название</option>
+                <option value="amount_of_week">Раз в неделю</option>
+                <option value="duration_time">Продолжительность</option>
+                <option value="price">Цена</option>
+            </select>
         </div>
-        <select class="js-order-by-fields">
-            <option value="title">Название</option>
-            <option value="amount_of_week">Раз в неделю</option>
-            <option value="duration_time">Продолжительность</option>
-            <option value="price">Цена</option>
-        </select>
-        
+>>>>>>> 684e4d5df3ddb72cc0b2baff16990c342b698ce0
         <i class="fa-solid fa-arrow-down-short-wide fa-xl text-primary align-self-center js-order-items order_btn" role="button"></i>
     </div>
         {% include 'partials/activities_list.twig' %}
@@ -46,7 +49,7 @@
     const params = {
         offset: 0,
         search: null,
-        order_by: 'title',
+        order_by: 'id',
         order: 'ASC'
     }
 
@@ -131,11 +134,11 @@
     window.onscroll = function() {scrollFunction()};
 
     function scrollFunction() {
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        mybutton.style.display = "block";
-    } else {
-        mybutton.style.display = "none";
-    }
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
     }
 
     function topFunction() {

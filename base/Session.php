@@ -36,18 +36,17 @@ class Session
     }
 
     public function isAuth()
-      {
-            $is_auth = false;
-            $cookie_key = app()->cookie->getCookie('auth');
+    {
+        $is_auth = false;
+        $cookie_key = app()->cookie->getCookie('auth');
 
-            if($cookie_key)
-            {
-                $is_auth = app()->cookie->getUserByCookeiDb($cookie_key);
-            } elseif ($user = app()->session->get('user')) {
-                $is_auth = $user;
-            }
+        if ($cookie_key) {
+            $is_auth = app()->cookie->getUserByCookeiDb($cookie_key);
+        } elseif ($user = $this->get('user')) {
+            $is_auth = $user;
+        }
 
-            return $is_auth;
+        return $is_auth;
 
-      }
+    }
 }

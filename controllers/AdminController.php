@@ -7,6 +7,7 @@ use app\models\ActivityType;
 use app\models\Institute;
 use app\models\User;
 use app\requests\LoginRequest;
+use app\services\ExceptionMessenger;
 
 class AdminController extends AbstractController
 {
@@ -83,6 +84,8 @@ class AdminController extends AbstractController
 
             if (Activity::create(app()->request->post())) {
                 app()->path->redirect('/admin');
+            } else {
+                app()->path->redirect('/exception?type=database&action=create');
             }
         }
     }
