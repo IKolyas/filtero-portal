@@ -14,28 +14,21 @@ class ActivitiesController extends AbstractController
 
     public function actionIndex(): void
     {
-        $query = Activity::select([
-            '
-            activities.id,
-            activities.title,
-            activities.age_from,
-            activities.age_to,
-            activities.amount_of_week,
-            activities.duration_time,
-            activities.price,
-            activities.price_month,
-            activities.contacts,
-            institutes.title as institute_title,
-            activity_types.title as type_title
-           '
-        ])
-            ->leftJoin('institutes', 'institute_id', 'institutes.id')
-            ->leftJoin('activity_types', 'activity_type_id', 'activity_types.id');
+        $query = Activity::getActivitiesIndex([]);
+
 
         if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 
             $request = new ActivitiesRequest();
-            $activities = $query->search($request->filter(), self::PAGINATE)->get();
+
+            extract($request->filter());
+
+            $activities = $query->search($search ?? '')
+                ->orderBy($order_by)
+                ->order($order)
+                ->paginate($offset, self::PAGINATE)
+                ->get();
+
             $this->getActivitiesFields($activities);
 
             $html_mobile = '';
@@ -52,7 +45,7 @@ class ActivitiesController extends AbstractController
             return;
         }
 
-        $activities = $query->search([], self::PAGINATE)->get();
+        $activities = $query->paginate(0,self::PAGINATE)->get();
         $this->getActivitiesFields($activities);
 
 
