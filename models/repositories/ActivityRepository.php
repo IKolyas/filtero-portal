@@ -10,8 +10,10 @@ class ActivityRepository extends RepositoryAbstract
     public string $query;
 
     protected array $searchFields = [
-        'title',
-        'contacts'
+        'activities.title',
+        'institutes.title',
+        'activity_types.title',
+        'activities.contacts',
     ];
 
     public function getTableName(): string

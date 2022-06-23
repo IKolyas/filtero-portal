@@ -36,7 +36,6 @@ class ActivitiesController extends AbstractController
 
             $request = new ActivitiesRequest();
             $activities = $query->search($request->filter(), self::PAGINATE)->get();
-
             $this->getActivitiesFields($activities);
 
             $html_mobile = '';
