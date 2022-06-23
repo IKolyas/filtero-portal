@@ -28,7 +28,7 @@
             </select>
         </div>
         <div class="mb-3 col-2">
-            <label for="age_from" class="form-label">Возраст с</label>
+            <label for="age_from" class="form-label">Возраст от</label>
             <input type="number" class="form-control js-types-input" id="age_from" name="age_from" aria-describedby="emailHelp">
         </div>
         <div class="mb-3 col-2">
@@ -36,19 +36,19 @@
             <input type="number" class="form-control js-types-input" id="age_to" name="age_to" aria-describedby="emailHelp">
         </div>
         <div class="mb-3 col-2">
-            <label for="amount_of_week" class="form-label">Раз в неделю</label>
+            <label for="amount_of_week" class="form-label">Частота</label>
             <input type="number" class="form-control js-types-input" id="amount_of_week" name="amount_of_week" aria-describedby="emailHelp">
         </div>
         <div class="mb-3 col-2">
-            <label for="duration_time" class="form-label">Продолжительность</label>
+            <label for="duration_time" class="form-label">Длительность</label>
             <input type="number" class="form-control js-types-input" id="duration_time" name="duration_time" aria-describedby="emailHelp">
         </div>
         <div class="mb-3 col-2">
-            <label for="price" class="form-label">Цена</label>
+            <label for="price" class="form-label">Стоимость за занятие</label>
             <input type="number" class="form-control js-types-input" id="price" name="price" aria-describedby="emailHelp">
         </div>
         <div class="mb-3 col-2">
-            <label for="price_month" class="form-label">Цена за месяц</label>
+            <label for="price_month" class="form-label">Стоимость за месяц</label>
             <input type="number" class="form-control js-types-input" id="price_month" name="price_month" aria-describedby="emailHelp">
         </div>
         <div class="mb-3 col-9">
@@ -60,6 +60,6 @@
             <button class="btn btn-secondary mx-3 js-button-clear">Очистить</button>
             <button type="submit" class="btn btn-primary js-button-submit" onclick="return confirm('Вы уверенны что хотите сохранить?')">Добавить</button>
         </div>
-        <p class="h5 text-success js-types-notification">Идет редактирование "типа активности": </p>
+        <div class="js-types-notification"></div>
     </form>
 </div>
