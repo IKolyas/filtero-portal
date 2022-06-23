@@ -34,13 +34,20 @@ class ActivityRepository extends RepositoryAbstract
 
     public function search(string $search): void
     {
+        $search = preg_replace('/\s+/', " ", urldecode($search));
+        $search = str_replace(" ", "|", $search);
         if(!empty($this->searchFields) && strlen($search) > 0) {
             $this->query .= "WHERE ";
 
             foreach ($this->searchFields as $key => $field) {
-                $this->query .= "{$field} LIKE '%{$search}%' ";
+                $this->query .= "{$field} REGEXP '({$search})'";
                 if($key !== count($this->searchFields) - 1) $this->query .= "OR ";
             }
+            /*foreach ($this->searchFields as $key => $field) {
+                $this->query .= "{$field} LIKE '%{$search}%' ";
+                if($key !== count($this->searchFields) - 1) $this->query .= "OR ";
+            }*/
+            
         }
     }
 
@@ -61,6 +68,7 @@ class ActivityRepository extends RepositoryAbstract
     public function paginate(int $offset, int $paginate): void
     {
         $this->query .= " LIMIT {$offset}, {$paginate}";
+       
     }
 
     public function leftJoin(string $table, string $for_key, string $prim_key): void

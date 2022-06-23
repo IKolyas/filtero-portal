@@ -16,8 +16,7 @@ class ActivitiesController extends AbstractController
     {
         $query = Activity::getActivitiesIndex([]);
 
-
-        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        if(Activity::isAjax()) {
 
             $request = new ActivitiesRequest();
 
@@ -29,16 +28,13 @@ class ActivitiesController extends AbstractController
                 ->paginate($offset, self::PAGINATE)
                 ->get();
 
-            $this->getActivitiesFields($activities);
+            Activity::getActivitiesFields($activities);
 
             $html_mobile = '';
             $html = '';
 
-            foreach ($activities as $activity) {
-                $this->useMainTemplate = false;
-                $html_mobile .= $this->render('activities.item_mobile', compact('activity'));
-                $html .= $this->render('activities.item', compact('activity'));
-            }
+            $html = Activity::renderMain($activities, $this);
+            $html_mobile = Activity::renderMobile($activities, $this);
 
             header('Content-Type: application/json');
             echo json_encode(compact('html', 'html_mobile'));
@@ -46,18 +42,10 @@ class ActivitiesController extends AbstractController
         }
 
         $activities = $query->paginate(0,self::PAGINATE)->get();
-        $this->getActivitiesFields($activities);
-
+        Activity::getActivitiesFields($activities);
 
         echo $this->render('activities.index', compact('activities'));
     }
 
-    private function getActivitiesFields(&$activities): void
-    {
-        foreach ($activities as $activity) {
-            $activity->age = $activity->getAgeRange();
-            $activity->amountOfWeek = $activity->getAmountOfWeek();
-        }
-    }
 
 }

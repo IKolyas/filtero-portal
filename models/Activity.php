@@ -28,7 +28,7 @@ class Activity extends Model
 
     public function getAgeRange(): string
     {
-        return "$this->age_from - $this->age_to лет";
+        return "{$this->age_from} - {$this->age_to} лет";
     }
 
     public function getAmountOfWeek(): string
@@ -42,6 +42,17 @@ class Activity extends Model
             return "$this->amount_of_week раза";
         }
         
+    }
+
+    protected function getActivitiesFields(&$activities): Activity
+    {
+        foreach ($activities as $activity) {
+            $activity->age = $activity->getAgeRange();
+            $activity->amountOfWeek = $activity->getAmountOfWeek();
+            $activity->priceFormated = $activity->convertToMoneyFormat($activity->price);
+            $activity->priceMonthFormated = $activity->convertToMoneyFormat($activity->price_month);
+        }
+        return $this;
     }
 
     public function select(array $fields): Activity
@@ -108,5 +119,43 @@ class Activity extends Model
         ;
 
         return $this;
+    }
+
+    public function renderMain($activities, &$controller): string
+    {
+        $html = '';
+        foreach ($activities as $activity) {
+            $controller->useMainTemplate = false;
+            $html .= $controller->render('activities.item', compact('activity'));
+        }
+        return $html;
+    }
+
+    public function renderMobile($activities, &$controller): string
+    {
+        $html_mobile = '';
+        foreach ($activities as $activity) {
+            $controller->useMainTemplate = false;
+            $html_mobile .= $controller->render('activities.item_mobile', compact('activity'));
+        }
+        return $html_mobile;
+    }
+
+    public function isAjax(): bool 
+    {
+        return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
+    }
+
+    public function convertToMoneyFormat($price): string
+    {
+        if ($price * 100 % 100 > 0) 
+        {
+            return number_format($price, 2, '.', ' ');
+        }
+        else 
+        {
+            return substr(number_format($price, 2, '.', ' '), 0, -3);
+        }
+        
     }
 }

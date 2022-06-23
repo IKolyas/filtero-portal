@@ -64,35 +64,40 @@
         } else {
             params.order = 'ASC';
         }
+        params.offset = 0;
         e.target.classList.toggle("checked")
         loadMoreData(params, true);
     })
 
     search.addEventListener('input', (e) => {
+        params.offset = 0;
         if(e.target.value.length >= 3) {
-            params.offset = 1;
             params.search = search.value
             loadMoreData(params, true);
         } else {
-            params.offset = 0;
             params.search = null
             loadMoreData(params, true);
         }
     })
 
     orderBy.addEventListener('change', (e) => {
+        params.offset = 0;
         params.order_by = e.target.value;
         loadMoreData(params, true);
     })
 
-    /*$(window).scroll(function () {
+   
+
+    $(window).scroll(function () {
+
+        
         if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
             params.offset = document.querySelectorAll('.activity_card').length;
             loadMoreData(params);
         }
-    });*/
+    });
 
-    $(window).scroll(function () {
+    /*$(window).scroll(function () {
         var d = document.documentElement;
         var offset = d.scrollTop + window.innerHeight;
         var height = d.offsetHeight;
@@ -100,7 +105,7 @@
             params.offset = document.querySelectorAll('.activity_card').length;
             loadMoreData(params);
         }
-    });
+    });*/
 
     let cardListMobile = document.querySelector('.card_list')
     let cardList = document.querySelector('.activity_list_rows')
