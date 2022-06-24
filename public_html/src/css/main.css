@@ -52,16 +52,35 @@ body {
     height: 64px;
     display: none; /* Hidden by default */
     position: fixed; /* Fixed/sticky position */
-    bottom: 25px; /* Place the button at the bottom of the page */
-    right: 16px; /* Place the button 30px from the right */
+    bottom: 30px; /* Place the button at the bottom of the page */
+    right: 30px; /* Place the button 30px from the right */
     z-index: 999; /* Make sure it does not overlap */
     color: white; /* Text color */
     cursor: pointer; /* Add a mouse pointer on hover */
     font-size: 18px; /* Increase font size */
   }
 #spinner {
-    align-self: center;
     display: none;
+    top: 50%;
+    align-self: center;
+    position: fixed;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    display: none;
+    /*background-color: white;
+    opacity: 0.5;
+    /*width: 100%;
+    height: 100%;*/
+    align-items: center;
+    justify-content: center;
+}
+
+.spinner_circle {
+    width: 64px;
+    height: 64px;
 }
 
 
