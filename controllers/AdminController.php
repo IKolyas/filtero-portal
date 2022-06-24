@@ -12,8 +12,6 @@ class AdminController extends AbstractController
 {
     protected string $defaultAction = 'activities';
 
-   
-
     const TABS = [
         ['tab' => 'activities', 'title' => 'Активности', 'link' => '/admin/activities', 'is_active' => false],
         ['tab' => 'types', 'title' => 'Типы', 'link' => '/admin/types', 'is_active' => false],
