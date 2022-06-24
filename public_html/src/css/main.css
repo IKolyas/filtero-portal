@@ -18,6 +18,10 @@ header {
     align-items: center;
 }
 
+.icons {
+    width: 38px;
+}
+
 body {
     background-color: #eeeeee;
 }
@@ -78,6 +82,7 @@ body {
     width: 64px;
     height: 64px;
 }
+
 
 /*table {*/
 

@@ -6,8 +6,7 @@ use app\models\Activity;
 use app\models\ActivityType;
 use app\models\Institute;
 use app\models\User;
-use app\requests\LoginRequest;
-use app\services\ExceptionMessenger;
+
 
 use app\requests\admin\UserRequest;
 use app\requests\admin\InstitutesRequest;
@@ -86,6 +85,7 @@ class AdminController extends AbstractController
     public function actionCreateActivity()
     {
         if (app()->request->isPost()) {
+
             $activitiesRequest = new ActivitiesRequest();
             
             if($fields = $activitiesRequest->validate()) {
@@ -93,31 +93,18 @@ class AdminController extends AbstractController
                 if (Activity::create($fields)) {
                     app()->path->redirect('/admin/activities');
                 }
-            } else {
-                $activities = Activity::findAll();
-                $user = User::findAll()[0];
-                foreach ($activities as $activity) {
-                    $activity->age = $activity->getAgeRange();
-                    $activity->institute = Institute::find($activity->institute_id)->title;
-                    $activity->institute_id = Institute::find($activity->institute_id)->id;
-                    $activity->type = ActivityType::find($activity->activity_type_id)->title;
-                    $activity->type_id = ActivityType::find($activity->activity_type_id)->id;
-                }
-                $institutes = Institute::findAll();
-                $types = ActivityType::findAll();
-
-                $tabs = $this->tabActivate('activities');
-                
-                $errorsFields = $activitiesRequest->errors();
-                $oldFields = $activitiesRequest->post();
-
-                echo $this->render('admin.index', compact('activities', 'user', 'institutes', 'types', 'tabs', 'errorsFields', 'oldFields'));
             }
+
+
         }
+
+         
     }
+    
 
     public function actionCreateInstitutes()
     {
+
         if (app()->request->isPost()) {
             $institutesRequest = new InstitutesRequest();
             
@@ -126,17 +113,12 @@ class AdminController extends AbstractController
                 if (Institute::create($fields)) {
                     app()->path->redirect('/admin/institutes');
                 }
-            } else {
-                $institutes = Institute::findAll();
-                $tabs = $this->tabActivate('institutes');
-                
-                $errorsFields = $institutesRequest->errors();
-                $oldFields = $institutesRequest->post();
-
-                echo $this->render('admin.index', compact('institutes', 'tabs', 'errorsFields', 'oldFields'));
-            }
+            } 
         }
+        
+
     }
+    
 
     public function actionCreateTypes()
     {
@@ -148,21 +130,16 @@ class AdminController extends AbstractController
                 if (ActivityType::create($fields)) {
                     app()->path->redirect('/admin/types');
                 }
-            } else {
-                $types = ActivityType::findAll();
-                $tabs = $this->tabActivate('types');
-                
-                $errorsFields = $typesRequest->errors();
-                $oldFields = $typesRequest->post();
+            } 
 
-                echo $this->render('admin.index', compact('types', 'tabs', 'errorsFields', 'oldFields'));
-            }
+
         }
     }
     
     public function actionCreateUser()
     {
         if (app()->request->isPost()) {
+
             $userRequest = new UserRequest();
             
             if($fields = $userRequest->validate()) {
@@ -180,41 +157,43 @@ class AdminController extends AbstractController
                 echo $this->render('admin.index', compact('user', 'tabs', 'errorsFields', 'oldFields'));
             }
         }
+
     }
+
 
     public function actionDeleteActivity()
     {
         if (app()->request->isGet()) {
-            if (Activity::delete(app()->request->getParams())) {
-                app()->path->redirect('/admin');
-            }
+            Activity::delete(app()->request->getParams());
+            app()->path->redirect('/admin');
+            
         }
     }
     
     public function actionDeleteInstitutes()
     {
         if (app()->request->isGet()) {
-            if (Institute::delete(app()->request->getParams())) {
-                app()->path->redirect('/admin/institutes');
-            }
+            Institute::delete(app()->request->getParams());
+            app()->path->redirect('/admin/institutes');
+            
         }
     }
 
     public function actionDeleteTypes()
     {
         if (app()->request->isGet()) {
-            if (ActivityType::delete(app()->request->getParams())) {
-                app()->path->redirect('/admin/types');
-            }
+            ActivityType::delete(app()->request->getParams());
+            app()->path->redirect('/admin/types'); 
+            
         }
     }
     
     public function actionDeleteUser()
     {
         if (app()->request->isGet()) {
-            if (User::delete(app()->request->getParams())) {
-                app()->path->redirect('/admin/users');
-            }
+            User::delete(app()->request->getParams());
+            app()->path->redirect('/admin/users');
+            
         }
     }
 
@@ -231,25 +210,6 @@ class AdminController extends AbstractController
                         app()->path->redirect('/admin');
                     }
                 }
-            } else {
-                $activities = Activity::findAll();
-                $user = User::findAll()[0];
-                foreach ($activities as $activity) {
-                    $activity->age = $activity->getAgeRange();
-                    $activity->institute = Institute::find($activity->institute_id)->title;
-                    $activity->institute_id = Institute::find($activity->institute_id)->id;
-                    $activity->type = ActivityType::find($activity->activity_type_id)->title;
-                    $activity->type_id = ActivityType::find($activity->activity_type_id)->id;
-                }
-                $institutes = Institute::findAll();
-                $types = ActivityType::findAll();
-
-                $tabs = $this->tabActivate('activities');
-                
-                $errorsFields = $activitiesRequest->errors();
-                $oldFields = $activitiesRequest->post();
-
-                echo $this->render('admin.index', compact('activities', 'user', 'institutes', 'types', 'tabs', 'errorsFields', 'oldFields'));
             }
         }
     }
@@ -267,15 +227,8 @@ class AdminController extends AbstractController
                         app()->path->redirect('/admin/institutes');
                     }
                 }
-            } else {
-                $institutes = Institute::findAll();
-                $tabs = $this->tabActivate('institutes');
-                
-                $errorsFields = $institutesRequest->errors();
-                $oldFields = $institutesRequest->post();
-
-                echo $this->render('admin.index', compact('institutes', 'tabs', 'errorsFields', 'oldFields'));
-            }
+            } 
+            
         }
     }
 
@@ -285,6 +238,7 @@ class AdminController extends AbstractController
             $typesRequest = new TypesRequest();
             $fields = $typesRequest->validate();
             
+
             if($fields) {
                 $institutes = ActivityType::find($fields['id']);
                 if($institutes) {
@@ -292,20 +246,14 @@ class AdminController extends AbstractController
                         app()->path->redirect('/admin/types');
                     }
                 }
-            } else {
-                $types = ActivityType::findAll();
-                $tabs = $this->tabActivate('types');
-                
-                $errorsFields = $typesRequest->errors();
-                $oldFields = $typesRequest->post();
-
-                echo $this->render('admin.index', compact('types', 'tabs', 'errorsFields', 'oldFields'));
-            }
+            } 
+            
         }
     }
 
     public function actionUpdateUser()
     {
+
         if (app()->request->isPost()) {
             $userRequest = new UserRequest();
             $fields = $userRequest->validate();
@@ -317,15 +265,8 @@ class AdminController extends AbstractController
                         app()->path->redirect('/admin/users');
                     }
                 }
-            } else {
-                $user = User::findAll();
-                $tabs = $this->tabActivate('users');
-                
-                $errorsFields = $userRequest->errors();
-                $oldFields = $userRequest->post();
-
-                echo $this->render('admin.index', compact('user', 'tabs', 'errorsFields', 'oldFields'));
-            }
+            } 
+            
         }
     }
 
