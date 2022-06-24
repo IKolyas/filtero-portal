@@ -10,7 +10,7 @@ abstract class AbstractController
     protected string $defaultAction = 'index';
     protected string $defaultTemplate = 'main';
     protected string $notFound = '404';
-    public bool $useMainTemplate = true;
+    protected bool $useMainTemplate = true;
     protected string $action;
     protected RendererInterface $renderer;
 
@@ -31,7 +31,7 @@ abstract class AbstractController
         }
     }
 
-    public function render(string $template, array $params = []): string
+    protected function render(string $template, array $params = []): string
     {
         $content = $this->renderer->render($template, $params);
 

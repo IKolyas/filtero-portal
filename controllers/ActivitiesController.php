@@ -32,11 +32,8 @@ class ActivitiesController extends AbstractController
 
             Activity::getActivitiesFields($activities);
 
-            $html_mobile = '';
-            $html = '';
-
-            $html = Activity::renderMain($activities, $this);
-            $html_mobile = Activity::renderMobile($activities, $this);
+            $html = Activity::renderMain($activities);
+            $html_mobile = Activity::renderMobile($activities);
 
             header('Content-Type: application/json');
             echo json_encode(compact('html', 'html_mobile'));
