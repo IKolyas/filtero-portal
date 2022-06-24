@@ -41,9 +41,16 @@ abstract class RepositoryAbstract implements RepositoryInterface
         $columns = [];
 
         foreach ($params as $key => $value) {
-            $paramsList[":{$key}"] = $value;
-            $columns[] = "`{$key}`";
+            if ($key !== 'id') {
+                $paramsList[":{$key}"] = $value;
+                $columns[] = "`{$key}`";
+            }
         }
+
+        // var_dump($paramsList );
+        // echo('<br>');
+        // var_dump($columns );
+        //         die();
 
         $paramsValue = implode(',', array_keys($paramsList));
         $columns = implode(',', $columns);
