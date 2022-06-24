@@ -33,6 +33,18 @@ class AdminController extends AbstractController
 
     public function actionActivities()
     {
+        $sessionInfo = app()->session->get('activity');
+        $errorsFields = [];
+        $oldFields = [];
+
+        if (isset($sessionInfo['errorsFields']) && !empty($sessionInfo['errorsFields'])) {
+            $errorsFields = $sessionInfo['errorsFields'];
+        }
+
+        if (isset($sessionInfo['oldFields']) && !empty($sessionInfo['oldFields'])) {
+            $oldFields = $sessionInfo['oldFields'];
+        }
+
         $activities = Activity::findAll();
 
         $user = User::findAll()[0];
@@ -50,55 +62,99 @@ class AdminController extends AbstractController
         $tabs = $this->tabActivate('activities');
 
 
-        echo $this->render('admin.index', compact('activities', 'user', 'institutes', 'types', 'auth_user', 'tabs'));
+        echo $this->render('admin.index', compact('activities', 'user', 'institutes', 'types', 'auth_user', 'tabs', 'errorsFields', 'oldFields'));
 
+        app()->session->delete('activity');
     }
 
     public function actionTypes()
     {
+        $sessionInfo = app()->session->get('types');
+        $errorsFields = [];
+        $oldFields = [];
+
+        if (isset($sessionInfo['errorsFields']) && !empty($sessionInfo['errorsFields'])) {
+            $errorsFields = $sessionInfo['errorsFields'];
+        }
+
+        if (isset($sessionInfo['oldFields']) && !empty($sessionInfo['oldFields'])) {
+            $oldFields = $sessionInfo['oldFields'];
+        }
+
         $types = ActivityType::findAll();
 
         $tabs = $this->tabActivate('types');
 
-        echo $this->render('admin.index', compact('types', 'tabs'));
+        echo $this->render('admin.index', compact('types', 'tabs', 'errorsFields', 'oldFields'));
+
+        app()->session->delete('types');
     }
 
     public function actionInstitutes()
     {
+        $sessionInfo = app()->session->get('institutes');
+        $errorsFields = [];
+        $oldFields = [];
+
+        if (isset($sessionInfo['errorsFields']) && !empty($sessionInfo['errorsFields'])) {
+            $errorsFields = $sessionInfo['errorsFields'];
+        }
+
+        if (isset($sessionInfo['oldFields']) && !empty($sessionInfo['oldFields'])) {
+            $oldFields = $sessionInfo['oldFields'];
+        }
+
         $institutes = Institute::findAll();
 
         $tabs = $this->tabActivate('institutes');
 
-        echo $this->render('admin.index', compact('institutes','tabs'));
+        echo $this->render('admin.index', compact('institutes','tabs', 'errorsFields', 'oldFields'));
+
+        app()->session->delete('institutes');
     }
 
     public function actionUsers()
     {
+        $sessionInfo = app()->session->get('users');
+        $errorsFields = [];
+        $oldFields = [];
+
+        if (isset($sessionInfo['errorsFields']) && !empty($sessionInfo['errorsFields'])) {
+            $errorsFields = $sessionInfo['errorsFields'];
+        }
+
+        if (isset($sessionInfo['oldFields']) && !empty($sessionInfo['oldFields'])) {
+            $oldFields = $sessionInfo['oldFields'];
+        }
+
         $user = User::findAll();
 
         $tabs = $this->tabActivate('users');
         
-        echo $this->render('admin.index', compact('user', 'tabs'));
+        echo $this->render('admin.index', compact('user', 'tabs', 'errorsFields', 'oldFields'));
 
+        app()->session->delete('users');
     }
 
     public function actionCreateActivity()
     {
-        if (app()->request->isPost()) {
 
+
+        if (app()->request->isPost()) {
             $activitiesRequest = new ActivitiesRequest();
-            
+
             if($fields = $activitiesRequest->validate()) {
-                                
                 if (Activity::create($fields)) {
                     app()->path->redirect('/admin/activities');
                 }
+            } elseif ($errors = $activitiesRequest->errors()) {
+                $info = [];
+                $info['errorsFields'] = $errors;
+                $info['oldFields'] = $activitiesRequest->post();
+                app()->session->set("activity", $info);
+                app()->path->redirect('/admin/activities');
             }
-
-
         }
-
-         
     }
     
 
@@ -113,12 +169,15 @@ class AdminController extends AbstractController
                 if (Institute::create($fields)) {
                     app()->path->redirect('/admin/institutes');
                 }
-            } 
+            } elseif ($errors = $institutesRequest->errors()) {
+                $info = [];
+                $info['errorsFields'] = $errors;
+                $info['oldFields'] = $institutesRequest->post();
+                app()->session->set("institutes", $info);
+                app()->path->redirect('/admin/institutes');
+            }
         }
-        
-
     }
-    
 
     public function actionCreateTypes()
     {
@@ -126,13 +185,16 @@ class AdminController extends AbstractController
             $typesRequest = new TypesRequest();
             
             if($fields = $typesRequest->validate()) {
-                                
                 if (ActivityType::create($fields)) {
                     app()->path->redirect('/admin/types');
                 }
-            } 
-
-
+            } elseif ($errors = $typesRequest->errors()) {
+                $info = [];
+                $info['errorsFields'] = $errors;
+                $info['oldFields'] = $typesRequest->post();
+                app()->session->set("types", $info);
+                app()->path->redirect('/admin/types');
+            }
         }
     }
     
@@ -147,14 +209,12 @@ class AdminController extends AbstractController
                 if (User::create($fields)) {
                     app()->path->redirect('/admin/users');
                 }
-            } else {
-                $user = User::findAll();
-                $tabs = $this->tabActivate('users');
-                
-                $errorsFields = $userRequest->errors();
-                $oldFields = $userRequest->post();
-
-                echo $this->render('admin.index', compact('user', 'tabs', 'errorsFields', 'oldFields'));
+            } elseif ($errors = $userRequest->errors()) {
+                $info = [];
+                $info['errorsFields'] = $errors;
+                $info['oldFields'] = $userRequest->post();
+                app()->session->set("users", $info);
+                app()->path->redirect('/admin/users');
             }
         }
 
@@ -166,7 +226,6 @@ class AdminController extends AbstractController
         if (app()->request->isGet()) {
             Activity::delete(app()->request->getParams());
             app()->path->redirect('/admin');
-            
         }
     }
     
@@ -210,6 +269,12 @@ class AdminController extends AbstractController
                         app()->path->redirect('/admin');
                     }
                 }
+            } elseif ($errors = $activitiesRequest->errors()) {
+                $info = [];
+                $info['errorsFields'] = $errors;
+                $info['oldFields'] = $activitiesRequest->post();
+                app()->session->set("activity", $info);
+                app()->path->redirect('/admin/activities');
             }
         }
     }
@@ -227,7 +292,13 @@ class AdminController extends AbstractController
                         app()->path->redirect('/admin/institutes');
                     }
                 }
-            } 
+            } elseif ($errors = $institutesRequest->errors()) {
+                $info = [];
+                $info['errorsFields'] = $errors;
+                $info['oldFields'] = $institutesRequest->post();
+                app()->session->set("institutes", $info);
+                app()->path->redirect('/admin/institutes');
+            }
             
         }
     }
@@ -246,7 +317,13 @@ class AdminController extends AbstractController
                         app()->path->redirect('/admin/types');
                     }
                 }
-            } 
+            } elseif ($errors = $typesRequest->errors()) {
+                $info = [];
+                $info['errorsFields'] = $errors;
+                $info['oldFields'] = $typesRequest->post();
+                app()->session->set("types", $info);
+                app()->path->redirect('/admin/types');
+            }
             
         }
     }
@@ -265,7 +342,13 @@ class AdminController extends AbstractController
                         app()->path->redirect('/admin/users');
                     }
                 }
-            } 
+            } elseif ($errors = $userRequest->errors()) {
+                $info = [];
+                $info['errorsFields'] = $errors;
+                $info['oldFields'] = $userRequest->post();
+                app()->session->set("users", $info);
+                app()->path->redirect('/admin/users');
+            }
             
         }
     }

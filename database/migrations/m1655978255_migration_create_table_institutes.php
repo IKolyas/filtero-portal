@@ -12,7 +12,7 @@ class m1655978255_migration_create_table_institutes extends AbstractMigration
         $row = "
         CREATE TABLE IF NOT EXISTS `institutes` (
             `id` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-            `title` VARCHAR(255) NOT NULL
+            `title` VARCHAR(255) NOT NULL UNIQUE
         );
         ";
 
