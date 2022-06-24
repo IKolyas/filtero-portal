@@ -32,15 +32,34 @@ class ActivityRepository extends RepositoryAbstract
         $this->query = "SELECT {$fields} FROM {$this->getTableName()} ";
     }
 
+    public function type(string $type): void
+    {
+        if($type) {
+            if($type !== "default") {
+                $this->query .= "WHERE activity_types.title = '{$type}' ";
+            }
+        }
+    }
+
     public function search(string $search): void
     {
         if(!empty($this->searchFields) && strlen($search) > 0) {
-            $this->query .= "WHERE ";
+            if (strpos($this->query, "WHERE") !== false) {
+                $this->query .= "AND ";
+            }
+            else{
+                $this->query .= "WHERE ";
+            }
 
             foreach ($this->searchFields as $key => $field) {
-                $this->query .= "{$field} LIKE '%{$search}%' ";
+                $this->query .= "{$field} REGEXP '({$search})' ";
                 if($key !== count($this->searchFields) - 1) $this->query .= "OR ";
             }
+            /*foreach ($this->searchFields as $key => $field) {
+                $this->query .= "{$field} LIKE '%{$search}%' ";
+                if($key !== count($this->searchFields) - 1) $this->query .= "OR ";
+            }*/
+            
         }
     }
 
