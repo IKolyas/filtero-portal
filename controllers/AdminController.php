@@ -81,41 +81,30 @@ class AdminController extends AbstractController
 
         if (app()->request->isPost()) {
 
-            if (Activity::create(app()->request->post())) {
-                app()->path->redirect('/admin');
-            } else {
-
-                $exception = $this->messenger->sendMessage('database', 'create');
-                echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
-                // app()->path->redirect('/exception?type=database&action=create');
-            }
-        }
+            Activity::create(app()->request->post());
+            app()->path->redirect('/admin');
+        } 
     }
+    
 
     public function actionCreateInstitutes()
     {
-
+        
         if (app()->request->isPost()) {
-            if (Institute::create(app()->request->post())) {
-                app()->path->redirect('/admin/institutes');
-            } else {
+            
+            Institute::create(app()->request->post());
+            app()->path->redirect('/admin/institutes');
 
-                $exception = $this->messenger->sendMessage('database', 'create');
-                echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
-            }
         }
     }
+    
 
     public function actionCreateTypes()
     {
         if (app()->request->isPost()) {
-            if (ActivityType::create(app()->request->post())) {
-                app()->path->redirect('/admin/types');
-            } else {
-
-                $exception = $this->messenger->sendMessage('database', 'create');
-                echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
-            }
+            ActivityType::create(app()->request->post());
+            app()->path->redirect('/admin/types');
+            
         }
     }
 
@@ -123,66 +112,45 @@ class AdminController extends AbstractController
     {
 
         if (app()->request->isPost()) {
-            if (User::create(app()->request->post())) {
+            User::create(app()->request->post());
                 app()->path->redirect('/admin/users');
-            } else {
-
-                $exception = $this->messenger->sendMessage('database', 'create');
-                echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
-            }
-        }
+        } 
     }
+
 
     public function actionDeleteActivity()
     {
         if (app()->request->isGet()) {
-            if (Activity::delete(app()->request->getParams())) {
-                app()->path->redirect('/admin');
-            } else {
-
-                $exception = $this->messenger->sendMessage('database', 'delete');
-                echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
-            }
+            Activity::delete(app()->request->getParams());
+            app()->path->redirect('/admin');
+            
         }
     }
     
     public function actionDeleteInstitutes()
     {
         if (app()->request->isGet()) {
-            if (Institute::delete(app()->request->getParams())) {
-                app()->path->redirect('/admin/institutes');
-            } else {
-
-                $exception = $this->messenger->sendMessage('database', 'delete');
-
-                echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
-            }
+            Institute::delete(app()->request->getParams());
+            app()->path->redirect('/admin/institutes');
+            
         }
     }
 
     public function actionDeleteTypes()
     {
         if (app()->request->isGet()) {
-            if (ActivityType::delete(app()->request->getParams())) {
-                app()->path->redirect('/admin/types');
-            } else {
-
-                $exception = $this->messenger->sendMessage('database', 'delete');
-                echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
-            }
+            ActivityType::delete(app()->request->getParams());
+            app()->path->redirect('/admin/types'); 
+            
         }
     }
     
     public function actionDeleteUser()
     {
         if (app()->request->isGet()) {
-            if (User::delete(app()->request->getParams())) {
-                app()->path->redirect('/admin/users');
-            } else {
-
-                $exception = $this->messenger->sendMessage('database', 'delete');
-                echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
-            }
+            User::delete(app()->request->getParams());
+            app()->path->redirect('/admin/users');
+            
         }
     }
 
@@ -192,13 +160,8 @@ class AdminController extends AbstractController
             $request = app()->request->post();
             $type_id = Activity::find($request['id']);
             if($type_id) {
-                if (Activity::update($request)) {
-                    app()->path->redirect('/admin');
-                } else {
-
-                    $exception = $this->messenger->sendMessage('database', 'update');
-                    echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
-                }
+                Activity::update($request);
+                app()->path->redirect('/admin');  
             }
         }
     }
@@ -210,13 +173,8 @@ class AdminController extends AbstractController
             $type_id = Institute::find($request['id']);
             
             if($type_id) {
-                if (Institute::update($request)) {
-                    app()->path->redirect('/admin/institutes');
-                } else {
-
-                    $exception = $this->messenger->sendMessage('database', 'update');
-                    echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
-                }
+                Institute::update($request);
+                app()->path->redirect('/admin/institutes');
             }
         }
     }
@@ -228,13 +186,8 @@ class AdminController extends AbstractController
             $type_id = ActivityType::find($request['id']);
             
             if($type_id) {
-                if (ActivityType::update($request)) {
-                    app()->path->redirect('/admin/types');
-                } else {
-                    
-                    $exception = $this->messenger->sendMessage('database', 'update');
-                    echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
-                }
+                ActivityType::update($request);
+                app()->path->redirect('/admin/types');
             }
         }
     }
@@ -244,13 +197,8 @@ class AdminController extends AbstractController
         if ($request) {
             $user = User::find($request['id']);
             if($user) {
-                if (User::update($request)) {
-                    app()->path->redirect('/admin/users');
-                } else {
-
-                    $exception = $this->messenger->sendMessage('database', 'update');
-                    echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
-                }
+                User::update($request);
+                app()->path->redirect('/admin/users');
             }
         }
     }

@@ -33,11 +33,18 @@ class MigrationService
     {
         $migrationName = "m" . time() . "_" . "migration_" . $migrationName;
         $fileName = $migrationName . ".php";
+        $is_create = false;
+
         if (file_put_contents($this->migrations_path . $fileName, $this->migrationGenerateContent($migrationName))) {
-           
+            $is_create = true;
             print_r("Миграция $fileName успешно создана! \n");
-        } else {
-           print_r(implode($this->messenger->sendMessage('migration', 'create')), $fileName);
+
+        } 
+        if (!$is_create) {
+            $exception = $this->messenger->sendMessage('migration', 'create');
+            $type = $exception['type'];
+            $message = $exception['message'];
+            print_r("{$type}: {$message} - {$fileName} . \n");
         }
         
     }
@@ -48,23 +55,32 @@ class MigrationService
         $filePath = $this->migrations_path . $fileName;
 
         $dirScan = scandir($this->migrations_path);
+        $is_delete = false;
 
         if ($dirScan) {
-
+            
             foreach ($dirScan as $file) {
                 if (basename($file) == $migrationName) {
                     unlink($filePath);
+                    $is_delete = true;
                     print_r("Миграция $migrationName успешно удалена! \n");
+                    break;
                 } 
             }  
-        } else {
-            print_r(implode($this->messenger->sendMessage('migration', 'drop')), $migrationName);
+        }
+        
+        if(!$is_delete) {
+            $exception = $this->messenger->sendMessage('migration', 'drop');
+            $type = $exception['type'];
+            $message = $exception['message'];
+            print_r("{$type}: {$message} - {$migrationName} . \n");
         }
 
     }
 
     private function up(string $migrationName): bool
     {
+        $is_up = false;
         $params = explode(':', $migrationName);
         if ($params[0] === '-all') {
             $count = isset($params[1]) ? (int) $params[1] : 0;
@@ -72,9 +88,14 @@ class MigrationService
         }
         if ($migration = $this->getMigrationClass($migrationName)) {
             $migration->up();
+            $is_up = true;
             print_r("Success UP $migrationName! \n");
-        } else {
-            print_r(implode($this->messenger->sendMessage('migration', 'up')), $migrationName);
+        } 
+        if (!$is_up) {
+            $exception = $this->messenger->sendMessage('migration', 'up');
+            $type = $exception['type'];
+            $message = $exception['message'];
+            print_r("{$type}: {$message} - {$migrationName} . \n");
         }
 
         return true;
@@ -85,22 +106,30 @@ class MigrationService
         $searchMigrations = $this->searchMigrations();
         $this->sortMigrations($searchMigrations);
         $searchMigrations = $this->migrationSliceOffset($count, $searchMigrations);
+        $is_upAll = false;
 
         foreach ($searchMigrations as $migration) {
+
             if ($migrationClass = $this->createMigrationClass($migration)) {
                 $migrationClass->up();
+                $is_upAll = true;
                 print_r("Success UP $migration! \n");
-            } else {
-                print_r(implode($this->messenger->sendMessage('migration', 'up')), $migration);
-            }
+            }       
+            if(!$is_upAll) {
+                $exception = $this->messenger->sendMessage('migration', 'up');
+                $type = $exception['type'];
+                $message = $exception['message'];
+                print_r("{$type}: {$message} - {$migration} . \n");
+            }     
         }
-
+        
         return true;
     }
 
     private function down(string $migrationName): bool
     {
         $params = explode(':', $migrationName);
+        $is_down = false;
 
         if ($params[0] === '-all') {
             $count = isset($params[1]) ? (int) $params[1] : 0;
@@ -108,9 +137,14 @@ class MigrationService
         }
         if ($migration = $this->getMigrationClass($migrationName)) {
             $migration->down();
+            $is_down = true;
             print_r("Success DOWN $migrationName! \n");
-        } else {
-            print_r(implode($this->messenger->sendMessage('migration', 'down')), $migrationName);
+        }
+        if (!$is_down) {
+            $exception = $this->messenger->sendMessage('migration', 'up');
+            $type = $exception['type'];
+            $message = $exception['message'];
+            print_r("{$type}: {$message} - {$migrationName} . \n");
         }
 
         return true;
@@ -122,14 +156,21 @@ class MigrationService
         $this->sortMigrations($searchMigrations);
         $searchMigrations = $this->migrationSliceOffset($count, $searchMigrations);
         $searchMigrations = array_reverse($searchMigrations);
+        $is_downAll = false;
 
         foreach ($searchMigrations as $migration) {
             if ($migrationClass = $this->createMigrationClass($migration)) {
                 $migrationClass->down();
+                $is_downAll = true;
                 print_r("Success DOWN $migration! \n");
-            } else {
-                print_r(implode($this->messenger->sendMessage('migration', 'down')), $migration);
             }
+            if(!$is_downAll) {
+                $exception = $this->messenger->sendMessage('migration', 'up');
+                $type = $exception['type'];
+                $message = $exception['message'];
+                print_r("{$type}: {$message} - {$migration} . \n");
+            }     
+
         }
 
         return true;
