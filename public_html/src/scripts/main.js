@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const buttonClear = document.querySelector('.js-button-clear');
         const buttonSubmit = document.querySelector('.js-button-submit');
         const notification = document.querySelector('.js-types-notification');
-
+        
         let startEdit = false;
-
+        
         buttonClear.addEventListener('click', (e) => {
             e.preventDefault();
             if (buttonSubmit.innerHTML == 'Сохранить') {
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (startEdit) {
                 form.action = "/admin/create" + form.action.split("/admin/update")[1];
             }
-
+            
             form.querySelectorAll('input').forEach((e) => {
                 if (e.id === 'password') {
                     e.disabled = false;
@@ -40,9 +40,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
             })
 
-
+            
             startEdit = false;
             notification.innerHTML = '';
+            clearErrorsNotification();
         })
 
         let addDataToChangeInput = (active_row, edit_fields) => {
@@ -80,6 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (btnEdit.length > 0 && formEditFields.length > 0) {
             btnEdit.forEach(btn => {
                 btn.addEventListener('click', e => {
+                    clearErrorsNotification();
                     window.scroll(0, 0);
                     if (buttonSubmit.innerHTML == 'Добавить') {
                         buttonSubmit.innerHTML = 'Сохранить';
@@ -102,6 +104,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     let htmlRow = String(row.outerHTML);
                     notification.innerHTML = htmlStartTable + htmlRow + htmlEndTable;
                 })
+            })
+        }
+    }
+
+    function clearErrorsNotification() {
+        if (document.querySelector('.js-errors-notification')) {
+            const errorsNotification = document.querySelectorAll('.js-errors-notification');
+            errorsNotification.forEach(element => {
+                element.innerHTML = '';
             })
         }
     }

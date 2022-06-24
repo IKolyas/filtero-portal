@@ -47,6 +47,11 @@ abstract class RepositoryAbstract implements RepositoryInterface
             }
         }
 
+        // var_dump($paramsList );
+        // echo('<br>');
+        // var_dump($columns );
+        //         die();
+
         $paramsValue = implode(',', array_keys($paramsList));
         $columns = implode(',', $columns);
 
