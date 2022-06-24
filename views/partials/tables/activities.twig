@@ -20,8 +20,8 @@
             <tr>
                 <th scope="row" data-field="id">{{ activity.id }}</th>
                 <td data-field="title">{{ activity.title }}</td>
-                <td data-field="institute_id" data-target-institute-id="{{ activity.institute_id }}">{{ activity.institute }}</td>
-                <td data-field="activity_type_id" data-target-type-id="{{ activity.type_id }}">{{ activity.type }}</td>
+                <td data-field="institute_id" data-target-institute-id="{{ activity.institute_id }}">{{ activity.institute_title }}</td>
+                <td data-field="activity_type_id" data-target-type-id="{{ activity.type_id }}">{{ activity.type_title }}</td>
                 <td>
                     {{ activity.age }}
                     <div class="d-none" data-field="age_from">{{activity.age_from}}</div>

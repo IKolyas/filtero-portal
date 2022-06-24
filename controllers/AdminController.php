@@ -45,17 +45,22 @@ class AdminController extends AbstractController
             $oldFields = $sessionInfo['oldFields'];
         }
 
-        $activities = Activity::findAll();
+//        $activities = Activity::findAll();
 
         $user = User::findAll()[0];
         $auth_user = app()->session->isAuth();
-        foreach ($activities as $activity) {
-            $activity->age = $activity->getAgeRange();
-            $activity->institute = Institute::find($activity->institute_id)->title;
-            $activity->institute_id = Institute::find($activity->institute_id)->id;
-            $activity->type = ActivityType::find($activity->activity_type_id)->title;
-            $activity->type_id = ActivityType::find($activity->activity_type_id)->id;
-        }
+//        foreach ($activities as $activity) {
+//            $activity->age = $activity->getAgeRange();
+//            $activity->institute = Institute::find($activity->institute_id)->title;
+//            $activity->institute_id = Institute::find($activity->institute_id)->id;
+//            $activity->type = ActivityType::find($activity->activity_type_id)->title;
+//            $activity->type_id = ActivityType::find($activity->activity_type_id)->id;
+//        }
+
+        $activities = Activity::getActivitiesIndex()->get();
+        Activity::getActivitiesFields($activities);
+
+
         $institutes = Institute::findAll();
         $types = ActivityType::findAll();
 
