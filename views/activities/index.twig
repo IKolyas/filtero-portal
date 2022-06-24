@@ -49,7 +49,7 @@
 {#    TODO: использовать fetch. Отказаться от JQ#}
 
     const params = {
-        offset: 0,
+        offset: 1,
         search: null,
         order_by: 'id',
         order: 'ASC'
@@ -73,7 +73,7 @@
 
     search.addEventListener('input', (e) => {
         if(e.target.value.length >= 1) {
-            params.offset = 0;
+            params.offset = 1;
             params.search = search.value
             loadMoreData(params, true);
         }
