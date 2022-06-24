@@ -50,6 +50,10 @@
             <input type="text" class="form-control js-types-input" id="password" name="password"
             {% if oldFields and oldFields.password %}
                 value="{{ oldFields.password }}"
+                disabled
+            {% endif %}
+            {% if errorsFields %}
+                disabled
             {% endif %}
             />
             {% if errorsFields and errorsFields.password %}
