@@ -22,10 +22,6 @@ header {
     width: 38px;
 }
 
-.menu_dowm_animate {
-    transition: transform 4s linear;
-}
-
 body {
     background-color: #eeeeee;
 }

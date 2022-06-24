@@ -5,7 +5,7 @@ namespace app\database\migrations;
 
 use app\database\AbstractMigration as AbstractMigration;
 
-class migration_create_table_activity_types_1654144496 extends AbstractMigration
+class m1655978235_migration_create_table_activity_types extends AbstractMigration
 {
     public function up()
     {
@@ -16,6 +16,7 @@ class migration_create_table_activity_types_1654144496 extends AbstractMigration
         ";
 
         return $this->connection->query($row);
+
     }
 
     public function down()
@@ -26,4 +27,5 @@ class migration_create_table_activity_types_1654144496 extends AbstractMigration
 
         return $this->connection->query($row);
     }
+
 }

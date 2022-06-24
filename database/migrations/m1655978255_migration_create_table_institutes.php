@@ -5,7 +5,7 @@ namespace app\database\migrations;
 
 use app\database\AbstractMigration as AbstractMigration;
 
-class migration_create_table_institutes_1654150942 extends AbstractMigration
+class m1655978255_migration_create_table_institutes extends AbstractMigration
 {
     public function up()
     {
@@ -17,6 +17,7 @@ class migration_create_table_institutes_1654150942 extends AbstractMigration
         ";
 
         return $this->connection->query($row);
+
     }
 
     public function down()
@@ -27,4 +28,5 @@ class migration_create_table_institutes_1654150942 extends AbstractMigration
 
         return $this->connection->query($row);
     }
+
 }

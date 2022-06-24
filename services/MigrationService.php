@@ -3,6 +3,7 @@
 namespace app\services;
 
 use app\database\AbstractMigration;
+use app\services\ExceptionMessenger;
 
 class MigrationService
 {
@@ -10,11 +11,13 @@ class MigrationService
     public string $migrations_path;
     public string $migration_example_path;
     public string $migrationDatePattern = '~(?<!\d)\d{10}(?!\d)~';
+    protected ?ExceptionMessenger $messenger;
 
     public function __construct()
     {
         $this->migrations_path = $_SERVER['PWD'] . "/migrations/" ?? './';
         $this->migration_example_path = $this->migrations_path . "/migration_template.php";
+        $this->messenger = new ExceptionMessenger();
     }
 
     public function __call($name, $arguments)
@@ -28,11 +31,15 @@ class MigrationService
 
     private function create(string $migrationName)
     {
-        $migrationName = "migration_" . $migrationName . "_" . time();
+        $migrationName = "m" . time() . "_" . "migration_" . $migrationName;
         $fileName = $migrationName . ".php";
-        file_put_contents($this->migrations_path . $fileName, $this->migrationGenerateContent($migrationName));
-
-        print_r("Миграция $fileName успешно создана! \n");
+        if (file_put_contents($this->migrations_path . $fileName, $this->migrationGenerateContent($migrationName))) {
+           
+            print_r("Миграция $fileName успешно создана! \n");
+        } else {
+           print_r(implode($this->messenger->sendMessage('migration', 'create')), $fileName);
+        }
+        
     }
 
     private function drop(string $migrationName)
@@ -42,12 +49,18 @@ class MigrationService
 
         $dirScan = scandir($this->migrations_path);
 
-        foreach ($dirScan as $file) {
-            if (basename($file) == $migrationName) {
-                unlink($filePath);
-                print_r("Миграция $migrationName успешно удалена! \n");
-            }
+        if ($dirScan) {
+
+            foreach ($dirScan as $file) {
+                if (basename($file) == $migrationName) {
+                    unlink($filePath);
+                    print_r("Миграция $migrationName успешно удалена! \n");
+                } 
+            }  
+        } else {
+            print_r(implode($this->messenger->sendMessage('migration', 'drop')), $migrationName);
         }
+
     }
 
     private function up(string $migrationName): bool
@@ -60,7 +73,10 @@ class MigrationService
         if ($migration = $this->getMigrationClass($migrationName)) {
             $migration->up();
             print_r("Success UP $migrationName! \n");
+        } else {
+            print_r(implode($this->messenger->sendMessage('migration', 'up')), $migrationName);
         }
+
         return true;
     }
 
@@ -74,6 +90,8 @@ class MigrationService
             if ($migrationClass = $this->createMigrationClass($migration)) {
                 $migrationClass->up();
                 print_r("Success UP $migration! \n");
+            } else {
+                print_r(implode($this->messenger->sendMessage('migration', 'up')), $migration);
             }
         }
 
@@ -91,6 +109,8 @@ class MigrationService
         if ($migration = $this->getMigrationClass($migrationName)) {
             $migration->down();
             print_r("Success DOWN $migrationName! \n");
+        } else {
+            print_r(implode($this->messenger->sendMessage('migration', 'down')), $migrationName);
         }
 
         return true;
@@ -107,6 +127,8 @@ class MigrationService
             if ($migrationClass = $this->createMigrationClass($migration)) {
                 $migrationClass->down();
                 print_r("Success DOWN $migration! \n");
+            } else {
+                print_r(implode($this->messenger->sendMessage('migration', 'down')), $migration);
             }
         }
 
@@ -134,7 +156,9 @@ class MigrationService
     {
         $migrationName = explode('.', $migrationName)[0];
         $class = "app\\database\\migrations\\$migrationName";
-        if ($migration = new $class()) return $migration;
+        if ($migration = new $class()) {
+            return $migration;
+        } 
         return false;
     }
 
@@ -144,13 +168,9 @@ class MigrationService
         return str_replace('MIGRATION_NAME', $migrationName, $example);
     }
 
-    private function sortMigrations(&$dirScan): void
-    {
-        usort($dirScan, function ($file_a, $file_b) {
-            preg_match_all($this->migrationDatePattern, $file_a, $time_a);
-            preg_match_all($this->migrationDatePattern, $file_b, $time_b);
-            return $time_a[0][0] <=> $time_b[0][0];
-        });
+    private function sortMigrations(array &$dirScan): void
+    {       
+        asort($dirScan);
     }
 
     private function searchMigrations(): array
