@@ -15,30 +15,25 @@ class ActivitiesController extends AbstractController
     public function actionIndex(): void
     {
         $query = Activity::getActivitiesIndex([]);
+        $types = ActivityType::findAll();
 
-
-        if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+        if(Activity::isAjax()) {
 
             $request = new ActivitiesRequest();
 
             extract($request->filter());
 
-            $activities = $query->search($search ?? '')
+            $activities = $query->type($type)
+                ->search($search ?? '')
                 ->orderBy($order_by)
                 ->order($order)
                 ->paginate($offset, self::PAGINATE)
                 ->get();
 
-            $this->getActivitiesFields($activities);
+            Activity::getActivitiesFields($activities);
 
-            $html_mobile = '';
-            $html = '';
-
-            foreach ($activities as $activity) {
-                $this->useMainTemplate = false;
-                $html_mobile .= $this->render('activities.item_mobile', compact('activity'));
-                $html .= $this->render('activities.item', compact('activity'));
-            }
+            $html = Activity::renderMain($activities);
+            $html_mobile = Activity::renderMobile($activities);
 
             header('Content-Type: application/json');
             echo json_encode(compact('html', 'html_mobile'));
@@ -46,18 +41,10 @@ class ActivitiesController extends AbstractController
         }
 
         $activities = $query->paginate(0,self::PAGINATE)->get();
-        $this->getActivitiesFields($activities);
+        Activity::getActivitiesFields($activities);
 
-
-        echo $this->render('activities.index', compact('activities'));
+        echo $this->render('activities.index', compact('activities', 'types'));
     }
 
-    private function getActivitiesFields(&$activities): void
-    {
-        foreach ($activities as $activity) {
-            $activity->age = $activity->getAgeRange();
-            $activity->amountOfWeek = $activity->getAmountOfWeek();
-        }
-    }
 
 }

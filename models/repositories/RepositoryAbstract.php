@@ -91,6 +91,10 @@ abstract class RepositoryAbstract implements RepositoryInterface
 
     public function getQuery(string $sql, array $params = []): array
     {
+        /*ini_set('xdebug.var_display_max_depth', '10');
+        ini_set('xdebug.var_display_max_children', '256');
+        ini_set('xdebug.var_display_max_data', '1024');
+        var_dump($sql);*/
         return $this->dataBase->queryAll($sql, $params, $this->getModelClassName());
     }
 
