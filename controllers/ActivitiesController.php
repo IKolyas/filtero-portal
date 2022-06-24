@@ -15,6 +15,7 @@ class ActivitiesController extends AbstractController
     public function actionIndex(): void
     {
         $query = Activity::getActivitiesIndex([]);
+        $types = ActivityType::findAll();
 
         if(Activity::isAjax()) {
 
@@ -22,7 +23,8 @@ class ActivitiesController extends AbstractController
 
             extract($request->filter());
 
-            $activities = $query->search($search ?? '')
+            $activities = $query->type($type)
+                ->search($search ?? '')
                 ->orderBy($order_by)
                 ->order($order)
                 ->paginate($offset, self::PAGINATE)
@@ -44,7 +46,7 @@ class ActivitiesController extends AbstractController
         $activities = $query->paginate(0,self::PAGINATE)->get();
         Activity::getActivitiesFields($activities);
 
-        echo $this->render('activities.index', compact('activities'));
+        echo $this->render('activities.index', compact('activities', 'types'));
     }
 
 

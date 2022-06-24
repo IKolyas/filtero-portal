@@ -61,8 +61,18 @@ class Activity extends Model
         return $this;
     }
 
+    public function type(string $type): Activity
+    {
+        $decodedType = urldecode($type);
+        $this->repository->type($decodedType);
+        return $this;
+    }
+
     public function search(string $search): Activity
     {
+        $search = preg_replace('/\s+/', " ", urldecode($search));
+        $search = str_replace(" ", ".*", $search);
+
         $this->repository->search($search);
         return $this;
     }

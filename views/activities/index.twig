@@ -12,14 +12,14 @@
 {#        <button class="btn btn-outline-primary" type="submit">Найти</button>#}
     </form>
     <div class="d-flex mt-3">
-{#        <div class="dropdown me-2">#}
-{#            <button class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">Тип</button>#}
-{#            <div class="dropdown-menu">#}
-{#                {% for type in types %}#}
-{#                    <a href="#" class="dropdown-item">{{ type.title }}</a>#}
-{#                {% endfor %}#}
-{#            </div>#}
-{#        </div>#}
+        <div class="dropdown me-2">
+            <select class="btn btn-primary dropdown-toggle js-order-by-type">
+            <option value="default" selected>Тип</option>
+                {% for type in types %}
+                   <option value="{{ type.title }}">{{ type.title }}</option>
+                {% endfor %}
+            </select>
+       </div>
         <div class="dropdown me-2">
             <select class="btn btn-primary dropdown-toggle js-order-by-fields">
                 <option value="id" selected>Сортировка</option>
@@ -33,12 +33,12 @@
     </div>
         {% include 'partials/activities_list.twig' %}
         {% include 'partials/activities_list_mobile.twig' %}
-        <button onclick="topFunction()" class="btn btn-primary rounded-circle button_to_top" id="buttonToTop" title="Go to top"><i class="fa-solid fa-angles-up"></i></button>
-        <div id="spinner">
-            <div class="spinner-border spinner-border-md text-primary" role="status">
+    <div id="spinner">
+        <div class="spinner-border spinner-border-md text-primary spinner_circle" role="status">
             <span class="sr-only"></span>
         </div>
     </div>
+    <button onclick="topFunction()" class="btn btn-primary rounded-circle button_to_top" id="buttonToTop" title="Наверх"><i class="fa-solid fa-angles-up"></i></button>
 </div>
 <script>
 
@@ -47,12 +47,14 @@
 
     const params = {
         offset: 1,
+        type: null,
         search: null,
         order_by: 'id',
         order: 'ASC'
     }
 
     // let offset = 0;
+    let typeSelector = document.querySelector('.js-order-by-type');
     let search = document.querySelector('.is-input-search');
     let orderBy = document.querySelector('.js-order-by-fields');
 
@@ -66,51 +68,46 @@
         }
         params.offset = 0;
         e.target.classList.toggle("checked")
-        loadMoreData(params, true);
+        loadData(params, true);
     })
 
     search.addEventListener('input', (e) => {
         params.offset = 0;
         if(e.target.value.length >= 3) {
             params.search = search.value
-            loadMoreData(params, true);
+            loadData(params, true);
         } else {
             params.search = null
-            loadMoreData(params, true);
+            loadData(params, true);
         }
     })
 
     orderBy.addEventListener('change', (e) => {
         params.offset = 0;
         params.order_by = e.target.value;
-        loadMoreData(params, true);
+        loadData(params, true);
+    })
+
+    typeSelector.addEventListener('change', (e) => {
+        params.offset = 0;
+        params.type = e.target.value;
+        loadData(params, true);
     })
 
    
 
     $(window).scroll(function () {
 
-        
         if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
             params.offset = document.querySelectorAll('.activity_card').length;
-            loadMoreData(params);
+            loadData(params);
         }
     });
-
-    /*$(window).scroll(function () {
-        var d = document.documentElement;
-        var offset = d.scrollTop + window.innerHeight;
-        var height = d.offsetHeight;
-        if (offset >= height) {
-            params.offset = document.querySelectorAll('.activity_card').length;
-            loadMoreData(params);
-        }
-    });*/
 
     let cardListMobile = document.querySelector('.card_list')
     let cardList = document.querySelector('.activity_list_rows')
 
-    function loadMoreData(params, is_search) {
+    function loadData(params, is_search) {
         $('#spinner').show();
         $.ajax({
             url: '/activities/index/', 
