@@ -36,6 +36,7 @@ class Application
             $controller = new $controllerClass($this->renderer);
             $controller->runAction($actionName, $params);
         } else {
+
             $this->path->redirect('notFound');
         }
     }
@@ -49,8 +50,9 @@ class Application
             if ($params = $this->config['components'][$name]) {
                 $this->components[$name] = $this->componentsFactory->createComponent($name, $params);
             } else {
-//                TODO: exception
-                 throw new \Exception("Не найдена конфигурация для компонента {$name}");
+
+                throw new \Exception("Не найдена конфигурация для компонента {$name}");
+
             }
         }
         return $this->components[$name];

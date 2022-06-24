@@ -5,6 +5,9 @@
     .checked {
         transform: rotate(180deg);
     }
+    .btn {
+        -webkit-transition: all 1s cubic-bezier(0.79, 0.33, 0.14, 0.53);
+    }
 </style>
 <div class="container d-flex flex-column mt-4 mb-4">
     <form class=" d-flex justify-content-center align-self-center w-100" role="search">
@@ -21,7 +24,7 @@
             </select>
        </div>
         <div class="dropdown me-2">
-            <select class="btn btn-primary dropdown-toggle js-order-by-fields">
+            <select class="btn btn-primary dropdown-toggle js-order-by-fields menu_dowm_animate">
                 <option value="id" selected>Сортировка</option>
                 <option value="title">Название</option>
                 <option value="amount_of_week">Раз в неделю</option>

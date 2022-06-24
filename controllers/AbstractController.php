@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\services\renderers\RendererInterface;
+use app\services\ExceptionMessenger;
 
 abstract class AbstractController
 {
@@ -13,10 +14,12 @@ abstract class AbstractController
     protected bool $useMainTemplate = true;
     protected string $action;
     protected RendererInterface $renderer;
+    protected ?ExceptionMessenger $messenger;
 
     public function __construct(RendererInterface $renderer)
     {
         $this->renderer = $renderer;
+        $this->messenger = new ExceptionMessenger();
     }
 
     public function runAction($action = null, $params = []): void

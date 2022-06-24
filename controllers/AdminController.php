@@ -6,8 +6,7 @@ use app\models\Activity;
 use app\models\ActivityType;
 use app\models\Institute;
 use app\models\User;
-use app\requests\LoginRequest;
-use app\services\ExceptionMessenger;
+
 
 class AdminController extends AbstractController
 {
@@ -82,30 +81,30 @@ class AdminController extends AbstractController
 
         if (app()->request->isPost()) {
 
-            if (Activity::create(app()->request->post())) {
-                app()->path->redirect('/admin');
-            } else {
-                app()->path->redirect('/exception?type=database&action=create');
-            }
-        }
+            Activity::create(app()->request->post());
+            app()->path->redirect('/admin');
+        } 
     }
+    
 
     public function actionCreateInstitutes()
     {
-
+        
         if (app()->request->isPost()) {
-            if (Institute::create(app()->request->post())) {
-                app()->path->redirect('/admin/institutes');
-            }
+            
+            Institute::create(app()->request->post());
+            app()->path->redirect('/admin/institutes');
+
         }
     }
+    
 
     public function actionCreateTypes()
     {
         if (app()->request->isPost()) {
-            if (ActivityType::create(app()->request->post())) {
-                app()->path->redirect('/admin/types');
-            }
+            ActivityType::create(app()->request->post());
+            app()->path->redirect('/admin/types');
+            
         }
     }
 
@@ -113,45 +112,45 @@ class AdminController extends AbstractController
     {
 
         if (app()->request->isPost()) {
-            if (User::create(app()->request->post())) {
+            User::create(app()->request->post());
                 app()->path->redirect('/admin/users');
-            }
-        }
+        } 
     }
+
 
     public function actionDeleteActivity()
     {
         if (app()->request->isGet()) {
-            if (Activity::delete(app()->request->getParams())) {
-                app()->path->redirect('/admin');
-            }
+            Activity::delete(app()->request->getParams());
+            app()->path->redirect('/admin');
+            
         }
     }
     
     public function actionDeleteInstitutes()
     {
         if (app()->request->isGet()) {
-            if (Institute::delete(app()->request->getParams())) {
-                app()->path->redirect('/admin/institutes');
-            }
+            Institute::delete(app()->request->getParams());
+            app()->path->redirect('/admin/institutes');
+            
         }
     }
 
     public function actionDeleteTypes()
     {
         if (app()->request->isGet()) {
-            if (ActivityType::delete(app()->request->getParams())) {
-                app()->path->redirect('/admin/types');
-            }
+            ActivityType::delete(app()->request->getParams());
+            app()->path->redirect('/admin/types'); 
+            
         }
     }
     
     public function actionDeleteUser()
     {
         if (app()->request->isGet()) {
-            if (User::delete(app()->request->getParams())) {
-                app()->path->redirect('/admin/users');
-            }
+            User::delete(app()->request->getParams());
+            app()->path->redirect('/admin/users');
+            
         }
     }
 
@@ -161,9 +160,8 @@ class AdminController extends AbstractController
             $request = app()->request->post();
             $type_id = Activity::find($request['id']);
             if($type_id) {
-                if (Activity::update($request)) {
-                    app()->path->redirect('/admin');
-                }
+                Activity::update($request);
+                app()->path->redirect('/admin');  
             }
         }
     }
@@ -175,9 +173,8 @@ class AdminController extends AbstractController
             $type_id = Institute::find($request['id']);
             
             if($type_id) {
-                if (Institute::update($request)) {
-                    app()->path->redirect('/admin/institutes');
-                }
+                Institute::update($request);
+                app()->path->redirect('/admin/institutes');
             }
         }
     }
@@ -189,9 +186,8 @@ class AdminController extends AbstractController
             $type_id = ActivityType::find($request['id']);
             
             if($type_id) {
-                if (ActivityType::update($request)) {
-                    app()->path->redirect('/admin/types');
-                }
+                ActivityType::update($request);
+                app()->path->redirect('/admin/types');
             }
         }
     }
@@ -201,9 +197,8 @@ class AdminController extends AbstractController
         if ($request) {
             $user = User::find($request['id']);
             if($user) {
-                if (User::update($request)) {
-                    app()->path->redirect('/admin/users');
-                }
+                User::update($request);
+                app()->path->redirect('/admin/users');
             }
         }
     }
