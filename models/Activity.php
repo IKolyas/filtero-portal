@@ -44,15 +44,33 @@ class Activity extends Model
         
     }
 
-    protected function select(array $fields): Activity
+    public function select(array $fields): Activity
     {
         $this->repository->select($fields);
         return $this;
     }
 
-    public function search(array $params, int $paginate): Activity
+    public function search(string $search): Activity
     {
-        $this->repository->search($params, $paginate);
+        $this->repository->search($search);
+        return $this;
+    }
+
+    public function orderBy(string $order_by): Activity
+    {
+        $this->repository->orderBy($order_by);
+        return $this;
+    }
+
+    public function order(string $order): Activity
+    {
+        $this->repository->order($order);
+        return $this;
+    }
+
+    public function paginate(int $offset, int $paginate): Activity
+    {
+        $this->repository->paginate($offset, $paginate);
         return $this;
     }
 
@@ -67,5 +85,28 @@ class Activity extends Model
         return $this->repository->getQuery($this->repository->query, []);
     }
 
+    protected function getActivitiesIndex($params): Activity
+    {
+        $this->select([
+            '
+            activities.id,
+            activities.title,
+            activities.age_from,
+            activities.age_to,
+            activities.amount_of_week,
+            activities.duration_time,
+            activities.price,
+            activities.price_month,
+            activities.contacts,
+            institutes.title as institute_title,
+            activity_types.title as type_title
+           '
+        ])
+            ->leftJoin('institutes', 'institute_id', 'institutes.id')
+            ->leftJoin('activity_types', 'activity_type_id', 'activity_types.id')
 
+        ;
+
+        return $this;
+    }
 }

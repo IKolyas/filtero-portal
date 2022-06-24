@@ -10,8 +10,10 @@ class ActivityRepository extends RepositoryAbstract
     public string $query;
 
     protected array $searchFields = [
-        'title',
-        'contacts'
+        'activities.title',
+        'institutes.title',
+        'activity_types.title',
+        'activities.contacts',
     ];
 
     public function getTableName(): string
@@ -30,33 +32,34 @@ class ActivityRepository extends RepositoryAbstract
         $this->query = "SELECT {$fields} FROM {$this->getTableName()} ";
     }
 
-    public function search(array $params, int $paginate = 100): void
+    public function search(string $search): void
     {
-        $offset = 0;
-
-        if(isset($params['offset'])) {
-            $offset = $params['offset'];
-            unset($params['offset']);
-        }
-
-        if(!empty($this->searchFields) && isset($params['search'])) {
+        if(!empty($this->searchFields) && strlen($search) > 0) {
             $this->query .= "WHERE ";
 
             foreach ($this->searchFields as $key => $field) {
-                $this->query .= "{$field} LIKE '%{$params['search']}%' ";
+                $this->query .= "{$field} LIKE '%{$search}%' ";
                 if($key !== count($this->searchFields) - 1) $this->query .= "OR ";
             }
-
         }
+    }
 
-        if(isset($params['order_by'])) {
-            $this->query .= "ORDER BY {$params['order_by']} ";
+    public function orderBy(string $order_by): void
+    {
+        if($order_by) {
+            $this->query .= "ORDER BY {$order_by} ";
         }
+    }
 
-        if(isset($params['order'])) {
-            $this->query .= "{$params['order']}";
+    public function order(string $order): void
+    {
+        if($order) {
+            $this->query .= "{$order}";
         }
+    }
 
+    public function paginate(int $offset, int $paginate): void
+    {
         $this->query .= " LIMIT {$offset}, {$paginate}";
     }
 
