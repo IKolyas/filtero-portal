@@ -9,7 +9,6 @@ use app\models\User;
 use app\requests\LoginRequest;
 use app\services\ExceptionMessenger;
 
-// use app\requests\admin\AdminRequest;
 use app\requests\admin\UserRequest;
 use app\requests\admin\InstitutesRequest;
 use app\requests\admin\TypesRequest;
@@ -221,18 +220,6 @@ class AdminController extends AbstractController
 
     public function actionUpdateActivity()
     {
-        // if (app()->request->isPost()) {
-        //     $request = app()->request->post();
-        //     $type_id = Activity::find($request['id']);
-        //     if($type_id) {
-        //         if (Activity::update($request)) {
-        //             app()->path->redirect('/admin');
-        //         }
-        //     }
-        // }
-
-
-
         if (app()->request->isPost()) {
             $activitiesRequest = new ActivitiesRequest();
             $fields = $activitiesRequest->validate();
@@ -265,43 +252,6 @@ class AdminController extends AbstractController
                 echo $this->render('admin.index', compact('activities', 'user', 'institutes', 'types', 'tabs', 'errorsFields', 'oldFields'));
             }
         }
-
-
-
-
-        // if (app()->request->isPost()) {
-        //     $request = app()->request->post();
-        //     $adminRequest = new AdminRequest();
-        //     $type_id = Activity::find($request['id']);
-
-        //     if($fields = $adminRequest->validate('activities')) {
-                
-        //         if($type_id) {
-        //             if (Activity::update($request)) {
-        //                 app()->path->redirect('/admin');
-        //             }
-        //         }
-        //     } else {
-        //         $activities = Activity::findAll();
-        //         $user = User::findAll()[0];
-        //         foreach ($activities as $activity) {
-        //             $activity->age = $activity->getAgeRange();
-        //             $activity->institute = Institute::find($activity->institute_id)->title;
-        //             $activity->institute_id = Institute::find($activity->institute_id)->id;
-        //             $activity->type = ActivityType::find($activity->activity_type_id)->title;
-        //             $activity->type_id = ActivityType::find($activity->activity_type_id)->id;
-        //         }
-        //         $institutes = Institute::findAll();
-        //         $types = ActivityType::findAll();
-
-        //         $tabs = $this->tabActivate('activities');
-                
-        //         $errorsFields = $adminRequest->errors();
-        //         $oldFields = $adminRequest->post();
-
-        //         echo $this->render('admin.index', compact('activities', 'user', 'institutes', 'types', 'tabs', 'errorsFields', 'oldFields'));
-        //     }
-        // }
     }
 
     public function actionUpdateInstitutes()

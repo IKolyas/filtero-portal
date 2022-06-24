@@ -73,7 +73,11 @@
         </div>
         <div class="mb-3 col-2">
             <label for="is_admin" class="form-label">Админ или нет</label>
-            <select class="form-control js-types-input" id="is_admin" name="is_admin">
+            <select class="form-control js-types-input" id="is_admin" name="is_admin"
+                {% if errorsFields %}
+                    disabled
+                {% endif %}
+            >
                 <option value="1">да</option>
                 <option selected value="0">нет</option>
             </select>
