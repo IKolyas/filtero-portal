@@ -62,7 +62,7 @@ body {
     font-size: 18px; 
   }
 #spinner {
-    top: 40%;
+    top: 50%;
     align-self: center;
     position: fixed;
     margin-left: auto;
