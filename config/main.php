@@ -31,9 +31,6 @@ return [
         'cookie' => [
             'class' => \app\base\Cookie::class,
         ],
-        // 'cookieTime' => [
-        //     'time' => time() + 60*6024*30,
-        // ],
 
 //       PROJECT ENTITIES
         'userRepository' => [
