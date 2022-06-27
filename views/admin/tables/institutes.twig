@@ -14,7 +14,7 @@
                 <td data-field="title">{{ institute.title }}</td>
                 <td>
                     <i class="fa-solid fa-pencil text-success mx-2 js-types-link__edit activity_action_btn"></i>
-                    <a href="/admin/deleteInstitutes?{{ institute.id }}"><i class="fa-solid fa-trash-can text-danger mx-2 activity_action_btn"></i></a>
+                    <a href="/admin/deleteInstitutes?{{ institute.id }}" onclick="return confirm('Вы уверенны что хотите удалить?')"><i class="fa-solid fa-trash-can text-danger mx-2 activity_action_btn"></i></a>
                 </td>
             </tr>
         {% else %}

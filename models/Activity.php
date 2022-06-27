@@ -106,7 +106,7 @@ class Activity extends Model
         return $this->repository->getQuery($this->repository->query, []);
     }
 
-    protected function getActivitiesIndex($params): Activity
+    protected function getActivitiesIndex(): Activity
     {
         $this->select([
             '

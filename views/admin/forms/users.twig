@@ -1,37 +1,91 @@
 <div class="activity_create_form">
-    <form class="row js-types-form" id="form-edit" method="post" action="/admin/createUser">
-        <input  type="hidden" class="form-control" name="id">
+    <form class="row js-types-form" id="form-edit" method="post"
+    {# action="/admin/createUser" #}
+        {% if oldFields and oldFields.id %}
+            action="/admin/updateUser"
+        {% else %}
+            action="/admin/createUser"
+        {% endif %}
+    >
+        <input  type="hidden" class="form-control" name="id"
+            {% if oldFields and oldFields.id %}
+                value="{{ oldFields.id }}"
+            {% endif %}
+        >
         <div class="mb-3 col-6">
             <label for="first_name" class="form-label">Имя</label>
-            <input type="text" class="form-control js-types-input" id="first_name" name="first_name">
+            <input type="text" class="form-control js-types-input" id="first_name" name="first_name"
+            {% if oldFields and oldFields.first_name %}
+                value="{{ oldFields.first_name }}"
+            {% endif %}
+            />
+            {% if errorsFields and errorsFields.first_name %}
+                <span class="text-danger js-errors-notification">{{ errorsFields.first_name }}</span>
+            {% endif %}
         </div>
         <div class="mb-3 col-6">
             <label for="last_name" class="form-label">Фамилия</label>
-            <input type="text" class="form-control js-types-input" id="last_name" name="last_name">
+            <input type="text" class="form-control js-types-input" id="last_name" name="last_name"
+            {% if oldFields and oldFields.last_name %}
+                value="{{ oldFields.last_name }}"
+            {% endif %}
+            />
+            {% if errorsFields and errorsFields.last_name %}
+                <span class="text-danger js-errors-notification">{{ errorsFields.last_name }}</span>
+            {% endif %}
         </div>
         <div class="mb-3 col-6">
             <label for="login" class="form-label">Логин</label>
-            <input type="text" class="form-control js-types-input" id="login" name="login">
+            <input type="text" class="form-control js-types-input" id="login" name="login"
+            {% if oldFields and oldFields.login %}
+                value="{{ oldFields.login }}"
+            {% endif %}
+            />
+            {% if errorsFields and errorsFields.login %}
+                <span class="text-danger js-errors-notification">{{ errorsFields.login }}</span>
+            {% endif %}
         </div>
         <div class="mb-3 col-6">
             <label for="password" class="form-label">Пароль</label>
-            <input type="text" class="form-control js-types-input" id="password" name="password">
+            <input type="text" class="form-control js-types-input" id="password" name="password"
+            {% if oldFields and oldFields.password %}
+                value="{{ oldFields.password }}"
+                disabled
+            {% endif %}
+            {% if errorsFields %}
+                disabled
+            {% endif %}
+            />
+            {% if errorsFields and errorsFields.password %}
+                <span class="text-danger js-errors-notification">{{ errorsFields.password }}</span>
+            {% endif %}
         </div>
         <div class="mb-3 col-6">
             <label for="email" class="form-label">e-mail</label>
-            <input type="email" class="form-control js-types-input" id="email" name="email">
+            <input type="email" class="form-control js-types-input" id="email" name="email"
+            {% if oldFields and oldFields.email %}
+                value="{{ oldFields.email }}"
+            {% endif %}
+            />
+            {% if errorsFields and errorsFields.email %}
+                <span class="text-danger js-errors-notification">{{ errorsFields.email }}</span>
+            {% endif %}
         </div>
         <div class="mb-3 col-2">
             <label for="is_admin" class="form-label">Админ или нет</label>
-            <select class="form-control js-types-input" id="is_admin" name="is_admin">
+            <select class="form-control js-types-input" id="is_admin" name="is_admin"
+                {% if errorsFields %}
+                    disabled
+                {% endif %}
+            >
                 <option value="1">да</option>
                 <option selected value="0">нет</option>
             </select>
         </div>
         <div class="send_form_activities col-3 ">
             <button class="btn btn-secondary mx-3 js-button-clear">Очистить</button>
-            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <button type="submit" class="btn btn-primary js-button-submit" onclick="return confirm('Вы уверенны что хотите сохранить?')">Добавить</button>
         </div>
-        <p class="h5 text-success js-types-notification">Идет редактирование "типа активности": </p>
+        <div class="js-types-notification"></div>
     </form>
 </div>

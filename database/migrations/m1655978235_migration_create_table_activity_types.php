@@ -12,7 +12,7 @@ class m1655978235_migration_create_table_activity_types extends AbstractMigratio
         $row = "
         CREATE TABLE IF NOT EXISTS `activity_types` 
         (`id` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-        `title` VARCHAR(255) NOT NULL);
+        `title` VARCHAR(255) NOT NULL UNIQUE);
         ";
 
         return $this->connection->query($row);

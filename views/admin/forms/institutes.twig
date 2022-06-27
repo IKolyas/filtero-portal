@@ -1,14 +1,32 @@
 <div class="activity_create_form">
-    <form class="row js-types-form" id="form-edit" method="post" action="/admin/createInstitutes">
+    <form class="row js-types-form" id="form-edit" method="post"
+    {# action="/admin/createInstitutes" #}
+    {% if oldFields and oldFields.id %}
+        action="/admin/updateInstitutes"
+    {% else %}
+        action="/admin/createInstitutes"
+    {% endif %}
+    >
         <div class="mb-3 col-9">
             <label for="title" class="form-label">Название</label>
-            <input  type="hidden" class="form-control js-type-id" name="id">
-            <input type="text" class="form-control js-types-input" id="title" name="title" aria-describedby="emailHelp">
+            <input  type="hidden" class="form-control js-type-id" name="id"
+                {% if oldFields and oldFields.id %}
+                    value="{{ oldFields.id }}"
+                {% endif %}
+            >
+            <input type="text" class="form-control js-types-input" id="title" name="title" aria-describedby="emailHelp"
+                {% if oldFields and oldFields.title %}
+                    value="{{ oldFields.title }}"
+                {% endif %}
+            />
+            {% if errorsFields and errorsFields.title %}
+                <span class="text-danger js-errors-notification">{{ errorsFields.title }}</span>
+            {% endif %}
         </div>
         <div class="send_form_activities col-3 ">
             <button class="btn btn-secondary mx-3 js-button-clear">Очистить</button>
-            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <button type="submit" class="btn btn-primary js-button-submit" onclick="return confirm('Вы уверенны что хотите сохранить?')">Добавить</button>
         </div>
-        <p class="h5 text-success js-types-notification">Идет редактирование "типа активности": </p>
+        <div class="js-types-notification"></div>
     </form>
 </div>

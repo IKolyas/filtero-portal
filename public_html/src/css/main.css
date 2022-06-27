@@ -1,9 +1,10 @@
 header {
-    width:100%;
-    position:fixed;
+    width: 100%;
+    position: fixed;
     box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
     z-index: 999;
 }
+
 .content {
     display: flex;
     justify-content: center;
@@ -11,6 +12,7 @@ header {
     min-height: calc(100vh - 56px);
     padding-top: 56px;
 }
+
 .not_found {
     display: flex;
     flex-direction: column;
@@ -39,7 +41,7 @@ body {
     font-size: 13px;
 }
 
-.activity_card  {
+.activity_card {
     font-size: 16px;
 }
 
@@ -58,7 +60,8 @@ body {
     color: white; /* Text color */
     cursor: pointer; /* Add a mouse pointer on hover */
     font-size: 18px; /* Increase font size */
-  }
+}
+
 #spinner {
     display: none;
     top: 50%;
@@ -69,7 +72,6 @@ body {
     left: 0;
     right: 0;
     text-align: center;
-    display: none;
     /*background-color: white;
     opacity: 0.5;
     /*width: 100%;
@@ -107,27 +109,57 @@ footer {
     background: #1f3a79;
 }
 
-#card-main-container{
+#card-main-container {
     padding: 16px;
     background: white;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1)!important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
     border-radius: 8px;
     margin-top: 1rem;
 }
 
-#outer-card-container h5 a{
+#outer-card-container h5 a {
     color: black !important;
 }
 
-#outer-card-container img:hover{
+#outer-card-container img:hover {
     transform: scale(1.1);
     transition: all 1s;
 }
 
-#outer-card-container a{
+#outer-card-container a {
     text-decoration: none !important;
 }
 
 .price-rub::after {
     content: ' ₽';
-  }
+}
+
+.order_btn {
+    transition: transform .5s ease-in-out;
+}
+
+.checked {
+    transform: rotate(180deg);
+}
+
+.btn {
+    -webkit-transition: all .5s cubic-bezier(0.79, 0.33, 0.14, 0.53);
+}
+
+.activity_list {
+    position: relative;
+}
+
+.loader {
+    position: absolute;
+    background-color: #ffffff;
+    opacity: 0.6;
+    width: 100%;
+    height: 100%;
+    display: none;
+}
+
+.loader__active {
+    display: flex;
+}
+

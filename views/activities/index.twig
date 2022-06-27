@@ -1,14 +1,3 @@
-<style>
-    .order_btn {
-        transition: transform .5s ease-in-out;
-    }
-    .checked {
-        transform: rotate(180deg);
-    }
-    .btn {
-        -webkit-transition: all 1s cubic-bezier(0.79, 0.33, 0.14, 0.53);
-    }
-</style>
 <div class="container d-flex flex-column mt-4 mb-4">
     <form class=" d-flex justify-content-center align-self-center w-100" role="search">
         <input class="form-control me-2 mw-100 is-input-search" type="search" placeholder="Поиск" aria-label="Search">
@@ -112,6 +101,7 @@
 
     function loadData(params, is_search) {
         $('#spinner').show();
+        document.querySelector('.loader').classList.add('loader__active')
         $.ajax({
             url: '/activities/index/', 
             method: 'GET',         
@@ -128,6 +118,7 @@
             },
             complete: function () {
                 $('#spinner').hide();
+                document.querySelector('.loader').classList.remove('loader__active')
             }
             
         });
