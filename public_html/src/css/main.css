@@ -62,8 +62,7 @@ body {
     font-size: 18px; 
   }
 #spinner {
-    display: none;
-    top: 50%;
+    top: 40%;
     align-self: center;
     position: fixed;
     margin-left: auto;
@@ -179,6 +178,6 @@ footer {
 }
 
 .loader__active {
-    display: flex;
+    display: block;
 }
 

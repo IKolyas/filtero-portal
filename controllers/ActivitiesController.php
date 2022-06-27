@@ -21,18 +21,14 @@ class ActivitiesController extends AbstractController
             $request = new ActivitiesRequest();
             
             extract($request->filter());
-            
-            $activities = $query;
 
-            if (isset($type) && !is_null($type)) $activities->type($type);
-            if (isset($search) && !is_null($search)) $activities->search($search);
-            if (isset($order_by) && !is_null($order_by)) $activities->orderBy($order_by);
-            if (isset($order) && !is_null($order)) $activities->order($order);
-            if (isset($offset) && !is_null($offset)) $activities->paginate($offset, self::PAGINATE);
-            
-            $activities->get();
+            if (isset($type)) $query->type($type);
+            if (isset($search)) $query->search($search);
+            if (isset($order_by)) $query->orderBy($order_by);
+            if (isset($order)) $query->order($order);
+            $query->paginate((int) $offset, self::PAGINATE);
 
-    
+            $activities = $query->get();
 
             Activity::getActivitiesFields($activities);
 
