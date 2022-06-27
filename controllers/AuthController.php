@@ -22,10 +22,8 @@ class AuthController extends AbstractController
 
             $login = $post_data['login'];
             $password = md5($post_data['password']);
-            $is_remember = '';
+            $is_remember = $post_data['remember_me'];
 
-            if ($post_data['remember_me']) $is_remember = $post_data['remember_me'];
-            
             if ($user = $this->varification($login, $password)) {
                 if ($is_remember) {
                     $this->rememberUser($user);
