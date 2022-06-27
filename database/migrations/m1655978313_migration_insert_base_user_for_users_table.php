@@ -5,7 +5,7 @@ namespace app\database\migrations;
 
 use app\database\AbstractMigration as AbstractMigration;
 
-class migration_insert_base_user_for_users_table_1655384235 extends AbstractMigration
+class m1655978313_migration_insert_base_user_for_users_table extends AbstractMigration
 {
     public function up()
     {

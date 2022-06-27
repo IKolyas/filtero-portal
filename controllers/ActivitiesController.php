@@ -14,7 +14,7 @@ class ActivitiesController extends AbstractController
 
     public function actionIndex(): void
     {
-        $query = Activity::getActivitiesIndex([]);
+        $query = Activity::getActivitiesIndex();
         $types = ActivityType::findAll();
 
         if(Activity::isAjax()) {
@@ -31,11 +31,8 @@ class ActivitiesController extends AbstractController
 
             Activity::getActivitiesFields($activities);
 
-            $html_mobile = '';
-            $html = '';
-
-            $html = Activity::renderMain($activities, $this);
-            $html_mobile = Activity::renderMobile($activities, $this);
+            $html = Activity::renderMain($activities);
+            $html_mobile = Activity::renderMobile($activities);
 
             var_dump($html_mobile);
 

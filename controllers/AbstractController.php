@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\services\renderers\RendererInterface;
+use app\services\ExceptionMessenger;
 
 abstract class AbstractController
 {
@@ -10,13 +11,15 @@ abstract class AbstractController
     protected string $defaultAction = 'index';
     protected string $defaultTemplate = 'main';
     protected string $notFound = '404';
-    public bool $useMainTemplate = true;
+    protected bool $useMainTemplate = true;
     protected string $action;
     protected RendererInterface $renderer;
+    protected ?ExceptionMessenger $messenger;
 
     public function __construct(RendererInterface $renderer)
     {
         $this->renderer = $renderer;
+        $this->messenger = new ExceptionMessenger();
     }
 
     public function runAction($action = null, $params = []): void
@@ -31,7 +34,7 @@ abstract class AbstractController
         }
     }
 
-    public function render(string $template, array $params = []): string
+    protected function render(string $template, array $params = []): string
     {
         $content = $this->renderer->render($template, $params);
 

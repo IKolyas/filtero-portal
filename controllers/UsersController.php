@@ -11,7 +11,13 @@ class UsersController extends AbstractController
     public function actionIndex()
     {
         $users = User::findAll();
-        echo $this->render('users.index', ['users' => $users]);
+        if($users){
+            echo $this->render('users.index', ['users' => $users]);
+        } else {
+            $exception = $this->messenger->sendMessage('database', 'connection');
+            echo $this->render('exceptions.index', ['type' => $exception['type'], 'message' => $exception['message']]);
+        }
+
     }
 
     public function actionShow($id)

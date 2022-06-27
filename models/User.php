@@ -20,4 +20,13 @@ class User extends Model
         $this->repository = new UserRepository();
     }
 
+    protected function update($fields): int
+    {
+        if (isset($fields['password'])) {
+            unset($fields['password']);
+        }
+        parent::update($fields);
+        return true;
+    }
+
 }

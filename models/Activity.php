@@ -106,7 +106,7 @@ class Activity extends Model
         return $this->repository->getQuery($this->repository->query, []);
     }
 
-    protected function getActivitiesIndex($params): Activity
+    protected function getActivitiesIndex(): Activity
     {
         $this->select([
             '
@@ -131,22 +131,20 @@ class Activity extends Model
         return $this;
     }
 
-    public function renderMain($activities, &$controller): string
+    public function renderMain($activities): string
     {
         $html = '';
         foreach ($activities as $activity) {
-            $controller->useMainTemplate = false;
-            $html .= $controller->render('activities.item', compact('activity'));
+            $html .= app()->renderer->render('activities.item', compact('activity'));
         }
         return $html;
     }
 
-    public function renderMobile($activities, &$controller): string
+    public function renderMobile($activities): string
     {
         $html_mobile = '';
         foreach ($activities as $activity) {
-            $controller->useMainTemplate = false;
-            $html_mobile .= $controller->render('activities.item_mobile', compact('activity'));
+            $html_mobile .= app()->renderer->render('activities.item_mobile', compact('activity'));
         }
         return $html_mobile;
     }
