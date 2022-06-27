@@ -20,15 +20,17 @@ class AuthController extends AbstractController
 
             $post_data = app()->request->post();
 
-            $email = $post_data['email'];
+            $login = $post_data['login'];
             $password = md5($post_data['password']);
-            $is_remember = $post_data['remember_me'];
+            $is_remember = '';
 
-            if ($user = $this->varification($email, $password)) {
+            if ($post_data['remember_me']) $is_remember = $post_data['remember_me'];
+            
+            if ($user = $this->varification($login, $password)) {
                 if ($is_remember) {
                     $this->rememberUser($user);
                 }
-                app()->session->set('user', ['first_name' => $user->first_name, 'id' => $user->id]);
+                app()->session->set('user', ['login' => $user->login, 'id' => $user->id]);
                 app()->path->redirect('/admin');
             } else {
                 echo $this->render('auth.login', ['error' => 'Пароль или логин неверный!']);
@@ -52,9 +54,9 @@ class AuthController extends AbstractController
     }
     
 
-    private function varification($email, $password)
+    private function varification($login, $password)
     {
-        $user = User::find($email, 'email');
+        $user = User::find($login, 'login');
 
         if ($user && $user->password == $password) return $user;
 
@@ -70,7 +72,5 @@ class AuthController extends AbstractController
         if ($setCookieKeyDb) {
             app()->cookie->setCookie('auth', $randomCookie);
         }
-    }
-
-   
+    } 
 }

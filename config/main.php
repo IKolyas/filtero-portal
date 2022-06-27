@@ -4,6 +4,7 @@ return [
     'views_dir' => realpath(__DIR__ . '/../') . "/" . CONFIG['views_dir'] . "/",
     'default_controller' => CONFIG['default_controller'],
     'controller_namespace' => 'app\controllers\\',
+    'cookie_time' => CONFIG['cookie_time'],
     'components' => [
 //       BASE
         'request' => [
@@ -30,6 +31,9 @@ return [
         'cookie' => [
             'class' => \app\base\Cookie::class,
         ],
+        // 'cookieTime' => [
+        //     'time' => time() + 60*6024*30,
+        // ],
 
 //       PROJECT ENTITIES
         'userRepository' => [

@@ -9,10 +9,9 @@ class Cookie
           return isset($_COOKIE[$key]) ? $_COOKIE[$key] : false;
       }
   
-      // TODO: add time to config 
-      public function setCookie(string $key, $value, $time = '2000'): void
+      public function setCookie(string $key, $value): void
       {
-          setcookie($key, $value, time() + $time, '/');   
+            setcookie($key, $value, time() + app()->getConfig()['cookie_time'], '/');   
       }
 
       public function getUserByCookeiDb($cookie_key)
