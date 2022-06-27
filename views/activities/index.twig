@@ -107,11 +107,11 @@
             .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
             .join('&');
         fetch(url + query, {method: 'get', credentials: 'same-origin', headers: {'X-Requested-With': 'XMLHttpRequest'}})
-            .then(async response => {
-
+            .then(response => {
+                console.log(url + query);
                 return response.text();
             })
-            .then(async data => {
+            .then(data => {
                 if(is_search) {
                     cardListMobile.innerHTML = data.html_mobile;
                     cardList.innerHTML = data.html;
