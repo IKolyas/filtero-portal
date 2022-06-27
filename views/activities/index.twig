@@ -1,4 +1,4 @@
-<div class="container d-flex flex-column mt-4 mb-4">
+<div class="container d-flex flex-column mt-4">
     <form class=" d-flex justify-content-center align-self-center w-100" role="search">
         <input class="form-control me-2 mw-100 is-input-search" type="search" placeholder="Поиск" aria-label="Search">
 {#        <button class="btn btn-outline-primary" type="submit">Найти</button>#}
@@ -80,15 +80,21 @@
         loadData(params, true);
     })
 
-   
+    window.addEventListener('scroll', () => {
+    const {
+        scrollTop,
+        scrollHeight,
+        clientHeight
+    } = document.documentElement;
 
-    $(window).scroll(function () {
-
-        if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
-            params.offset = document.querySelectorAll('.activity_card').length;
-            loadData(params);
-        }
+    if (scrollTop + clientHeight >= scrollHeight) {
+        params.offset = document.querySelectorAll('.activity_card').length;
+        loadData(params);
+    }
+    }, {
+        passive: true
     });
+
 
     let cardListMobile = document.querySelector('.card_list')
     let cardList = document.querySelector('.activity_list_rows')
