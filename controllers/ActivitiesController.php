@@ -18,7 +18,6 @@ class ActivitiesController extends AbstractController
         $types = ActivityType::findAll();
 
         if(Activity::isAjax()) {
-
             $request = new ActivitiesRequest();
 
             extract($request->filter());
@@ -38,7 +37,10 @@ class ActivitiesController extends AbstractController
             $html = Activity::renderMain($activities, $this);
             $html_mobile = Activity::renderMobile($activities, $this);
 
+            var_dump($html_mobile);
+
             header('Content-Type: application/json');
+
             echo json_encode(compact('html', 'html_mobile'));
             return;
         }
