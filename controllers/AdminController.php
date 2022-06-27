@@ -58,11 +58,15 @@ class AdminController extends AbstractController
 //        }
 
         $activities = Activity::getActivitiesIndex()->get();
+        
         Activity::getActivitiesFields($activities);
-
-
+        
+        
         $institutes = Institute::findAll();
         $types = ActivityType::findAll();
+        // echo ('<br>' . '<br>' . '<br>' . '<br>' . '<br>' . '<br>' . '<br>' . '---');
+        // var_dump($activities);
+        // die();
 
         $tabs = $this->tabActivate('activities');
 
@@ -316,8 +320,8 @@ class AdminController extends AbstractController
             
 
             if($fields) {
-                $institutes = ActivityType::find($fields['id']);
-                if($institutes) {
+                $types = ActivityType::find($fields['id']);
+                if($types) {
                     if (ActivityType::update($fields)) {
                         app()->path->redirect('/admin/types');
                     }
