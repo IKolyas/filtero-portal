@@ -45,7 +45,6 @@
         order: 'ASC'
     }
 
-    // let offset = 0;
     let typeSelector = document.querySelector('.js-order-by-type');
     let search = document.querySelector('.is-input-search');
     let orderBy = document.querySelector('.js-order-by-fields');
@@ -99,9 +98,36 @@
     let cardListMobile = document.querySelector('.card_list')
     let cardList = document.querySelector('.activity_list_rows')
 
+   
+    
     function loadData(params, is_search) {
         $('#spinner').show();
-        document.querySelector('.loader').classList.add('loader__active')
+        let url = "/activities/index?";
+        let query = Object.keys(params)
+            .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+            .join('&');
+        fetch(url + query, {method: 'get', credentials: 'same-origin', headers: {'X-Requested-With': 'XMLHttpRequest'}})
+            .then(response => {
+                console.log(url + query);
+                return response.text();
+            })
+            .then(data => {
+                if(is_search) {
+                    cardListMobile.innerHTML = data.html_mobile;
+                    cardList.innerHTML = data.html;
+                } else {
+                    cardListMobile.innerHTML += data.html_mobile;
+                    cardList.innerHTML += data.html;
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+
+    /*function loadData(params, is_search) {
+        $('#spinner').show();
         $.ajax({
             url: '/activities/index/', 
             method: 'GET',         
@@ -112,6 +138,7 @@
                     cardListMobile.innerHTML = data.html_mobile;
                     cardList.innerHTML = data.html;
                 } else {
+                    console.log(data);
                     cardListMobile.innerHTML += data.html_mobile;
                     cardList.innerHTML += data.html;
                 }
@@ -122,7 +149,7 @@
             }
             
         });
-    }
+    }*/
 
     mybutton = document.getElementById("buttonToTop");
 
