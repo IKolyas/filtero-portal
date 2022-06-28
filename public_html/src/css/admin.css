@@ -15,6 +15,6 @@
 
 .send_form_activities {
   display: flex;
-  align-items: flex-end;
-  margin-bottom: 16px;
+  align-items: flex-start;
+  margin-top: 32px;
 }
