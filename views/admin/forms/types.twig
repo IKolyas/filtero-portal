@@ -27,12 +27,16 @@
             <button class="btn btn-secondary mx-3 js-button-clear">Очистить</button>
             <button type="submit" class="btn btn-primary js-button-submit" onclick="return confirm('Вы уверенны что хотите сохранить?')">Добавить</button>
         </div>
-        <div class="js-types-notification"></div>
+        
+        {# <div class="js-types-notification"> #}
+        {% set typeEdit = types|filter((v, k) => v.id == oldFields.id) %}
+        <div class="js-types-notification">
+            <tr>
+                <th scope="row" data-field="id">{{ typeEdit|first.id }} </th>
+                <td data-field="title">{{ typeEdit|first.title }}</td>
+            </tr>
+        </div>
 
-
-        {# {% if type.id.value > 0 %} #}
-        {# <div class="js-types-notification">{{types.id}}</div> #}
-        {# {% endif %} #}
 
 
 
