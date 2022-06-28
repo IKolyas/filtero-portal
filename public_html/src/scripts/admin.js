@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
                   key !== 0 ? option.removeAttribute('selected') : option.setAttribute('selected', true)
               })
           })
-
           
           startEdit = false;
           notification.innerHTML = '';
@@ -122,9 +121,6 @@ document.addEventListener("DOMContentLoaded", () => {
                   let htmlEndTable = `</tbody></table>`;
                   let htmlRow = editLineTable;
                   notification.innerHTML = htmlStartTable + htmlRow + htmlEndTable;
-
-                  // let notificationElement = document.querySelector('.js-edit-notification-element');
-                  // notificationElement.value = htmlStartTable + htmlRow + htmlEndTable;
               })
           })
       }
