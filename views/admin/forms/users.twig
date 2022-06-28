@@ -50,9 +50,8 @@
             <input type="text" class="form-control js-types-input" id="password" name="password"
             {% if oldFields and oldFields.password %}
                 value="{{ oldFields.password }}"
-                disabled
             {% endif %}
-            {% if errorsFields %}
+            {% if oldFields.id > 0 %}
                 disabled
             {% endif %}
             />
@@ -74,7 +73,11 @@
         <div class="mb-3 col-2">
             <label for="is_admin" class="form-label">Админ или нет</label>
             <select class="form-control js-types-input" id="is_admin" name="is_admin"
-                {% if errorsFields %}
+                {# {% if errorsFields %}
+                    disabled
+                {% endif %} #}
+
+                {% if oldFields.id > 0 %}
                     disabled
                 {% endif %}
             >

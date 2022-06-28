@@ -120,7 +120,9 @@ class Activity extends Model
             activities.price_month,
             activities.contacts,
             institutes.title as institute_title,
-            activity_types.title as type_title
+            institutes.id as institute_id,
+            activity_types.title as type_title,
+            activity_types.id as type_id
            '
         ])
             ->leftJoin('institutes', 'institute_id', 'institutes.id')

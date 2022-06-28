@@ -27,6 +27,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (e.id === 'password') {
                     e.disabled = false;
                 }
+                if (e.id === 'is_admin') {
+                    e.disabled = false;
+                }
                 if (e.name != 'user_id') { // делаю проверку чтобы не очистить поле у input name user_id так как оно нужно при добавление в БД
                     e.value = "";
                 }
@@ -75,6 +78,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (field.id === 'password') {
                     field.disabled = true;
                 }
+                if (field.id === 'is_admin') {
+                    field.disabled = true;
+                }
             }
         }
 
@@ -103,6 +109,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     let htmlEndTable = `</tbody></table>`;
                     let htmlRow = String(row.outerHTML);
                     notification.innerHTML = htmlStartTable + htmlRow + htmlEndTable;
+
+                    // let notificationElement = document.querySelector('.js-edit-notification-element');
+                    // notificationElement.value = htmlStartTable + htmlRow + htmlEndTable;
                 })
             })
         }
