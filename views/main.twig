@@ -23,7 +23,7 @@
                         <a class="nav-link dropdown-toggle text-white" href="/admin" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         {% if auth_user %}
-                            {{ auth_user.first_name }}
+                            {{ auth_user.login }}
                         {% else %}
                             Панель управления
                         {% endif %}

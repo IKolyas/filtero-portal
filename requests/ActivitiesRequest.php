@@ -30,7 +30,7 @@ class ActivitiesRequest extends Request
 
         foreach ($params as $param) {
             $parseParam = explode('=', $param);
-            $this->filter[$parseParam[0]] = $parseParam[1];
+            if($parseParam[1] !== 'null') $this->filter[$parseParam[0]] = $parseParam[1];
         }
 
         if(isset($this->filter['search']) && strlen($this->filter['search']) === 0) unset($this->filter['search']);
