@@ -1,7 +1,6 @@
 <div class="container d-flex flex-column mt-4 mb-4">
-    <form class=" d-flex justify-content-center align-self-center w-100" role="search">
+    <form class="d-flex justify-content-center align-self-center w-100" role="search">
         <input class="form-control me-2 mw-100 is-input-search" type="search" placeholder="Поиск" aria-label="Search">
-{#        <button class="btn btn-outline-primary" type="submit">Найти</button>#}
     </form>
     <div class="d-flex mt-3">
         <div class="dropdown me-2">
@@ -11,8 +10,6 @@
                    <option value="{{ type.title }}">{{ type.title }}</option>
                 {% endfor %}
             </select>
-       </div>
-        <div class="dropdown me-2">
             <select class="btn btn-primary dropdown-toggle js-order-by-fields menu_dowm_animate">
                 <option value="id" selected>Сортировка</option>
                 <option value="title">Название</option>
