@@ -105,9 +105,21 @@ document.addEventListener("DOMContentLoaded", () => {
                         addDataToChangeInput(row, formEditFieldsSelect);
                     }
                     
+                    // Удаляем из html кнопки редактировать и удалить
+                    let editLineTable = '';
+                    row.querySelectorAll('th').forEach((elem) => {
+                        elem.classList.add("col-1");
+                        editLineTable+=elem.outerHTML;
+                    });
+                    row.querySelectorAll('td').forEach((elem) => {
+                        if (elem.querySelector('i') == null) { // проверяем чтобы не было кнопки  редактировать
+                            editLineTable+=elem.outerHTML;
+                        }
+                    });
+
                     let htmlStartTable = `<span style="color: green">Редактирование:</span><br><table class="table table-striped table-hover align-middle"><tbody>`
                     let htmlEndTable = `</tbody></table>`;
-                    let htmlRow = String(row.outerHTML);
+                    let htmlRow = editLineTable;
                     notification.innerHTML = htmlStartTable + htmlRow + htmlEndTable;
 
                     // let notificationElement = document.querySelector('.js-edit-notification-element');

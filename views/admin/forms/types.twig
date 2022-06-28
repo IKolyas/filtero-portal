@@ -6,7 +6,7 @@
             action="/admin/createTypes"
         {% endif %}
     >
-        <div class="mb-3 col-9">
+        <div class="mb-3 col-lg-9">
             <label for="title" class="form-label">Название</label>
             <input  type="hidden" class="form-control js-type-id" name="id"
                 {% if oldFields and oldFields.id %}
@@ -23,19 +23,23 @@
             {% endif %}
             {# <input  type="hidden" class="form-control js-edit-notification-element" id="notification" aria-describedby="emailHelp" /> #}
         </div>
-        <div class="send_form_activities col-3 ">
+        <div class="send_form_activities col-lg-3 align-items-start js-button-table-box">
             <button class="btn btn-secondary mx-3 js-button-clear">Очистить</button>
             <button type="submit" class="btn btn-primary js-button-submit" onclick="return confirm('Вы уверенны что хотите сохранить?')">Добавить</button>
         </div>
-        
-        {# <div class="js-types-notification"> #}
+        {% if oldFields and oldFields.id %}
         {% set typeEdit = types|filter((v, k) => v.id == oldFields.id) %}
-        <div class="js-types-notification">
-            <tr>
-                <th scope="row" data-field="id">{{ typeEdit|first.id }} </th>
-                <td data-field="title">{{ typeEdit|first.title }}</td>
-            </tr>
-        </div>
+            <div class="js-types-notification">
+                <span style="color: green">Редактирование:</span><br><table class="table table-striped table-hover align-middle"><tbody>
+                    <tr>
+                        <th scope="row" data-field="id" class="col-1">{{ typeEdit|first.id }} </th>
+                        <td data-field="title" class="col-11">{{ typeEdit|first.title }}</td>
+                    </tr>
+                </tbody></table>
+            </div>
+        {% else %}
+            <div class="js-types-notification"></div>
+        {% endif %}
 
 
 

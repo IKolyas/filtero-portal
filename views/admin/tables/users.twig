@@ -14,13 +14,13 @@
         <tbody>
         {% for useritem in user %}
             <tr>
-                <th scope="row" data-field="id">{{ useritem.id }}</th>
-                <td data-field="first_name">{{ useritem.first_name }}</td>
-                <td data-field="last_name">{{ useritem.last_name }}</td>
-                <td data-field="login">{{ useritem.login }}</td>
-                <td data-field="email">{{ useritem.email }}</td>
-                <td data-field="is_admin">{{ useritem.is_admin }}</td>
-                <td>
+                <th scope="row" data-field="id" class="col-auto">{{ useritem.id }}</th>
+                <td data-field="first_name" class="col-auto">{{ useritem.first_name }}</td>
+                <td data-field="last_name" class="col-auto">{{ useritem.last_name }}</td>
+                <td data-field="login" class="col-auto">{{ useritem.login }}</td>
+                <td data-field="email" class="col-auto">{{ useritem.email }}</td>
+                <td data-field="is_admin" class="col-1">{{ useritem.is_admin }}</td>
+                <td class="col-1">
                    <i class="fa-solid fa-pencil text-success mx-2 js-types-link__edit activity_action_btn"></i>
                     <a href="/admin/deleteUser?{{ useritem.id }}" onclick="return confirm('Вы уверенны что хотите удалить?')"><i class="fa-solid fa-trash-can text-danger mx-2 activity_action_btn"></i></a>
                 </td>

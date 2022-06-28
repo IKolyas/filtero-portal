@@ -5,12 +5,12 @@
             <th scope="col">#</th>
             <th scope="col">Название</th>
             <th scope="col">Учреждение</th>
-            <th scope="col">Тип активности</th>
-            <th scope="col">Возраст детей</th>
+            <th scope="col">Тип</th>
+            <th scope="col">Возраст</th>
             <th scope="col">Частота</th>
             <th scope="col">Длительность</th>
-            <th scope="col">Стоимость за занятие</th>
-            <th scope="col">стоимость за месяц</th>
+            <th scope="col">Цена за занятие</th>
+            <th scope="col">Цена за месяц</th>
             <th scope="col">Контакты</th>
             <th scope="col">Действия</th>
         </tr>
@@ -18,21 +18,21 @@
         <tbody>
         {% for activity in activities %}
             <tr>
-                <th scope="row" data-field="id">{{ activity.id }}</th>
-                <td data-field="title">{{ activity.title }}</td>
-                <td data-field="institute_id" data-target-institute-id="{{ activity.institute_id }}">{{ activity.institute_title }}</td>
-                <td data-field="activity_type_id" data-target-type-id="{{ activity.type_id }}">{{ activity.type_title }}</td>
-                <td>
+                <th scope="row" data-field="id" class="col">{{ activity.id }}</th>
+                <td data-field="title" class="col">{{ activity.title }}</td>
+                <td data-field="institute_id" class="col" data-target-institute-id="{{ activity.institute_id }}">{{ activity.institute_title }}</td>
+                <td data-field="activity_type_id" class="col" data-target-type-id="{{ activity.type_id }}">{{ activity.type_title }}</td>
+                <td class="col-1">
                     {{ activity.age }}
                     <div class="d-none" data-field="age_from">{{activity.age_from}}</div>
                     <div class="d-none" data-field="age_to">{{activity.age_to}}</div>
                 </td>
-                <td data-field="amount_of_week">{{ activity.amount_of_week }}</td>
-                <td data-field="duration_time">{{ activity.duration_time }}</td>
-                <td class="price-rub" data-field="price">{{ activity.price }}</td>
-                <td class="price-rub" data-field="price_month">{{ activity.price_month }}</td>
-                <td data-field="contacts">{{ activity.contacts }}</td>
-                <td>
+                <td data-field="amount_of_week" class="col">{{ activity.amount_of_week }}</td>
+                <td data-field="duration_time" class="col">{{ activity.duration_time }}</td>
+                <td class="price-rub" class="col" data-field="price">{{ activity.price }}</td>
+                <td class="price-rub" class="col" data-field="price_month">{{ activity.price_month }}</td>
+                <td data-field="contacts" class="col-2">{{ activity.contacts }}</td>
+                <td class="col">
                     <i class="fa-solid fa-pencil text-success mx-2 js-types-link__edit activity_action_btn"></i>
                     <a href="/admin/deleteActivity?{{ activity.id }}" onclick="return confirm('Вы уверенны что хотите удалить?')"><i class="fa-solid fa-trash-can text-danger mx-2 activity_action_btn"></i></a>
                 </td>
