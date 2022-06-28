@@ -109,6 +109,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     let htmlEndTable = `</tbody></table>`;
                     let htmlRow = String(row.outerHTML);
                     notification.innerHTML = htmlStartTable + htmlRow + htmlEndTable;
+
+                    // let notificationElement = document.querySelector('.js-edit-notification-element');
+                    // notificationElement.value = htmlStartTable + htmlRow + htmlEndTable;
                 })
             })
         }
