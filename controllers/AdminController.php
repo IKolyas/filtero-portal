@@ -210,13 +210,11 @@ class AdminController extends AbstractController
         if (app()->request->isPost()) {
             $activitiesRequest = new ActivitiesRequest();
             $fields = $activitiesRequest->validate('update');
-
             if ($fields) {
                 $activities = Activity::find($fields['id']);
                 if ($activities) {
-                    if (Activity::update($fields)) {
-                        app()->path->redirect('/admin');
-                    }
+                    Activity::update($fields);
+                    app()->path->redirect('/admin');
                 }
             } elseif ($errors = $activitiesRequest->errors()) {
                 $oldFields = $activitiesRequest->post();
@@ -232,13 +230,12 @@ class AdminController extends AbstractController
         if (app()->request->isPost()) {
             $institutesRequest = new InstitutesRequest();
             $fields = $institutesRequest->validate('update');
-            
+
             if ($fields) {
                 $institutes = Institute::find($fields['id']);
                 if ($institutes) {
-                    if (Institute::update($fields)) {
-                        app()->path->redirect('/admin/institutes');
-                    }
+                    Institute::update($fields);
+                    app()->path->redirect('/admin/institutes');
                 }
             } elseif ($errors = $institutesRequest->errors()) {
                 $oldFields = $institutesRequest->post();
@@ -258,9 +255,8 @@ class AdminController extends AbstractController
             if ($fields) {
                 $types = ActivityType::find($fields['id']);
                 if ($types) {
-                    if (ActivityType::update($fields)) {
-                        app()->path->redirect('/admin/types');
-                    }
+                    ActivityType::update($fields);
+                    app()->path->redirect('/admin/types');
                 }
             } elseif ($errors = $typesRequest->errors()) {
                 $oldFields = $typesRequest->post();
@@ -281,9 +277,8 @@ class AdminController extends AbstractController
             if ($fields) {
                 $user = User::find($fields['id']);
                 if ($user) {
-                    if (User::update($fields)) {
-                        app()->path->redirect('/admin/users');
-                    }
+                    User::update($fields);
+                    app()->path->redirect('/admin/users');
                 }
             } elseif ($errors = $userRequest->errors()) {
                 $oldFields = $userRequest->post();

@@ -19,9 +19,9 @@ class ActivitiesRequest extends Request
         }
 
         if ($action == 'update') {
-            $findTitle = Activity::find($params['title'], 'title');
-            if ($findTitle) {
-                $findId = get_object_vars($findTitle)['id'];
+            $findActivity = Activity::find($params['title'], 'title');
+            if ($findActivity) {
+                $findId = $findActivity->id;
                 if ($findId != $params['id']) {
                     $this->errors['title'] = 'Значение уже существует!';
                 }
