@@ -22,20 +22,28 @@
                         <a class="nav-link dropdown-toggle text-white" href="/admin" id="navbarDropdown" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         {% if auth_user %}
-                            {{ auth_user.first_name }}
+                            {{ auth_user.login }}
                         {% else %}
                             Панель управления
                         {% endif %}
                         </a>
                         <ul class="dropdown-menu position-absolute dropdown-menu-end" aria-labelledby="navbarDropdown">
                             {% if auth_user %}
-                        
-                                <li><a href="/admin" class="dropdown-item"><span><img class="icons" src = "/src/images/admin_panel.png"></span> Панель администратора</a></li>
-                                <li><a class="dropdown-item" href="/admin"> <span><img class="icons" src = "/src/images/profile.png"></span>  Профиль</a></li>
+                                <li>
+                                    <a href="/admin" class="dropdown-item">
+                                        <img class="icons" src="/src/images/admin_panel.png">
+                                        <span>Панель администратора</span>
+                                    </a>
+                                </li>
                                 <li>
                                     <hr class="dropdown-divider">
                                 </li>
-                                <li><a class="dropdown-item" href="/auth/logout"><span><img class="icons" src = "/src/images/logout.png"></span>  Выход</a></li>
+                                <li>
+                                    <a class="dropdown-item" href="/auth/logout">
+                                        <img class="icons" src = "/src/images/logout.png">
+                                        <span>Выход</span>
+                                    </a>
+                                </li>
                             
                             {% else %}
                                 <li><a href="/auth/login" class="dropdown-item"><span><img class="icons" src = "/src/images/loginM.png"></span> Вход</a></li>

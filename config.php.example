@@ -9,4 +9,5 @@ return [
     'db_charset' => 'utf8',
     'views_dir' => 'views',
     'default_controller' => 'activities',
+    'cookie_time' => 60*60*24*30,
 ];

@@ -4,6 +4,7 @@ return [
     'views_dir' => realpath(__DIR__ . '/../') . "/" . CONFIG['views_dir'] . "/",
     'default_controller' => CONFIG['default_controller'],
     'controller_namespace' => 'app\controllers\\',
+    'cookie_time' => CONFIG['cookie_time'],
     'components' => [
 //       BASE
         'request' => [
