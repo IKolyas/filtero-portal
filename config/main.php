@@ -1,5 +1,14 @@
 <?php
 
+/*
+'views_dir'                     -       корневая директория шаблонов по клиентской части
+'default_controller'            -       контроллер, которое при переходе на сайт пользователю открывает страницу по умолчанию
+'controller_namespace'          -       пространство имен контроллеров
+'cookie_time'                   -       время хранения куки зарегистрированного пользователя
+'components'                    -       Массив предоставляющий доступ к классам из любой точки проекта. 
+                                        Массив можно расширить добавляя необходимые компоненты для дальнейшего его использования.
+*/
+
 return [
     'views_dir' => realpath(__DIR__ . '/../') . "/" . CONFIG['views_dir'] . "/",
     'default_controller' => CONFIG['default_controller'],
@@ -31,9 +40,6 @@ return [
         'cookie' => [
             'class' => \app\base\Cookie::class,
         ],
-        // 'cookieTime' => [
-        //     'time' => time() + 60*6024*30,
-        // ],
 
 //       PROJECT ENTITIES
         'userRepository' => [
