@@ -1,13 +1,22 @@
 <?php
 
 return [
+    // конфигурация настроек подключения к базе данных
     'db_driver' => 'mysql',
     'db_host' => 'localhost',
     'db_database' => 'a0678406_db',
     'db_user' => 'root',
     'db_password' => 'root',
     'db_charset' => 'utf8',
+    // конец настройки подключения к базе данных
+
+    // корневая директория шаблонов представлений
     'views_dir' => 'views',
+    
+
+    // Контроллер по умолчанию (url("/")) 
     'default_controller' => 'activities',
+
+    // Время хранения куки зарегистрированного пользователя
     'cookie_time' => 60*60*24*30,
 ];
