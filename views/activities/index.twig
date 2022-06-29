@@ -1,9 +1,16 @@
 <div class="container d-flex flex-column mt-4">
     <form class=" d-flex justify-content-center align-self-center w-100" role="search">
         <input class="form-control me-2 mw-100 is-input-search" type="search" placeholder="Поиск" aria-label="Search">
-{#        <button class="btn btn-outline-primary" type="submit">Найти</button>#}
     </form>
     <div class="d-flex mt-3">
+        <div class="dropdown me-2">
+            <select class="btn btn-primary dropdown-toggle js-order-by-institute">
+            <option value="default" selected>Учреждение</option>
+                {% for institute in institutes %}
+                   <option value="{{ institute.title }}">{{ institute.title }}</option>
+                {% endfor %}
+            </select>
+       </div>
         <div class="dropdown me-2">
             <select class="btn btn-primary dropdown-toggle js-order-by-type">
             <option value="default" selected>Тип</option>
@@ -23,24 +30,31 @@
         </div>
         <i class="fa-solid fa-arrow-down-short-wide fa-xl text-primary align-self-center js-order-items order_btn" role="button"></i>
     </div>
+    <div class="sliders">
+        {% include 'partials/age_slider.twig' %}
+        {% include 'partials/price_slider.twig' %}
+    </div>
         {% include 'partials/activities_list.twig' %}
         {% include 'partials/activities_list_mobile.twig' %}
     <button onclick="topFunction()" class="btn btn-primary rounded-circle button_to_top" id="buttonToTop" title="Наверх"><i class="fa-solid fa-angles-up"></i></button>
 </div>
 <script>
 
-
-{#    TODO: использовать fetch. Отказаться от JQ#}
-
     const params = {
         offset: 1,
         type: null,
+        institute: null,
+        age_from: null,
+        age_to: null,
+        price_from: null,
+        price_to: null,
         search: null,
         order_by: 'id',
         order: 'ASC'
     }
-
+    
     let typeSelector = document.querySelector('.js-order-by-type');
+    let instituteSelector = document.querySelector('.js-order-by-institute');
     let search = document.querySelector('.is-input-search');
     let orderBy = document.querySelector('.js-order-by-fields');
 
@@ -71,6 +85,12 @@
     orderBy.addEventListener('change', (e) => {
         params.offset = 0;
         params.order_by = e.target.value;
+        loadData(params, true);
+    })
+
+    instituteSelector.addEventListener('change', (e) => {
+        params.offset = 0;
+        params.institute = e.target.value;
         loadData(params, true);
     })
 

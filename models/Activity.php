@@ -55,6 +55,34 @@ class Activity extends Model
         return $this;
     }
 
+    protected function getAges(): array
+    {
+        $agesArray = array();
+        $agesFrom = $this->repository->getAgesFrom();
+        $agesTo = $this->repository->getAgesTo();
+        foreach ($agesFrom as $age){
+            array_push($agesArray, $age->age_from);
+        }
+        foreach ($agesTo   as $age){
+            array_push($agesArray, $age->age_to);
+        }
+        $agesArray = array_unique($agesArray);
+        sort($agesArray);
+        return $agesArray;
+    }
+
+    protected function getPrice(): array
+    {
+        $priceArray = array();
+        $prices = $this->repository->getPrice();
+        foreach ($prices as $price){
+            array_push($priceArray, $price->price);
+        }
+        $priceArray = array_unique($priceArray);
+        sort($priceArray);
+        return $priceArray;
+    }
+
     public function select(array $fields): Activity
     {
         $this->repository->select($fields);
@@ -65,6 +93,25 @@ class Activity extends Model
     {
         $decodedType = urldecode($type);
         $this->repository->type($decodedType);
+        return $this;
+    }
+
+    public function institute(string $institute): Activity
+    {
+        $decodedInstitute = urldecode($institute);
+        $this->repository->institute($decodedInstitute);
+        return $this;
+    }
+
+    public function age_from(string $age_from, string $age_to): Activity
+    {
+        $this->repository->age_from($age_from, $age_to);
+        return $this;
+    }
+
+    public function price(string $price_from, string $price_to): Activity
+    {
+        $this->repository->price($price_from, $price_to);
         return $this;
     }
 

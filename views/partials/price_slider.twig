@@ -1,0 +1,90 @@
+ <div class="middle">
+            <span>Цена</span>
+            <div class="multi-range-slider">
+                <form class="multi-range-slider" name="priceForm" 
+                oninput="rangeValueLeftPrice.value = rangeLeftPrice.valueAsNumber; 
+                        rangeValueRightPrice.value = rangeRightPrice.valueAsNumber;
+                        params.price_from = rangeValueLeftPrice.value;
+                        params.price_to = rangeValueRightPrice.value;
+                        console.log(params);
+                        params.offset = 0;
+                        loadData(params, true);">
+                    <output name="rangeValueLeftPrice" for="input-left-price" >{{ price|first }}</output>
+                    <div class="slider-price">
+                    <input name="rangeLeftPrice" type="range" id="input-left-price" min="{{ price|first }}" max="{{ price|last }}" value="{{ price|first }}">
+                    <input name="rangeRightPrice" type="range" id="input-right-price" min="{{ price|first }}" max="{{ price|last }}" value="{{ price|last }}">
+                        <div class="track"></div>
+                        <div class="range"></div>
+                        <div class="thumb left"></div>
+                        <div class="thumb right"></div>
+                    </div>
+                    <output name="rangeValueRightPrice" for="input-right-price" >{{ price|last }}</output>
+                </form> 
+            </div>
+            
+</div>
+<script>
+    var inputLeftPrice = document.getElementById("input-left-price");
+    var inputRightPrice = document.getElementById("input-right-price");
+
+    var thumbLeftPrice = document.querySelector(".slider-price > .thumb.left");
+    var thumbRightPrice = document.querySelector(".slider-price > .thumb.right");
+    var rangePrice = document.querySelector(".slider-price > .range");
+
+    function setLeftValuePrice() {
+        var _this = inputLeftPrice,
+            min = parseInt(_this.min),
+            max = parseInt(_this.max);
+
+        _this.value = Math.min(parseInt(_this.value), parseInt(inputRightPrice.value) - 1);
+
+        var percent = ((_this.value - min) / (max - min)) * 100;
+
+        thumbLeftPrice.style.left = percent + "%";
+        rangePrice.style.left = percent + "%";
+    }
+    setLeftValuePrice();
+
+    function setRightValuePrice() {
+        var _this = inputRightPrice,
+            min = parseInt(_this.min),
+            max = parseInt(_this.max);
+
+        _this.value = Math.max(parseInt(_this.value), parseInt(inputLeftPrice.value) + 1);
+
+        var percent = ((_this.value - min) / (max - min)) * 100;
+
+        thumbRightPrice.style.right = (100 - percent) + "%";
+        rangePrice.style.right = (100 - percent) + "%";
+    }
+    setRightValuePrice();
+
+    inputLeftPrice.addEventListener("input", setLeftValuePrice);
+    inputRightPrice.addEventListener("input", setRightValuePrice);
+
+    inputLeftPrice.addEventListener("mouseover", function() {
+        thumbLeftPrice.classList.add("hover");
+    });
+    inputLeftPrice.addEventListener("mouseout", function() {
+        thumbLeftPrice.classList.remove("hover");
+    });
+    inputLeftPrice.addEventListener("mousedown", function() {
+        thumbLeftPrice.classList.add("active");
+    });
+    inputLeftPrice.addEventListener("mouseup", function() {
+        thumbLeftPrice.classList.remove("active");
+    });
+
+    inputRightPrice.addEventListener("mouseover", function() {
+        thumbRightPrice.classList.add("hover");
+    });
+    inputRightPrice.addEventListener("mouseout", function() {
+        thumbRightPrice.classList.remove("hover");
+    });
+    inputRightPrice.addEventListener("mousedown", function() {
+        thumbRightPrice.classList.add("active");
+    });
+    inputRightPrice.addEventListener("mouseup", function() {
+        thumbRightPrice.classList.remove("active");
+    });
+</script>
