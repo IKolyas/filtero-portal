@@ -102,7 +102,7 @@ class AdminController extends AbstractController
         if (app()->request->isPost()) {
             $activitiesRequest = new ActivitiesRequest();
 
-            if ($fields = $activitiesRequest->validate()) {
+            if ($fields = $activitiesRequest->validate('create')) {
                 if (Activity::create($fields)) {
                     app()->path->redirect('/admin/activities');
                 }
@@ -121,7 +121,7 @@ class AdminController extends AbstractController
         if (app()->request->isPost()) {
             $institutesRequest = new InstitutesRequest();
 
-            if ($fields = $institutesRequest->validate()) {
+            if ($fields = $institutesRequest->validate('create')) {
                 if (Institute::create($fields)) {
                     app()->path->redirect('/admin/institutes');
                 }
@@ -139,7 +139,7 @@ class AdminController extends AbstractController
         if (app()->request->isPost()) {
             $typesRequest = new TypesRequest();
 
-            if ($fields = $typesRequest->validate()) {
+            if ($fields = $typesRequest->validate('create')) {
                 if (ActivityType::create($fields)) {
                     app()->path->redirect('/admin/types');
                 }
@@ -158,7 +158,7 @@ class AdminController extends AbstractController
 
             $userRequest = new UserRequest();
 
-            if ($fields = $userRequest->validate()) {
+            if ($fields = $userRequest->validate('create')) {
 
                 if (User::create($fields)) {
                     app()->path->redirect('/admin/users');
@@ -209,7 +209,7 @@ class AdminController extends AbstractController
     {
         if (app()->request->isPost()) {
             $activitiesRequest = new ActivitiesRequest();
-            $fields = $activitiesRequest->validate();
+            $fields = $activitiesRequest->validate('update');
 
             if ($fields) {
                 $activities = Activity::find($fields['id']);
@@ -231,8 +231,8 @@ class AdminController extends AbstractController
     {
         if (app()->request->isPost()) {
             $institutesRequest = new InstitutesRequest();
-            $fields = $institutesRequest->validate();
-
+            $fields = $institutesRequest->validate('update');
+            
             if ($fields) {
                 $institutes = Institute::find($fields['id']);
                 if ($institutes) {
@@ -253,7 +253,7 @@ class AdminController extends AbstractController
     {
         if (app()->request->isPost()) {
             $typesRequest = new TypesRequest();
-            $fields = $typesRequest->validate();
+            $fields = $typesRequest->validate('update');
 
             if ($fields) {
                 $types = ActivityType::find($fields['id']);
@@ -276,7 +276,7 @@ class AdminController extends AbstractController
 
         if (app()->request->isPost()) {
             $userRequest = new UserRequest();
-            $fields = $userRequest->validate();
+            $fields = $userRequest->validate('update');
 
             if ($fields) {
                 $user = User::find($fields['id']);
