@@ -9,7 +9,7 @@ class m1655978313_migration_insert_base_user_for_users_table extends AbstractMig
 {
     public function up()
     {
-        $row = "INSERT INTO `users` (`login`, `email`, `password`) VALUES ('FilterO_admin', 'admin@admin.com', MD5('PORtal_2@22/06'))";
+        $row = "INSERT INTO `users` (`login`, `email`, `password`, `is_admin`) VALUES ('FilterO_admin', 'admin@admin.com', MD5('PORtal_2@22/06'), 1)";
 
         return $this->connection->query($row);
 

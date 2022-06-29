@@ -1,23 +1,28 @@
 <div class="activity_list">
     <table class="table table-striped table-hover align-middle mt-5">
-        <thead>
-        <tr class="align-top">
-            <th scope="col">#</th>
-            <th scope="col">Название</th>
-            <th scope="col">Учреждение</th>
-            <th scope="col">Тип активности</th>
-            <th scope="col">Возраст детей</th>
-            <th scope="col">Частота</th>
-            <th scope="col">Длительность</th>
-            <th scope="col">Стоимость за занятие</th>
-            <th scope="col">стоимость за месяц</th>
-            <th scope="col">Контакты</th>
-            <th scope="col">Действия</th>
-        </tr>
-        </thead>
+        <table class="table table-striped table-hover align-middle mt-5">
+            <thead class="text-success">
+            <tr class="align-top text-center">
+                <th rowspan="2">ID</th>
+                <th rowspan="2">Название</th>
+                <th rowspan="2">Учреждение</th>
+                <th rowspan="2">Тип</th>
+                <th rowspan="2">Возраст</th>
+                <th colspan="2" class="px-3">Продолжительность</th>
+                <th colspan="2">Стоимость</th>
+                <th rowspan="2">Контакты</th>
+                <th scope="col">Действия</th>
+            </tr>
+            <tr class="align-top text-center">
+                <th><i class="fas fa-wave-square" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Раз в неделю"></i></th>
+                <th><i class="far fa-clock" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Продолжительность ч."></i></th>
+                <th><i class="fas fa-calendar-day" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Занятие"></i></th>
+                <th><i class="fas fa-calendar-alt" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Месяц"></i></th>
+            </tr>
+            </thead>
         <tbody>
         {% for activity in activities %}
-            <tr>
+            <tr class="text-center align-center">
                 <th scope="row" data-field="id">{{ activity.id }}</th>
                 <td data-field="title">{{ activity.title }}</td>
                 <td data-field="institute_id" data-target-institute-id="{{ activity.institute_id }}">{{ activity.institute_title }}</td>
@@ -34,7 +39,9 @@
                 <td data-field="contacts">{{ activity.contacts }}</td>
                 <td>
                     <i class="fa-solid fa-pencil text-success mx-2 js-types-link__edit activity_action_btn"></i>
-                    <a href="/admin/deleteActivity?{{ activity.id }}" onclick="return confirm('Вы уверенны что хотите удалить?')"><i class="fa-solid fa-trash-can text-danger mx-2 activity_action_btn"></i></a>
+                    <a href="/admin/deleteActivity?{{ activity.id }}" onclick="return confirm('Вы уверенны что хотите удалить?')">
+                        <i class="fa-solid fa-trash-can text-danger mx-2 activity_action_btn"></i>
+                    </a>
                 </td>
             </tr>
         {% else %}

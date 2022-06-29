@@ -10,7 +10,7 @@ use app\requests\ActivitiesRequest;
 class ActivitiesController extends AbstractController
 {
 
-    protected const PAGINATE = 10;
+    protected const PAGINATE = 15;
 
     public function actionIndex(): void
     {
@@ -18,24 +18,27 @@ class ActivitiesController extends AbstractController
         $types = ActivityType::findAll();
 
         if(Activity::isAjax()) {
-
             $request = new ActivitiesRequest();
-
+            
             extract($request->filter());
 
-            $activities = $query->type($type)
-                ->search($search ?? '')
-                ->orderBy($order_by)
-                ->order($order)
-                ->paginate($offset, self::PAGINATE)
-                ->get();
+            if (isset($type)) $query->type($type);
+            if (isset($search)) $query->search($search);
+            if (isset($order_by)) $query->orderBy($order_by);
+            if (isset($order)) $query->order($order);
+            $query->paginate((int) $offset, self::PAGINATE);
+
+            $activities = $query->get();
 
             Activity::getActivitiesFields($activities);
 
-            $html = Activity::renderMain($activities);
-            $html_mobile = Activity::renderMobile($activities);
+            $html = Activity::renderMain($activities, (int) $offset);
+            $html_mobile = Activity::renderMobile($activities, (int) $offset);
 
+            
+            
             header('Content-Type: application/json');
+
             echo json_encode(compact('html', 'html_mobile'));
             return;
         }

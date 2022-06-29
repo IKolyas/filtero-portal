@@ -1,7 +1,6 @@
 <div class="container d-flex flex-column mt-4 mb-4">
-    <form class=" d-flex justify-content-center align-self-center w-100" role="search">
+    <form class="d-flex justify-content-center align-self-center w-100" role="search">
         <input class="form-control me-2 mw-100 is-input-search" type="search" placeholder="Поиск" aria-label="Search">
-{#        <button class="btn btn-outline-primary" type="submit">Найти</button>#}
     </form>
     <div class="d-flex mt-3">
         <div class="dropdown me-2">
@@ -11,8 +10,6 @@
                    <option value="{{ type.title }}">{{ type.title }}</option>
                 {% endfor %}
             </select>
-       </div>
-        <div class="dropdown me-2">
             <select class="btn btn-primary dropdown-toggle js-order-by-fields menu_dowm_animate">
                 <option value="id" selected>Сортировка</option>
                 <option value="title">Название</option>
@@ -25,11 +22,6 @@
     </div>
         {% include 'partials/activities_list.twig' %}
         {% include 'partials/activities_list_mobile.twig' %}
-    <div id="spinner">
-        <div class="spinner-border spinner-border-md text-primary spinner_circle" role="status">
-            <span class="sr-only"></span>
-        </div>
-    </div>
     <button onclick="topFunction()" class="btn btn-primary rounded-circle button_to_top" id="buttonToTop" title="Наверх"><i class="fa-solid fa-angles-up"></i></button>
 </div>
 <script>
@@ -45,7 +37,6 @@
         order: 'ASC'
     }
 
-    // let offset = 0;
     let typeSelector = document.querySelector('.js-order-by-type');
     let search = document.querySelector('.is-input-search');
     let orderBy = document.querySelector('.js-order-by-fields');
@@ -100,14 +91,17 @@
     let cardList = document.querySelector('.activity_list_rows')
 
     function loadData(params, is_search) {
-        $('#spinner').show();
+        document.getElementById('spinner').classList.add('loader__active')
         document.querySelector('.loader').classList.add('loader__active')
-        $.ajax({
-            url: '/activities/index/', 
-            method: 'GET',         
-            dataType: 'json',          
-            data: params,
-            success: function(data){
+        let url = "/activities/index?";
+        let query = Object.keys(params)
+            .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+            .join('&');
+        fetch(url + query, {method: 'get', credentials: 'same-origin', headers: {'X-Requested-With': 'XMLHttpRequest'}})
+            .then(response => {
+                return response.json();
+            })
+            .then(data => {
                 if(is_search) {
                     cardListMobile.innerHTML = data.html_mobile;
                     cardList.innerHTML = data.html;
@@ -115,13 +109,14 @@
                     cardListMobile.innerHTML += data.html_mobile;
                     cardList.innerHTML += data.html;
                 }
-            },
-            complete: function () {
-                $('#spinner').hide();
+            })
+            .catch(err => {
+                console.log(err);
+            })
+            .finally(() => {
+                document.getElementById('spinner').classList.remove('loader__active')
                 document.querySelector('.loader').classList.remove('loader__active')
-            }
-            
-        });
+            })
     }
 
     mybutton = document.getElementById("buttonToTop");

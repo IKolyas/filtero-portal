@@ -9,9 +9,9 @@ class Activity extends Model
 
     public int $id;
     public string $title;
-    public int $institute_id;
-    public int $activity_type_id;
-    public int $user_id;
+    public ?int $institute_id;
+    public ?int $activity_type_id;
+    public ?int $user_id;
     public int $age_from;
     public int $age_to;
     public int $amount_of_week;
@@ -120,7 +120,9 @@ class Activity extends Model
             activities.price_month,
             activities.contacts,
             institutes.title as institute_title,
-            activity_types.title as type_title
+            institutes.id as institute_id,
+            activity_types.title as type_title,
+            activity_types.id as type_id
            '
         ])
             ->leftJoin('institutes', 'institute_id', 'institutes.id')
@@ -131,20 +133,24 @@ class Activity extends Model
         return $this;
     }
 
-    public function renderMain($activities): string
+    public function renderMain($activities, int $offset): string
     {
         $html = '';
+        $row_count = ++$offset;
         foreach ($activities as $activity) {
-            $html .= app()->renderer->render('activities.item', compact('activity'));
+            $html .= app()->renderer->render('activities.item', compact('activity', 'row_count'));
+            $row_count++;
         }
         return $html;
     }
 
-    public function renderMobile($activities): string
+    public function renderMobile($activities, int $offset): string
     {
         $html_mobile = '';
+        $row_count = ++$offset;
         foreach ($activities as $activity) {
-            $html_mobile .= app()->renderer->render('activities.item_mobile', compact('activity'));
+            $html_mobile .= app()->renderer->render('activities.item_mobile', compact('activity', 'row_count'));
+            $row_count++;
         }
         return $html_mobile;
     }
