@@ -9,16 +9,16 @@
                         console.log(params);
                         params.offset = 0;
                         loadData(params, true);">
-                    <output name="rangeValueLeftPrice" for="input-left-price" >{{ price|first }}</output>
+                    <output name="rangeValueLeftPrice" for="input-left-price" >{{ price.min_price }}</output>
                     <div class="slider-price">
-                    <input name="rangeLeftPrice" type="range" id="input-left-price" min="{{ price|first }}" max="{{ price|last }}" value="{{ price|first }}">
-                    <input name="rangeRightPrice" type="range" id="input-right-price" min="{{ price|first }}" max="{{ price|last }}" value="{{ price|last }}">
+                        <input name="rangeLeftPrice" type="range" id="input-left-price" min="{{ price.min_price }}" max="{{ price.max_price }}" value="{{ price.min_price }}">
+                        <input name="rangeRightPrice" type="range" id="input-right-price" min="{{ price.min_price}}" max="{{ price.max_price}}" value="{{ price.max_price }}">
                         <div class="track"></div>
                         <div class="range"></div>
                         <div class="thumb left"></div>
                         <div class="thumb right"></div>
                     </div>
-                    <output name="rangeValueRightPrice" for="input-right-price" >{{ price|last }}</output>
+                    <output name="rangeValueRightPrice" for="input-right-price" >{{ price.max_price }}</output>
                 </form> 
             </div>
             

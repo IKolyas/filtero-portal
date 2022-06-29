@@ -71,6 +71,34 @@ class ActivityRepository extends RepositoryAbstract
         }
     }
 
+    public function duration(string $duration_from, string $duration_to): void
+    {
+        if($duration_from && $duration_to) {
+            if (strpos($this->query, "WHERE") !== false) {
+                $this->query .= "AND ";
+            }
+            else{
+                $this->query .= "WHERE ";
+            }
+            $this->query .= "activities.duration_time >= '{$duration_from}' AND activities.duration_time <= '{$duration_to}'";
+            
+        }
+    }
+
+    public function amount(string $amount_from, string $amount_to): void
+    {
+        if($amount_from && $amount_to) {
+            if (strpos($this->query, "WHERE") !== false) {
+                $this->query .= "AND ";
+            }
+            else{
+                $this->query .= "WHERE ";
+            }
+            $this->query .= "activities.amount_of_week >= '{$amount_from}' AND activities.amount_of_week <= '{$amount_to}'";
+            
+        }
+    }
+
     public function price(string $price_from, string $price_to): void
     {
         if($price_from && $price_to) {
@@ -81,6 +109,20 @@ class ActivityRepository extends RepositoryAbstract
                 $this->query .= "WHERE ";
             }
             $this->query .= "activities.price >= '{$price_from}' AND activities.price <= '{$price_to}'";
+            
+        }
+    }
+
+    public function price_month(string $price_month_from, string $price_month_to): void
+    {
+        if($price_month_from && $price_month_to) {
+            if (strpos($this->query, "WHERE") !== false) {
+                $this->query .= "AND ";
+            }
+            else{
+                $this->query .= "WHERE ";
+            }
+            $this->query .= "activities.price_month >= '{$price_month_from}' AND activities.price_month <= '{$price_month_to}'";
             
         }
     }
@@ -141,10 +183,28 @@ class ActivityRepository extends RepositoryAbstract
         
     }
 
-    public function getPrice(): array
+    public function getPrice(bool $month): array
     {
-        $sql = "SELECT price FROM {$this->getTableName()} ";
-        return $this->getQuery($sql, []);
+        if(!$month){
+            $sql= "SELECT MIN(price) as min_price, MAX(price) as max_price FROM {$this->getTableName()} ";
+            return $this->getQuery($sql, []);
+        }
+        else {
+            $sql= "SELECT MIN(price_month) as min_price, MAX(price_month) as max_price FROM {$this->getTableName()} ";
+            return $this->getQuery($sql, []);
+        }
         
+    }
+
+    public function getDuration(): array
+    {
+        $sql= "SELECT MIN(duration_time) as min_duration, MAX(duration_time) as max_duration FROM {$this->getTableName()} ";
+        return $this->getQuery($sql, []);
+    }
+
+    public function getAmount(): array
+    {
+        $sql= "SELECT MIN(amount_of_week) as min_amount, MAX(amount_of_week) as max_amount FROM {$this->getTableName()} ";
+        return $this->getQuery($sql, []);
     }
 }

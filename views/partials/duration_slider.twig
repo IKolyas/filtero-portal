@@ -1,0 +1,89 @@
+<div class="middle">
+            <span>Время</span>
+            <div class="multi-range-slider">
+                <form class="multi-range-slider" name="myform" 
+                oninput="rangeValueLeftduration.value = rangeLeftduration.valueAsNumber; 
+                        rangeValueRightduration.value = rangeRightduration.valueAsNumber;
+                        params.duration_from = rangeValueLeftduration.value;
+                        params.duration_to = rangeValueRightduration.value;
+                        params.offset = 0;
+                        loadData(params, true);">
+                    <output name="rangeValueLeftduration" for="input-left-duration" >{{ duration.min_duration }}</output>
+                    <div class="slider-duration">
+                        <input name="rangeLeftduration" type="range" id="input-left-duration" min="{{ duration.min_duration  }}" max="{{ duration.max_duration }}" value="{{ duration.min_duration  }}">
+                        <input name="rangeRightduration" type="range" id="input-right-duration" min="{{ duration.min_duration }}" max="{{ duration.max_duration }}" value="{{ duration.max_duration}}">
+                        <div class="track"></div>
+                        <div class="range"></div>
+                        <div class="thumb left"></div>
+                        <div class="thumb right"></div>
+                    </div>
+                    <output name="rangeValueRightduration" for="input-right-duration" >{{ duration.max_duration }}</output>
+                </form> 
+            </div>
+            
+</div>
+<script>
+    var inputLeftDuration = document.getElementById("input-left-duration");
+    var inputRightDuration  = document.getElementById("input-right-duration");
+
+    var thumbLeftDuration  = document.querySelector(".slider-duration > .thumb.left");
+    var thumbRightDuration  = document.querySelector(".slider-duration > .thumb.right");
+    var rangeDuration  = document.querySelector(".slider-duration > .range");
+
+    function setLeftValueDuration() {
+        var _this = inputLeftDuration,
+            min = parseInt(_this.min),
+            max = parseInt(_this.max);
+
+        _this.value = Math.min(parseInt(_this.value), parseInt(inputRightDuration .value) - 1);
+
+        var percent = ((_this.value - min) / (max - min)) * 100;
+
+        thumbLeftDuration.style.left = percent + "%";
+        rangeDuration.style.left = percent + "%";
+    }
+    setLeftValueDuration ();
+
+    function setRightValueDuration() {
+        var _this = inputRightDuration,
+            min = parseInt(_this.min),
+            max = parseInt(_this.max);
+
+        _this.value = Math.max(parseInt(_this.value), parseInt(inputLeftDuration.value) + 1);
+
+        var percent = ((_this.value - min) / (max - min)) * 100;
+
+        thumbRightDuration.style.right = (100 - percent) + "%";
+        rangeDuration.style.right = (100 - percent) + "%";
+    }
+    setRightValueDuration ();
+
+    inputLeftDuration .addEventListener("input", setLeftValueDuration);
+    inputRightDuration .addEventListener("input", setRightValueDuration);
+
+    inputLeftDuration.addEventListener("mouseover", function() {
+        thumbLeftDuration .classList.add("hover");
+    });
+    inputLeftDuration.addEventListener("mouseout", function() {
+        thumbLeftDuration .classList.remove("hover");
+    });
+    inputLeftDuration.addEventListener("mousedown", function() {
+        thumbLeftDuration .classList.add("active");
+    });
+    inputLeftDuration.addEventListener("mouseup", function() {
+        thumbLeftDuration .classList.remove("active");
+    });
+
+    inputRightDuration.addEventListener("mouseover", function() {
+        thumbRightDuration .classList.add("hover");
+    });
+    inputRightDuration.addEventListener("mouseout", function() {
+        thumbRightDuration .classList.remove("hover");
+    });
+    inputRightDuration.addEventListener("mousedown", function() {
+        thumbRightDuration .classList.add("active");
+    });
+    inputRightDuration.addEventListener("mouseup", function() {
+        thumbRightDuration .classList.remove("active");
+    });
+</script>

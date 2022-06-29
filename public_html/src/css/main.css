@@ -164,6 +164,18 @@ footer {
     display: block;
 }
 
+.filters {
+    display: flex;
+    flex-direction: column;
+}
+
+.filters_buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+}
+
 .sliders {
     display: flex;
     flex-direction: column;
@@ -188,7 +200,7 @@ footer {
     display: flex;
 }
 
-.slider, .slider-price {
+.slider, .slider-price, .slider-price-month {
 	position: relative;
 	z-index: 1;
 	height: 10px;
@@ -301,7 +313,6 @@ footer {
 }
 
 
-
 input[type=range] {
 	position: absolute;
 	pointer-events: none;
@@ -350,7 +361,16 @@ input[type=range]::-webkit-slider-thumb {
        display: none;
    }
 
+   .filters_buttons {
+        width: 55%;
+    }
+
    .sliders {
-       flex-direction: row;
+        width: 45%;
    }
+
+   .filters {
+        display: flex;
+        flex-direction: row;
+    }
 }

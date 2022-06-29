@@ -71,16 +71,19 @@ class Activity extends Model
         return $agesArray;
     }
 
-    protected function getPrice(): array
+    protected function getPrice(bool $month): array
     {
-        $priceArray = array();
-        $prices = $this->repository->getPrice();
-        foreach ($prices as $price){
-            array_push($priceArray, $price->price);
-        }
-        $priceArray = array_unique($priceArray);
-        sort($priceArray);
-        return $priceArray;
+        return $this->repository->getPrice($month);
+    }
+
+    protected function getDuration(): array
+    {
+        return $this->repository->getDuration();
+    }
+
+    protected function getAmount(): array
+    {
+        return $this->repository->getAmount();
     }
 
     public function select(array $fields): Activity
@@ -109,9 +112,27 @@ class Activity extends Model
         return $this;
     }
 
+    public function duration(string $duration_from, string $duration_to): Activity
+    {
+        $this->repository->duration($duration_from, $duration_to);
+        return $this;
+    }
+
+    public function amount(string $amount_from, string $amount_to): Activity
+    {
+        $this->repository->amount($amount_from, $amount_to);
+        return $this;
+    }
+
     public function price(string $price_from, string $price_to): Activity
     {
         $this->repository->price($price_from, $price_to);
+        return $this;
+    }
+
+    public function price_month(string $price_month_from, string $price_month_to): Activity
+    {
+        $this->repository->price_month($price_month_from, $price_month_to);
         return $this;
     }
 

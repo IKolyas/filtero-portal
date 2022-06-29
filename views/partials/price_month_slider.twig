@@ -1,0 +1,89 @@
+<div class="middle">
+            <span>Цена в месяц</span>
+            <div class="multi-range-slider">
+                <form class="multi-range-slider" name="myform" 
+                oninput="rangeValueLeftPriceMonth.value = rangeLeftPriceMonth.valueAsNumber; 
+                        rangeValueRightPriceMonth.value = rangeRightPriceMonth.valueAsNumber;
+                        params.price_month_from = rangeValueLeftPriceMonth.value;
+                        params.price_month_to = rangeValueRightPriceMonth.value;
+                        params.offset = 0;
+                        loadData(params, true);">
+                    <output name="rangeValueLeftPriceMonth" for="input-left-price-month" >{{ price_month.min_price }}</output>
+                    <div class="slider-price-month">
+                        <input name="rangeLeftPriceMonth" type="range" id="input-left-price-month" min="{{ price_month.min_price  }}" max="{{ price_month.max_price }}" value="{{ price_month.min_price  }}">
+                        <input name="rangeRightPriceMonth" type="range" id="input-right-price-month" min="{{ price_month.min_price }}" max="{{ price_month.max_price }}" value="{{ price_month.max_price}}">
+                        <div class="track"></div>
+                        <div class="range"></div>
+                        <div class="thumb left"></div>
+                        <div class="thumb right"></div>
+                    </div>
+                    <output name="rangeValueRightPriceMonth" for="input-right-price-month" >{{ price_month.max_price }}</output>
+                </form> 
+            </div>
+            
+</div>
+<script>
+    var inputLeftPriceMonth = document.getElementById("input-left-price-month");
+    var inputRightPriceMonth  = document.getElementById("input-right-price-month");
+
+    var thumbLeftPriceMonth  = document.querySelector(".slider-price-month > .thumb.left");
+    var thumbRightPriceMonth  = document.querySelector(".slider-price-month > .thumb.right");
+    var rangePriceMonth  = document.querySelector(".slider-price-month > .range");
+
+    function setLeftValuePriceMonth() {
+        var _this = inputLeftPriceMonth,
+            min = parseInt(_this.min),
+            max = parseInt(_this.max);
+
+        _this.value = Math.min(parseInt(_this.value), parseInt(inputRightPriceMonth .value) - 1);
+
+        var percent = ((_this.value - min) / (max - min)) * 100;
+
+        thumbLeftPriceMonth.style.left = percent + "%";
+        rangePriceMonth.style.left = percent + "%";
+    }
+    setLeftValuePriceMonth ();
+
+    function setRightValuePriceMonth() {
+        var _this = inputRightPriceMonth,
+            min = parseInt(_this.min),
+            max = parseInt(_this.max);
+
+        _this.value = Math.max(parseInt(_this.value), parseInt(inputLeftPriceMonth.value) + 1);
+
+        var percent = ((_this.value - min) / (max - min)) * 100;
+
+        thumbRightPriceMonth.style.right = (100 - percent) + "%";
+        rangePriceMonth.style.right = (100 - percent) + "%";
+    }
+    setRightValuePriceMonth ();
+
+    inputLeftPriceMonth .addEventListener("input", setLeftValuePriceMonth);
+    inputRightPriceMonth .addEventListener("input", setRightValuePriceMonth);
+
+    inputLeftPriceMonth.addEventListener("mouseover", function() {
+        thumbLeftPriceMonth .classList.add("hover");
+    });
+    inputLeftPriceMonth.addEventListener("mouseout", function() {
+        thumbLeftPriceMonth .classList.remove("hover");
+    });
+    inputLeftPriceMonth.addEventListener("mousedown", function() {
+        thumbLeftPriceMonth .classList.add("active");
+    });
+    inputLeftPriceMonth.addEventListener("mouseup", function() {
+        thumbLeftPriceMonth .classList.remove("active");
+    });
+
+    inputRightPriceMonth.addEventListener("mouseover", function() {
+        thumbRightPriceMonth .classList.add("hover");
+    });
+    inputRightPriceMonth.addEventListener("mouseout", function() {
+        thumbRightPriceMonth .classList.remove("hover");
+    });
+    inputRightPriceMonth.addEventListener("mousedown", function() {
+        thumbRightPriceMonth .classList.add("active");
+    });
+    inputRightPriceMonth.addEventListener("mouseup", function() {
+        thumbRightPriceMonth .classList.remove("active");
+    });
+</script>
