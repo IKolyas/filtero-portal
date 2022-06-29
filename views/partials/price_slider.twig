@@ -1,5 +1,5 @@
  <div class="middle">
-            <span>Цена</span>
+            <span class="fw-bold mb-2">Цена</span>
             <div class="multi-range-slider">
                 <form class="multi-range-slider" name="priceForm" 
                 oninput="rangeValueLeftPrice.value = rangeLeftPrice.valueAsNumber; 
@@ -9,7 +9,7 @@
                         console.log(params);
                         params.offset = 0;
                         loadData(params, true);">
-                    <output name="rangeValueLeftPrice" for="input-left-price" >{{ price.min_price }}</output>
+                    
                     <div class="slider-price">
                         <input name="rangeLeftPrice" type="range" id="input-left-price" min="{{ price.min_price }}" max="{{ price.max_price }}" value="{{ price.min_price }}">
                         <input name="rangeRightPrice" type="range" id="input-right-price" min="{{ price.min_price}}" max="{{ price.max_price}}" value="{{ price.max_price }}">
@@ -18,7 +18,11 @@
                         <div class="thumb left"></div>
                         <div class="thumb right"></div>
                     </div>
-                    <output name="rangeValueRightPrice" for="input-right-price" >{{ price.max_price }}</output>
+                    <div class="slider_values">
+                        <output name="rangeValueLeftPrice" for="input-left-price" >{{ price.min_price }}</output>
+                        <output class="slider_right_value" name="rangeValueRightPrice" for="input-right-price" >{{ price.max_price }}</output>
+                    </div>
+                    
                 </form> 
             </div>
             
