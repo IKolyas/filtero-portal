@@ -154,7 +154,14 @@
         <input class="form-control" type="hidden" name="user_id" value="{{ user.id }}">
         <div class="send_form_activities col-xl-3 col-md-6 align-items-start js-button-table-box">
             <button class="btn btn-secondary mx-3 js-button-clear">Очистить</button>
-            <button type="submit" class="btn btn-primary js-button-submit" onclick="return confirm('Вы уверенны что хотите сохранить?')">Добавить</button>
+            <button type="submit" class="btn btn-primary js-button-submit" onclick="return confirm('Вы уверенны что хотите сохранить?')"
+            >
+            {% if oldFields and oldFields.id %}
+                Сохранить
+            {% else %}
+                Добавить
+            {% endif %}
+            </button>
         </div>
         {% if oldFields and oldFields.id %}
         {% set activityEdit = activities|filter((v, k) => v.id == oldFields.id) %}

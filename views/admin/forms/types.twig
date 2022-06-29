@@ -24,7 +24,14 @@
         </div>
         <div class="send_form_activities col-lg-3 align-items-start js-button-table-box">
             <button class="btn btn-secondary mx-3 js-button-clear">Очистить</button>
-            <button type="submit" class="btn btn-primary js-button-submit" onclick="return confirm('Вы уверенны что хотите сохранить?')">Добавить</button>
+            <button type="submit" class="btn btn-primary js-button-submit" onclick="return confirm('Вы уверенны что хотите сохранить?')"
+            >
+            {% if oldFields and oldFields.id %}
+                Сохранить
+            {% else %}
+                Добавить
+            {% endif %}
+            </button>
         </div>
         {% if oldFields and oldFields.id %}
         {% set typeEdit = types|filter((v, k) => v.id == oldFields.id) %}
