@@ -1,49 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-    const notNullFields =
-        [
-            'title',
-            'login',
-            'password',
-            'email'
-        ]
-
-
-
+    
     let btnEdit = document.querySelectorAll('.js-types-link__edit');
     let form = document.getElementById('form-edit');
-
+    
     if (form && btnEdit.length > 0) {
         let formEditFields = form.getElementsByTagName('input');
         let formEditFieldsTextarea = form.getElementsByTagName('textarea');
         let formEditFieldsSelect = form.getElementsByTagName('select');
-
+        
         const buttonClear = document.querySelector('.js-button-clear');
         const buttonSubmit = document.querySelector('.js-button-submit');
         const notification = document.querySelector('.js-types-notification');
-
+        
+        checkNullFormForButton(formEditFields, buttonSubmit);
+        
         let startEdit = false;
-
-        let emptyNotNullFields = 0;
-        Object.entries(formEditFields).forEach((fieldArr) => {
-            if(fieldArr.length > 0 && notNullFields.includes(fieldArr[1].name)) {
-                fieldArr[1].addEventListener('input', (e) => {
-                    Object.entries(formEditFields).forEach(fieldArr => {
-                        if(fieldArr[1].value.length === 0) emptyNotNullFields++;
-                    });
-                    emptyNotNullFields === 0 ? buttonSubmit.disabled = false : buttonSubmit.disabled = true;
-                    emptyNotNullFields = 0;
-                })
-            }
-        })
-
         buttonClear.addEventListener('click', (e) => {
             e.preventDefault();
             if (buttonSubmit.innerHTML === 'Сохранить') {
                 buttonSubmit.innerHTML = 'Добавить';
             }
 
-            buttonSubmit.disabled = false;
+            buttonSubmit.disabled = true;
             if (startEdit) {
                 form.action = "/admin/create" + form.action.split("/admin/update")[1];
             }
@@ -121,14 +99,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     let row = btn.parentElement.parentElement;
                     addDataToChangeInput(row, formEditFields);
                     buttonSubmit.disabled = true;
-                    enableButtonSubmit(formEditFields, buttonSubmit);
+                    checkValueFormForButton(formEditFields, buttonSubmit);
+                    // checkNullFormForButton(formEditFields, buttonSubmit);
                     if (formEditFieldsTextarea.length > 0) {
                         addDataToChangeInput(row, formEditFieldsTextarea);
-                        enableButtonSubmit(formEditFieldsTextarea, buttonSubmit);
+                        checkValueFormForButton(formEditFieldsTextarea, buttonSubmit);
                     }
                     if (formEditFieldsSelect.length > 0) {
                         addDataToChangeInput(row, formEditFieldsSelect);
-                        enableButtonSubmit(formEditFieldsSelect, buttonSubmit);
+                        checkValueFormForButton(formEditFieldsSelect, buttonSubmit);
                     }
 
                     // Удаляем из html кнопки редактировать и удалить
@@ -154,43 +133,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
             })
         }
-        if (form.hasAttribute('data-errors-form')) {
-            // buttonSubmit.disabled = true;
-
-            // let idEdit = form.getAttribute('data-errors-form')
-
-            // let table = document.querySelectorAll('.activity_list-admin tbody tr');
-
-            // // console.log('---', table);
-            // // console.log('---', table.querySelector('th').innerHTML);
-
-            // table.forEach(row => {
-            //     let rowEdit = row.querySelector('th').innerHTML
-            //     if (rowEdit == idEdit) {
-            //         for (let field of formEditFields) {
-            //             let selector = row.querySelector(`[data-field='${field.name}']`);
-
-            //             console.log('-------', selector.innerHTML, `${field.name}`);
-            //         }
-
-
-            //         console.log('-------');
-            //     }
-            // })
-
-
-            // enableButtonSubmit(formEditFields, buttonSubmit);
-            // if (formEditFieldsTextarea.length > 0) {
-            //     enableButtonSubmit(formEditFieldsTextarea, buttonSubmit);
-            // }
-            // if (formEditFieldsSelect.length > 0) {
-            //     enableButtonSubmit(formEditFieldsSelect, buttonSubmit);
-            // }
-
-
-        }
     }
-
 
     function clearErrorsNotification() {
         if (document.querySelector('.js-errors-notification')) {
@@ -200,18 +143,65 @@ document.addEventListener("DOMContentLoaded", () => {
             })
         }
     }
-
-    function enableButtonSubmit(incomingValue, buttonSubmit, incomingData = null) {
+    
+    
+    function checkValueFormForButton(incomingValues, buttonSubmit) {
         let dataFields = [];
-        for (let i = 0; i < incomingValue.length; i++) {
-            dataFields[incomingValue[i].name] = incomingValue[i].value;
+        let stateFields = [];
+        for (let i = 0; i < incomingValues.length; i++) {
+            dataFields[incomingValues[i].name] = incomingValues[i].value;
+    
+            incomingValues[i].addEventListener("input", () => {
+                if (incomingValues[i].value == dataFields[incomingValues[i].name]) {
+                    stateFields[incomingValues[i].name] = 'equals';
+                } else {
+                    stateFields[incomingValues[i].name] = 'notEquals';
+                }
 
-            incomingValue[i].addEventListener("input", () => {
-                buttonSubmit.disabled = incomingValue[i].value === dataFields[incomingValue[i].name] || incomingValue[i].value.length === 0;
+                let nullStateFields = Object.values(stateFields).includes('notEquals')
+
+                if (nullStateFields && incomingValues[i].value.length > 0) {
+                    buttonSubmit.disabled = false
+                } else if (!nullStateFields) {
+                    buttonSubmit.disabled = true
+                }
             })
         }
     }
-
-
-
+    
+    function checkNullFormForButton(incomingValues, buttonSubmit) {
+        let notNullFields =
+        [
+            'title',
+            'login',
+            'password',
+            'email'
+        ]
+    
+        let stateRequiredFields = [];
+        Object.entries(incomingValues).forEach((fieldArr) => {
+        if(fieldArr.length > 0) {
+            fieldArr[1].addEventListener('input', (e) => {
+    
+                    stateRequiredFields = [];
+                    Object.entries(incomingValues).forEach(fieldArrGlobal => {
+                        if(fieldArrGlobal[1].value.length > 0 &&  notNullFields.includes(fieldArrGlobal[1].name)) {
+                            stateRequiredFields[fieldArrGlobal[1].name] = 'notNull'
+                        } else if (fieldArrGlobal[1].value.length === 0 &&  notNullFields.includes(fieldArrGlobal[1].name)) {
+                            stateRequiredFields[fieldArrGlobal[1].name] = 'Null'
+                        };
+                        if (fieldArrGlobal[1].name == 'password' && fieldArrGlobal[1].disabled) { // удаляю из проверки обязательное поле password когда оно disable так как иначе ломается функционал
+                            notNullFields = notNullFields.filter(field => {
+                                return field != 'password'
+                            });
+                        };
+                    });
+    
+                    let nullStateRequiredFields = Object.values(stateRequiredFields).includes('Null')
+                    
+                    !nullStateRequiredFields ? buttonSubmit.disabled = false : buttonSubmit.disabled = true;
+                })
+            }
+        })
+    }
 });
