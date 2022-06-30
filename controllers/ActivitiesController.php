@@ -102,6 +102,7 @@ class ActivitiesController extends AbstractController
         $activities = $query->paginate(0,self::PAGINATE)->get([]);
         Activity::getActivitiesFields($activities);
 
+
         echo $this->render('activities.index', compact('activities', 'types', 'institutes', 'ages', 'amount', 'duration', 'price', 'price_month'));
     }
 
