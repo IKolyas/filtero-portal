@@ -55,33 +55,33 @@ class Activity extends Model
         return $this;
     }
 
-    protected function getAges(): array
+    public function getAges(): array
     {
         $agesArray = array();
         $agesFrom = $this->repository->getAgesFrom();
         $agesTo = $this->repository->getAgesTo();
         foreach ($agesFrom as $age){
-            array_push($agesArray, $age->age_from);
+            $agesArray[] = $age->age_from;
         }
         foreach ($agesTo   as $age){
-            array_push($agesArray, $age->age_to);
+            $agesArray[] = $age->age_to;
         }
         $agesArray = array_unique($agesArray);
         sort($agesArray);
         return $agesArray;
     }
 
-    protected function getPrice(bool $month): array
+    public function getPrice($month = false): ?Activity
     {
         return $this->repository->getPrice($month);
     }
 
-    protected function getDuration(): array
+    public function getDuration(): ?Activity
     {
         return $this->repository->getDuration();
     }
 
-    protected function getAmount(): array
+    public function getAmount(): ?Activity
     {
         return $this->repository->getAmount();
     }
@@ -195,7 +195,6 @@ class Activity extends Model
         ])
             ->leftJoin('institutes', 'institute_id', 'institutes.id')
             ->leftJoin('activity_types', 'activity_type_id', 'activity_types.id')
-
         ;
 
         return $this;

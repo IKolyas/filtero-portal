@@ -1,6 +1,6 @@
 <div class="container d-flex flex-column mt-4 mb-4">
     <form class="d-flex justify-content-center align-self-center w-100" role="search">
-        <input class="form-control me-2 mw-100 is-input-search" type="search" placeholder="Поиск" aria-label="Search">
+        <input class="form-control mw-100 is-input-search" type="search" placeholder="Поиск" aria-label="Search">
     </form>
     <div class="filters">
         <div class="filters_buttons mt-3">
@@ -31,12 +31,21 @@
                 <i class="fa-solid fa-arrow-down-short-wide fa-xl text-primary align-self-center js-order-items order_btn" role="button"></i>
             </div>
         </div>
-        <div class="sliders">
-            {% include 'partials/age_slider.twig' %}
-            {% include 'partials/amount_slider.twig' %}
-            {% include 'partials/duration_slider.twig' %}
-            {% include 'partials/price_slider.twig' %}
-            {% include 'partials/price_month_slider.twig' %}
+        <div class="accordion w-50 mt-3">
+            <div class="accordion-item">
+                <button class="accordion-button collapsed p-2" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                    Фильтры
+                </button>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="sliders p-4">
+                        {% include 'partials/age_slider.twig' %}
+                        {% include 'partials/amount_slider.twig' %}
+                        {% include 'partials/duration_slider.twig' %}
+                        {% include 'partials/price_slider.twig' %}
+                        {% include 'partials/price_month_slider.twig' %}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
         {% include 'partials/activities_list.twig' %}

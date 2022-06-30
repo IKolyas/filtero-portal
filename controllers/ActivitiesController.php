@@ -14,14 +14,17 @@ class ActivitiesController extends AbstractController
 
     public function actionIndex(): void
     {
+
         $query = Activity::getActivitiesIndex();
         $types = ActivityType::findAll();
         $institutes = Institute::findAll();
-        $ages = Activity::getAges();
-        $amount = Activity::getAmount()[0];
-        $duration = Activity::getDuration()[0];
-        $price = Activity::getPrice(false)[0];
-        $price_month = Activity::getPrice(true)[0];
+
+        $ages = $query->getAges();
+        $amount = $query->getAmount();
+        $duration = $query->getDuration();
+        $price = $query->getPrice();
+        $price_month = $query->getPrice('month');
+
 
         if(Activity::isAjax()) {
             $request = new ActivitiesRequest();
@@ -46,8 +49,6 @@ class ActivitiesController extends AbstractController
 
             $html = Activity::renderMain($activities, (int) $offset);
             $html_mobile = Activity::renderMobile($activities, (int) $offset);
-
-            
             
             header('Content-Type: application/json');
 
