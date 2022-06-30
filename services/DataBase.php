@@ -61,6 +61,7 @@ class DataBase
 
     public function queryAll(string $sql, array $params = [], string $className = null)
     {
+        
         $pdoStatement = $this->query($sql, $params);
         if (isset($className)) {
             $pdoStatement->setFetchMode(

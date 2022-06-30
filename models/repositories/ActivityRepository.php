@@ -36,24 +36,20 @@ class ActivityRepository extends RepositoryAbstract
     public function type(string $type): void
     {
         if($type) {
-            if($type !== "default") {
-                $this->query .= "WHERE activity_types.title = '{$type}' ";
-            }
+            $this->query .= "WHERE activity_types.title = :type ";
         }
     }
 
     public function institute(string $institute): void
     {
         if($institute) {
-            if($institute !== "default") {
-                if (strpos($this->query, "WHERE") !== false) {
-                    $this->query .= "AND ";
-                }
-                else{
-                    $this->query .= "WHERE ";
-                }
-                $this->query .= "institutes.title = '{$institute}' ";
+            if (strpos($this->query, "WHERE") !== false) {
+                $this->query .= "AND ";
             }
+            else{
+                $this->query .= "WHERE ";
+            }
+            $this->query .= "institutes.title = :institute ";
         }
     }
 
@@ -66,7 +62,7 @@ class ActivityRepository extends RepositoryAbstract
             else{
                 $this->query .= "WHERE ";
             }
-            $this->query .= "activities.age_to >= '{$age_from}' AND activities.age_from <= '{$age_to}'";
+            $this->query .= "activities.age_to >= :age_from AND activities.age_from <= :age_to ";
             
         }
     }
@@ -80,7 +76,7 @@ class ActivityRepository extends RepositoryAbstract
             else{
                 $this->query .= "WHERE ";
             }
-            $this->query .= "activities.duration_time >= '{$duration_from}' AND activities.duration_time <= '{$duration_to}'";
+            $this->query .= "activities.duration_time >= :duration_from AND activities.duration_time <= :duration_to ";
             
         }
     }
@@ -94,7 +90,7 @@ class ActivityRepository extends RepositoryAbstract
             else{
                 $this->query .= "WHERE ";
             }
-            $this->query .= "activities.amount_of_week >= '{$amount_from}' AND activities.amount_of_week <= '{$amount_to}'";
+            $this->query .= "activities.amount_of_week >= :amount_from AND activities.amount_of_week <= :amount_to ";
             
         }
     }
@@ -108,7 +104,7 @@ class ActivityRepository extends RepositoryAbstract
             else{
                 $this->query .= "WHERE ";
             }
-            $this->query .= "activities.price >= '{$price_from}' AND activities.price <= '{$price_to}'";
+            $this->query .= "activities.price >= :price_from AND activities.price <= :price_to ";
             
         }
     }
@@ -122,7 +118,7 @@ class ActivityRepository extends RepositoryAbstract
             else{
                 $this->query .= "WHERE ";
             }
-            $this->query .= "activities.price_month >= '{$price_month_from}' AND activities.price_month <= '{$price_month_to}'";
+            $this->query .= "activities.price_month >= :price_month_from AND activities.price_month <= :price_month_to ";
             
         }
     }
@@ -137,9 +133,8 @@ class ActivityRepository extends RepositoryAbstract
             else{
                 $this->query .= "WHERE ";
             }
-
             foreach ($this->searchFields as $key => $field) {
-                $this->query .= "{$field} REGEXP '({$search})' ";
+                $this->query .= "{$field} REGEXP (:search) ";
                 if($key !== count($this->searchFields) - 1) $this->query .= "OR ";
             }
         }
