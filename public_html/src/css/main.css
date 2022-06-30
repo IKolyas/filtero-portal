@@ -70,10 +70,6 @@ body {
     left: 0;
     right: 0;
     text-align: center;
-    /*background-color: white;
-    opacity: 0.5;
-    /*width: 100%;
-    height: 100%;*/
     align-items: center;
     justify-content: center;
 }
@@ -122,35 +118,7 @@ footer {
 }
 
 
-@media (min-width: 576px) { 
-    
- }
 
-
-@media (min-width: 768px) { 
-    .card_list {
-        display: grid;
-        grid-template-columns: repeat(2, 3fr);
-        gap: 0px 16px;
-    }
- }
-
-
-@media (min-width: 992px) { 
-   
-    
-}
-
-
-@media (min-width: 1200px) { 
-    .activity_list {
-        display: block;
-    }
-
-    .card_list {
-        display: none;
-    }
-}
 
 .order_btn {
     transition: transform .5s ease-in-out;
@@ -162,6 +130,10 @@ footer {
 
 .btn {
     -webkit-transition: all .5s cubic-bezier(0.79, 0.33, 0.14, 0.53);
+}
+
+.dropdown-item {
+    -webkit-transition: all 1s cubic-bezier(0.79, 0.33, 0.14, 0.53);
 }
 
 .dropdown-menu :hover{
@@ -190,4 +162,71 @@ footer {
 
 .loader__active {
     display: block;
+
 }
+
+.filters {
+    display: flex;
+    flex-direction: column;
+}
+
+.filters_buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: space-between;
+}
+
+.accordion-item {
+    position: relative;
+}
+
+.sliders {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    background-color: #ffffff;
+    z-index: 1;
+    padding: 0 22px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
+@media (min-width: 576px) { 
+    
+}
+
+
+@media (min-width: 768px) { 
+   .card_list {
+       display: grid;
+       grid-template-columns: repeat(2, 3fr);
+       gap: 0 16px;
+   }
+}
+
+
+@media (min-width: 992px) { 
+  
+   
+}
+
+
+@media (min-width: 1200px) { 
+   .activity_list {
+       display: block;
+   }
+
+   .card_list {
+       display: none;
+   }
+
+   .filters {
+        display: flex;
+        flex-direction: row;
+       justify-content: space-between;
+    }
+}
+

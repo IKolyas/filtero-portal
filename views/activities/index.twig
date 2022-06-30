@@ -1,141 +1,54 @@
 <div class="container d-flex flex-column mt-4 mb-4">
     <form class="d-flex justify-content-center align-self-center w-100" role="search">
-        <input class="form-control me-2 mw-100 is-input-search" type="search" placeholder="Поиск" aria-label="Search">
+        <input class="form-control mw-100 is-input-search" type="search" placeholder="Поиск" aria-label="Search">
     </form>
-    <div class="d-flex mt-3">
-        <div class="dropdown me-2">
-            <select class="btn btn-primary dropdown-toggle js-order-by-type">
-            <option value="default" selected>Тип</option>
-                {% for type in types %}
-                   <option value="{{ type.title }}">{{ type.title }}</option>
-                {% endfor %}
-            </select>
-            <select class="btn btn-primary dropdown-toggle js-order-by-fields menu_dowm_animate">
-                <option value="id" selected>Сортировка</option>
-                <option value="title">Название</option>
-                <option value="amount_of_week">Раз в неделю</option>
-                <option value="duration_time">Продолжительность</option>
-                <option value="price">Цена</option>
-            </select>
+    <div class="filters">
+        <div class="filters_buttons mt-3">
+            <div class="dropdown me-2">
+                <select class="btn btn-primary dropdown-toggle js-order-by-institute">
+                <option value="default" selected>Учреждение</option>
+                    {% for institute in institutes %}
+                    <option value="{{ institute.title }}">{{ institute.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="dropdown me-2">
+                <select class="btn btn-primary dropdown-toggle js-order-by-type">
+                <option value="default" selected>Тип</option>
+                    {% for type in types %}
+                    <option value="{{ type.title }}">{{ type.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="dropdown me-2">
+                <select class="btn btn-primary dropdown-toggle js-order-by-fields menu_dowm_animate">
+                    <option value="id" selected>Сортировка</option>
+                    <option value="title">Название</option>
+                    <option value="amount_of_week">Раз в неделю</option>
+                    <option value="duration_time">Продолжительность</option>
+                    <option value="price">Цена</option>
+                </select>
+                <i class="fa-solid fa-arrow-down-short-wide fa-xl text-primary align-self-center js-order-items order_btn" role="button"></i>
+            </div>
         </div>
-        <i class="fa-solid fa-arrow-down-short-wide fa-xl text-primary align-self-center js-order-items order_btn" role="button"></i>
+        <div class="accordion w-50 mt-3">
+            <div class="accordion-item">
+                <button class="accordion-button collapsed p-2" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                    Фильтры
+                </button>
+                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                    <div class="sliders p-4">
+                        {% include 'partials/age_slider.twig' %}
+                        {% include 'partials/amount_slider.twig' %}
+                        {% include 'partials/duration_slider.twig' %}
+                        {% include 'partials/price_slider.twig' %}
+                        {% include 'partials/price_month_slider.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
         {% include 'partials/activities_list.twig' %}
         {% include 'partials/activities_list_mobile.twig' %}
     <button onclick="topFunction()" class="btn btn-primary rounded-circle button_to_top" id="buttonToTop" title="Наверх"><i class="fa-solid fa-angles-up"></i></button>
 </div>
-
-
-<script>
-
-{#    TODO: использовать fetch. Отказаться от JQ#}
-
-    const params = {
-        offset: 1,
-        type: null,
-        search: null,
-        order_by: 'id',
-        order: 'ASC'
-    }
-
-    let typeSelector = document.querySelector('.js-order-by-type');
-    let search = document.querySelector('.is-input-search');
-    let orderBy = document.querySelector('.js-order-by-fields');
-
-    let order = document.querySelector('.js-order-items');
-
-    order.addEventListener('click', (e) => {
-        if (params.order === 'ASC') {
-            params.order = 'DESC';
-        } else {
-            params.order = 'ASC';
-        }
-        params.offset = 0;
-        e.target.classList.toggle("checked")
-        loadData(params, true);
-    })
-
-    search.addEventListener('input', (e) => {
-        params.offset = 0;
-        if(e.target.value.length >= 3) {
-            params.search = search.value
-            loadData(params, true);
-        } else {
-            params.search = null
-            loadData(params, true);
-        }
-    })
-
-    orderBy.addEventListener('change', (e) => {
-        params.offset = 0;
-        params.order_by = e.target.value;
-        loadData(params, true);
-    })
-
-    typeSelector.addEventListener('change', (e) => {
-        params.offset = 0;
-        params.type = e.target.value;
-        loadData(params, true);
-    })
-
-   
-
-    $(window).scroll(function () {
-
-        if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
-            params.offset = document.querySelectorAll('.activity_card').length;
-            loadData(params);
-        }
-    });
-
-    let cardListMobile = document.querySelector('.card_list')
-    let cardList = document.querySelector('.activity_list_rows')
-
-    function loadData(params, is_search) {
-        document.getElementById('spinner').classList.add('loader__active')
-        document.querySelector('.loader').classList.add('loader__active')
-        let url = "/activities/index?";
-        let query = Object.keys(params)
-            .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
-            .join('&');
-        fetch(url + query, {method: 'get', credentials: 'same-origin', headers: {'X-Requested-With': 'XMLHttpRequest'}})
-            .then(response => {
-                return response.json();
-            })
-            .then(data => {
-                if(is_search) {
-                    cardListMobile.innerHTML = data.html_mobile;
-                    cardList.innerHTML = data.html;
-                } else {
-                    cardListMobile.innerHTML += data.html_mobile;
-                    cardList.innerHTML += data.html;
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            })
-            .finally(() => {
-                document.getElementById('spinner').classList.remove('loader__active')
-                document.querySelector('.loader').classList.remove('loader__active')
-            })
-    }
-
-    mybutton = document.getElementById("buttonToTop");
-
-    window.onscroll = function() {scrollFunction()};
-
-    function scrollFunction() {
-        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-            mybutton.style.display = "block";
-        } else {
-            mybutton.style.display = "none";
-        }
-    }
-
-    function topFunction() {
-        document.body.scrollTop = 0; 
-        document.documentElement.scrollTop = 0; 
-    }
-    
-</script> 
-

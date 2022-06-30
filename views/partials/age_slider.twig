@@ -1,0 +1,27 @@
+<div class="middle">
+            <span class="fw-bold mb-2">Возраст</span>
+            <div class="multi-range-slider">
+                <form class="multi-range-slider" name="myform" 
+                oninput="rangeValueLeft.value = rangeLeft.valueAsNumber; 
+                        rangeValueRight.value = rangeRight.valueAsNumber;
+                        params.age_from = rangeValueLeft.value;
+                        params.age_to = rangeValueRight.value;
+                        params.offset = 0;
+                        loadData(params, true);">
+                    <input name="rangeLeft" type="range" id="input-left" min="{{ ages|first }}" max="{{ ages|last }}" value="{{ ages|first }}">
+                    <input name="rangeRight" type="range" id="input-right" min="{{ ages|first }}" max="{{ ages|last }}" value="{{ ages|last }}">
+                    
+                    <div class="slider">
+                        <div class="track"></div>
+                        <div class="range"></div>
+                        <div class="thumb left"></div>
+                        <div class="thumb right"></div>
+                    </div>
+                    <div class="slider_values">
+                        <output name="rangeValueLeft" for="input-left" >{{ ages|first }}</output>
+                        <output class="slider_right_value" name="rangeValueRight" for="input-right" >{{ ages|last }}</output>
+                    </div>
+                    
+                </form> 
+            </div>
+</div>

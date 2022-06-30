@@ -7,11 +7,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Портал</title>
     <script src="https://kit.fontawesome.com/30ac606873.js" crossorigin="anonymous"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+
     <link href="/src/css/main.css" rel="stylesheet">
-    {# <link href="/src/css/admin.css" rel="stylesheet"> #}
+    {% if controller_name == 'admin' %}
+        <link href="/src/css/admin.css" rel="stylesheet">
+    {% else %}
+        <link href="/src/css/sliders.css" rel="stylesheet">
+    {% endif %}
+
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header>
@@ -32,7 +37,7 @@
                             {% if auth_user %}
                                 <li>
                                     <a href="/admin" class="dropdown-item">
-                                        <img class="icons" src="/src/images/admin_panel.png">
+                                        <img class="icons" src="/src/images/admin_panel.png" alt="Панель администратора">
                                         <span>Панель администратора</span>
                                     </a>
                                 </li>
@@ -41,13 +46,13 @@
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="/auth/logout">
-                                        <img class="icons" src = "/src/images/logout.png">
+                                        <img class="icons" src = "/src/images/logout.png" alt="Выход">
                                         <span>Выход</span>
                                     </a>
                                 </li>
                             
                             {% else %}
-                                <li><a href="/auth/login" class="dropdown-item"><span><img class="icons" src = "/src/images/loginM.png"></span> Вход</a></li>
+                                <li><a href="/auth/login" class="dropdown-item"><span><img class="icons" src = "/src/images/loginM.png" alt="Вход"></span> Вход</a></li>
 
                         {% endif %}
                         </ul>
@@ -69,7 +74,14 @@
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
-            crossorigin="anonymous"></script>
-    <script src="/src/scripts/main.js"></script>
+            crossorigin="anonymous">
+    </script>
+    {% if controller_name == 'admin' %}
+        <script src="/src/scripts/admin.js"></script>
+    {% else %}
+        <script src="/src/scripts/main.js"></script>
+        <script src="/src/scripts/activities.js"></script>
+    {% endif %}
+
 </body>
 </html>
