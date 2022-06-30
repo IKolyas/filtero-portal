@@ -162,6 +162,7 @@ footer {
 
 .loader__active {
     display: block;
+
 }
 
 .filters {
@@ -228,3 +229,4 @@ footer {
         flex-direction: row;
     }
 }
+

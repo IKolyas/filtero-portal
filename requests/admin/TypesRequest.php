@@ -3,38 +3,35 @@
 namespace app\requests\admin;
 
 use app\base\Request;
+use app\models\ActivityType;
 
 class TypesRequest extends Request
 {
     protected array $errors = [];
 
-    public function validate()
+    public function validate($action = null)
     {
         $params = $this->post();
+        
+        if ($action == 'create') {
+            if (ActivityType::find($params['title'], 'title'))
+                $this->errors['title'] = 'Значение уже существует!';
+        }
+
+        if ($action == 'update') {
+            $findTitle = ActivityType::find($params['title'], 'title');
+            if ($findTitle) {
+                $findId = get_object_vars($findTitle)['id'];
+                if ($findId != $params['id']) {
+                    $this->errors['title'] = 'Значение уже существует!';
+                }
+            }
+        }
 
         if (isset($params['title']) && empty($params['title']))
           $this->errors['title'] = 'Значение не заполнено!';
 
         return empty($this->errors) ? $params : false;
-          
-        //   $paramsNotification = [];
-        //   if (isset($params['notification'])) {
-
-        //       $paramsNotification =  $params['notification'];
-        //       unset($params['notification']);
-        //   }
-        // if (empty($this->errors)) {
-
-        //     // echo ('<br>' . '<br>' . '<br>' . '<br>' . '<br>' . '<br>' . '<br>' . '---');
-        //     // var_dump($this->params);
-        //     // echo ('<br>' . '<br>' . '<br>' . '<br>' . '<br>' . '<br>' . '<br>' . '---');
-        //     // var_dump($this->errors);
-        //     // die();
-
-        //     return $params;
-        // } else {
-        //     return false;
-        // }
     }
 
     public function errors(): array

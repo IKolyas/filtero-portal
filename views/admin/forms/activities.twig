@@ -1,47 +1,48 @@
 <div class="activity_create_form">
     <form class="row js-types-form" id="form-edit" method="post"
-        {# action="/admin/createActivity" #}
-        {% if oldFields and oldFields.id %}
-            action="/admin/updateActivity"
-        {% else %}
-            action="/admin/createActivity"
-        {% endif %}
-    >
-        <div class="mb-3 col-4">
-            <label for="title" class="form-label">Название</label>
-            <input  type="hidden" class="form-control js-type-id" name="id"
             {% if oldFields and oldFields.id %}
-                value="{{ oldFields.id }}"
+                action="/admin/updateActivity"
+            {% else %}
+                action="/admin/createActivity"
             {% endif %}
+    >
+        <div class="mb-3 col-xl-4 col-md-6">
+            <label for="title" class="form-label">Название</label>
+            <input type="hidden" class="form-control js-type-id" name="id"
+                    {% if oldFields and oldFields.id %}
+                        value="{{ oldFields.id }}"
+                    {% endif %}
             >
             <input type="text" class="form-control js-types-input" id="title" name="title" aria-describedby="emailHelp"
-            {% if oldFields and oldFields.title %}
-                value="{{ oldFields.title }}"
-            {% endif %}
+                    {% if oldFields and oldFields.title %}
+                        value="{{ oldFields.title }}"
+                    {% endif %}
             />
             {% if errorsFields and errorsFields.title %}
                 <span class="text-danger js-errors-notification">{{ errorsFields.title }}</span>
             {% endif %}
         </div>
-        <div class="mb-3 col-4">
+        <div class="mb-3 col-xl-4 col-md-6">
             <label for="institute_id" class="form-label">Учреждение</label>
-            <select class="form-select js-types-input js-institute-id" aria-label="Default select example" id="institute_id" name="institute_id"
-            {% if oldFields and oldFields.institute_id %}
-                value="{{ oldFields.institute_id }}"
-            {% endif %}
+            <select class="form-select js-types-input js-institute-id" aria-label="Default select example"
+                    id="institute_id" name="institute_id"
+                    {% if oldFields and oldFields.institute_id %}
+                        value="{{ oldFields.institute_id }}"
+                    {% endif %}
             >
                 <option
-                    {% if oldFields and oldFields.institute_id %}
-                    {% else %}
-                        selected
-                    {% endif %}
-                >Выберете учреждение</option>
+                        {% if oldFields and oldFields.institute_id %}
+                        {% else %}
+                            selected
+                        {% endif %}
+                >Выберете учреждение
+                </option>
                 {% for institute in institutes %}
                     <option value="{{ institute.id }}"
-                        {% if oldFields and oldFields.institute_id and oldFields.institute_id == institute.id %}
-                            selected
+                            {% if oldFields and oldFields.institute_id and oldFields.institute_id == institute.id %}
+                                selected
                             {% else %}
-                        {% endif %}
+                            {% endif %}
                     >{{ institute.title }}</option>
                 {% else %}
 
@@ -51,25 +52,27 @@
                 <span class="text-danger js-errors-notification">{{ errorsFields.institute_id }}</span>
             {% endif %}
         </div>
-        <div class="mb-3 col-4">
+        <div class="mb-3 col-xl-4 col-md-6">
             <label for="activity_type_id" class="form-label">Тип</label>
-            <select class="form-select js-types-input js-types-id" aria-label="Default select example" id="activity_type_id" name="activity_type_id"
-            {% if oldFields and oldFields.activity_type_id %}
-                value="{{ oldFields.activity_type_id }}"
-            {% endif %}
+            <select class="form-select js-types-input js-types-id" aria-label="Default select example"
+                    id="activity_type_id" name="activity_type_id"
+                    {% if oldFields and oldFields.activity_type_id %}
+                        value="{{ oldFields.activity_type_id }}"
+                    {% endif %}
             >
                 <option
-                    {% if oldFields and oldFields.activity_type_id %}
-                    {% else %}
-                        selected
-                    {% endif %}
-                >Выберете тип</option>
+                        {% if oldFields and oldFields.activity_type_id %}
+                        {% else %}
+                            selected
+                        {% endif %}
+                >Выберете тип
+                </option>
                 {% for type in types %}
                     <option value="{{ type.id }}"
-                        {% if oldFields and oldFields.activity_type_id and oldFields.activity_type_id == type.id %}
-                            selected
+                            {% if oldFields and oldFields.activity_type_id and oldFields.activity_type_id == type.id %}
+                                selected
                             {% else %}
-                        {% endif %}
+                            {% endif %}
                     >{{ type.title }}</option>
                 {% else %}
 
@@ -79,84 +82,128 @@
                 <span class="text-danger js-errors-notification">{{ errorsFields.activity_type_id }}</span>
             {% endif %}
         </div>
-        <div class="mb-3 col-2">
+        <div class="mb-3 col-xl-2 col-md-6">
             <label for="age_from" class="form-label">Возраст от</label>
-            <input type="number" class="form-control js-types-input" id="age_from" name="age_from" aria-describedby="emailHelp"
-            {% if oldFields and oldFields.age_from %}
-                value="{{ oldFields.age_from }}"
-            {% endif %}
+            <input type="number" class="form-control js-types-input" id="age_from" name="age_from"
+                   aria-describedby="emailHelp"
+                    {% if oldFields and oldFields.age_from %}
+                        value="{{ oldFields.age_from }}"
+                    {% endif %}
             />
             {% if errorsFields and errorsFields.age_from %}
                 <span class="text-danger js-errors-notification">{{ errorsFields.age_from }}</span>
             {% endif %}
         </div>
-        <div class="mb-3 col-2">
+        <div class="mb-3 col-xl-2 col-md-6">
             <label for="age_to" class="form-label">Возраст до</label>
-            <input type="number" class="form-control js-types-input" id="age_to" name="age_to" aria-describedby="emailHelp"
-            {% if oldFields and oldFields.age_to %}
-                value="{{ oldFields.age_to }}"
-            {% endif %}
+            <input type="number" class="form-control js-types-input" id="age_to" name="age_to"
+                   aria-describedby="emailHelp"
+                    {% if oldFields and oldFields.age_to %}
+                        value="{{ oldFields.age_to }}"
+                    {% endif %}
             />
             {% if errorsFields and errorsFields.age_to %}
                 <span class="text-danger js-errors-notification">{{ errorsFields.age_to }}</span>
             {% endif %}
         </div>
-        <div class="mb-3 col-2">
+        <div class="mb-3 col-xl-2 col-md-6">
             <label for="amount_of_week" class="form-label">Частота</label>
-            <input type="number" class="form-control js-types-input" id="amount_of_week" name="amount_of_week" aria-describedby="emailHelp"
-            {% if oldFields and oldFields.amount_of_week %}
-                value="{{ oldFields.amount_of_week }}"
-            {% endif %}
+            <input type="number" class="form-control js-types-input" id="amount_of_week" name="amount_of_week"
+                   aria-describedby="emailHelp"
+                    {% if oldFields and oldFields.amount_of_week %}
+                        value="{{ oldFields.amount_of_week }}"
+                    {% endif %}
             />
             {% if errorsFields and errorsFields.amount_of_week %}
                 <span class="text-danger js-errors-notification">{{ errorsFields.amount_of_week }}</span>
             {% endif %}
         </div>
-        <div class="mb-3 col-2">
+        <div class="mb-3 col-xl-2 col-md-6">
             <label for="duration_time" class="form-label">Длительность</label>
-            <input type="number" class="form-control js-types-input" id="duration_time" name="duration_time" aria-describedby="emailHelp"
-            {% if oldFields and oldFields.duration_time %}
-                value="{{ oldFields.duration_time }}"
-            {% endif %}
+            <input type="number" class="form-control js-types-input" id="duration_time" name="duration_time"
+                   aria-describedby="emailHelp"
+                    {% if oldFields and oldFields.duration_time %}
+                        value="{{ oldFields.duration_time }}"
+                    {% endif %}
             />
             {% if errorsFields and errorsFields.duration_time %}
                 <span class="text-danger js-errors-notification">{{ errorsFields.duration_time }}</span>
             {% endif %}
         </div>
-        <div class="mb-3 col-2">
+        <div class="mb-3 col-xl-2 col-md-6">
             <label for="price" class="form-label">Стоимость за занятие</label>
-            <input type="number" class="form-control js-types-input" id="price" name="price" aria-describedby="emailHelp"
-            {% if oldFields and oldFields.price %}
-                value="{{ oldFields.price }}"
-            {% endif %}
+            <input type="number" class="form-control js-types-input" id="price" name="price"
+                   aria-describedby="emailHelp"
+                    {% if oldFields and oldFields.price %}
+                        value="{{ oldFields.price }}"
+                    {% endif %}
             />
             {% if errorsFields and errorsFields.price %}
                 <span class="text-danger js-errors-notification">{{ errorsFields.price }}</span>
             {% endif %}
         </div>
-        <div class="mb-3 col-2">
+        <div class="mb-3 col-xl-2 col-md-6">
             <label for="price_month" class="form-label">Стоимость за месяц</label>
-            <input type="number" class="form-control js-types-input" id="price_month" name="price_month" aria-describedby="emailHelp"
-            {% if oldFields and oldFields.price_month %}
-                value="{{ oldFields.price_month }}"
-            {% endif %}
+            <input type="number" class="form-control js-types-input" id="price_month" name="price_month"
+                   aria-describedby="emailHelp"
+                    {% if oldFields and oldFields.price_month %}
+                        value="{{ oldFields.price_month }}"
+                    {% endif %}
             />
             {% if errorsFields and errorsFields.price_month %}
                 <span class="text-danger js-errors-notification">{{ errorsFields.price_month }}</span>
             {% endif %}
         </div>
-        <div class="mb-3 col-9">
+        <div class="mb-3 col-xl-9 col-md-6">
             <label for="contacts" class="form-label">Контакты</label>
-            <textarea class="form-control js-types-input" id="contacts" name="contacts" aria-describedby="emailHelp">{% if oldFields and oldFields.contacts %}{{ oldFields.contacts }}{% endif %}</textarea>
+            <textarea class="form-control js-types-input" id="contacts" name="contacts"
+                      aria-describedby="emailHelp">{% if oldFields and oldFields.contacts %}{{ oldFields.contacts }}{% endif %}</textarea>
             {% if errorsFields and errorsFields.contacts %}
                 <span class="text-danger js-errors-notification">{{ errorsFields.contacts }}</span>
             {% endif %}
         </div>
         <input class="form-control" type="hidden" name="user_id" value="{{ user.id }}">
-        <div class="send_form_activities col-3 ">
+        <div class="send_form_activities col-xl-3 col-md-6 align-items-start js-button-table-box">
             <button class="btn btn-secondary mx-3 js-button-clear">Очистить</button>
-            <button type="submit" class="btn btn-primary js-button-submit" onclick="return confirm('Вы уверенны что хотите сохранить?')">Добавить</button>
+            <button type="submit" class="btn btn-primary js-button-submit"
+                    onclick="return confirm('Вы уверенны что хотите сохранить?')"
+                    disabled
+            >
+                {% if oldFields and oldFields.id %}
+                    Сохранить
+                {% else %}
+                    Добавить
+                {% endif %}
+            </button>
         </div>
-        <div class="js-types-notification"></div>
     </form>
+    {% if oldFields and oldFields.id %}
+        {% set activityEdit = activities|filter((v, k) => v.id == oldFields.id) %}
+        <div class="js-types-notification">
+            <span style="color: green">Редактирование:</span><br>
+            <table class="table table-striped table-hover align-middle">
+                <tbody>
+                <tr>
+                    <th scope="row" data-field="id">{{ activityEdit|first.id }}</th>
+                    <td data-field="title">{{ activityEdit|first.title }}</td>
+                    <td data-field="institute_id">{{ activityEdit|first.institute_title }}</td>
+                    <td data-field="activity_type_id">{{ activityEdit|first.type_title }}</td>
+                    <td>
+                        {{ activityEdit|first.age }}
+                        <div class="d-none" data-field="age_from">{{ activityEdit|first.age_from }}</div>
+                        <div class="d-none" data-field="age_to">{{ activityEdit|first.age_to }}</div>
+                    </td>
+                    <td data-field="amount_of_week">{{ activityEdit|first.amount_of_week }}</td>
+                    <td data-field="duration_time">{{ activityEdit|first.duration_time }}</td>
+                    <td class="price-rub" data-field="price">{{ activityEdit|first.price }}</td>
+                    <td class="price-rub" data-field="price_month">{{ activityEdit|first.price_month }}</td>
+                    <td data-field="contacts">{{ activityEdit|first.contacts }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="js-types-notification"></div>
+    {% endif %}
+
 </div>

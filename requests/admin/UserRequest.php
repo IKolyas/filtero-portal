@@ -3,6 +3,7 @@
 namespace app\requests\admin;
 
 use app\base\Request;
+use app\models\User;
 
 class UserRequest extends Request
 {
@@ -11,9 +12,35 @@ class UserRequest extends Request
 
     protected array $errors = [];
 
-    public function validate()
+    public function validate($action = null)
     {
         $params = $this->post();
+
+        if ($action == 'create') {
+            if (User::find($params['login'], 'login'))
+                $this->errors['login'] = 'Значение уже существует!';
+
+            if (User::find($params['email'], 'email'))
+                $this->errors['email'] = 'Значение уже существует!';
+        }
+
+        if ($action == 'update') {
+            $findLogin = User::find($params['login'], 'login');
+            if ($findLogin) {
+                $findId = get_object_vars($findLogin)['id'];
+                if ($findId != $params['id']) {
+                    $this->errors['login'] = 'Значение уже существует!';
+                }
+            }
+
+            $findEmail = User::find($params['email'], 'email');
+            if ($findEmail) {
+                $findId = get_object_vars($findEmail)['id'];
+                if ($findId != $params['id']) {
+                    $this->errors['email'] = 'Значение уже существует!';
+                }
+            }
+        }
 
         if (isset($params['first_name']) && empty($params['first_name']))
           $this->errors['first_name'] = 'Значение не заполнено!';
