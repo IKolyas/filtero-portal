@@ -2,10 +2,10 @@
             <span class="fw-bold mb-2">Цена в месяц</span>
             <div class="multi-range-slider">
                 <form class="multi-range-slider" name="myform" 
-                oninput="rangeValueLeftPriceMonth.value = rangeLeftPriceMonth.valueAsNumber; 
-                        rangeValueRightPriceMonth.value = rangeRightPriceMonth.valueAsNumber;
-                        params.price_month_from = rangeValueLeftPriceMonth.value;
-                        params.price_month_to = rangeValueRightPriceMonth.value;
+                oninput="rangeValueLeftPriceMonth.value = rangeLeftPriceMonth.valueAsNumber.toLocaleString('ru-RU') + '₽'; 
+                        rangeValueRightPriceMonth.value = rangeRightPriceMonth.valueAsNumber.toLocaleString('ru-RU') + '₽';
+                        params.price_month_from = rangeLeftPriceMonth.valueAsNumber;
+                        params.price_month_to = rangeRightPriceMonth.valueAsNumber;
                         params.offset = 0;
                         loadData(params, true);">
                     
@@ -18,8 +18,8 @@
                         <div class="thumb right"></div>
                     </div>
                     <div class="slider_values">
-                        <output name="rangeValueLeftPriceMonth" for="input-left-price-month" >{{ price_month.min_price }}</output>
-                        <output class="slider_right_value" name="rangeValueRightPriceMonth" for="input-right-price-month" >{{ price_month.max_price }}</output>
+                        <output name="rangeValueLeftPriceMonth" for="input-left-price-month" >{{ price_month.min_price|number_format(0, '.', ' ') }}₽</output>
+                        <output class="slider_right_value" name="rangeValueRightPriceMonth" for="input-right-price-month" >{{ price_month.max_price|number_format(0, '.', ' ') }}₽</output>
                     </div>
                     
                 </form> 

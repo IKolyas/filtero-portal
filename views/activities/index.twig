@@ -6,7 +6,7 @@
         <div class="filters_buttons mt-3">
             <div class="dropdown me-2">
                 <select class="btn btn-primary dropdown-toggle js-order-by-institute">
-                <option value="default" selected>Учреждение</option>
+                <option value=null selected>Учреждение</option>
                     {% for institute in institutes %}
                     <option value="{{ institute.title }}">{{ institute.title }}</option>
                     {% endfor %}
@@ -14,7 +14,7 @@
             </div>
             <div class="dropdown me-2">
                 <select class="btn btn-primary dropdown-toggle js-order-by-type">
-                <option value="default" selected>Тип</option>
+                <option value=null selected>Тип</option>
                     {% for type in types %}
                     <option value="{{ type.title }}">{{ type.title }}</option>
                     {% endfor %}
@@ -26,7 +26,8 @@
                     <option value="title">Название</option>
                     <option value="amount_of_week">Раз в неделю</option>
                     <option value="duration_time">Продолжительность</option>
-                    <option value="price">Цена</option>
+                    <option value="price">Стоимость</option>
+                    <option value="price_month">Стоимость в месяц</option>
                 </select>
                 <i class="fa-solid fa-arrow-down-short-wide fa-xl text-primary align-self-center js-order-items order_btn" role="button"></i>
             </div>

@@ -169,9 +169,9 @@ class Activity extends Model
         return $this;
     }
 
-    public function get(): array
+    public function get($params): array
     {
-        return $this->repository->getQuery($this->repository->query, []);
+        return $this->repository->getQuery($this->repository->query, $params);
     }
 
     protected function getActivitiesIndex(): Activity
