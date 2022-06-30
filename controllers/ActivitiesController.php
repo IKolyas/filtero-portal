@@ -16,6 +16,12 @@ class ActivitiesController extends AbstractController
     {
         $query = Activity::getActivitiesIndex();
         $types = ActivityType::findAll();
+        $institutes = Institute::findAll();
+        $ages = Activity::getAges();
+        $amount = Activity::getAmount()[0];
+        $duration = Activity::getDuration()[0];
+        $price = Activity::getPrice(false)[0];
+        $price_month = Activity::getPrice(true)[0];
 
         if(Activity::isAjax()) {
             $request = new ActivitiesRequest();
@@ -23,6 +29,12 @@ class ActivitiesController extends AbstractController
             extract($request->filter());
 
             if (isset($type)) $query->type($type);
+            if (isset($institute)) $query->institute($institute);
+            if (isset($age_from) && isset($age_to)) $query->age_from($age_from, $age_to);
+            if (isset($amount_from) && isset($amount_to)) $query->amount($amount_from, $amount_to);
+            if (isset($duration_from) && isset($duration_to)) $query->duration($duration_from, $duration_to);
+            if (isset($price_from) && isset($price_to)) $query->price($price_from, $price_to);
+            if (isset($price_month_from) && isset($price_month_to)) $query->price_month($price_month_from, $price_month_to);
             if (isset($search)) $query->search($search);
             if (isset($order_by)) $query->orderBy($order_by);
             if (isset($order)) $query->order($order);
@@ -46,7 +58,7 @@ class ActivitiesController extends AbstractController
         $activities = $query->paginate(0,self::PAGINATE)->get();
         Activity::getActivitiesFields($activities);
 
-        echo $this->render('activities.index', compact('activities', 'types'));
+        echo $this->render('activities.index', compact('activities', 'types', 'institutes', 'ages', 'amount', 'duration', 'price', 'price_month'));
     }
 
 

@@ -1,0 +1,28 @@
+<div class="middle">
+            <span class="fw-bold mb-2">Время</span>
+            <div class="multi-range-slider">
+                <form class="multi-range-slider" name="myform" 
+                oninput="rangeValueLeftduration.value = rangeLeftduration.valueAsNumber; 
+                        rangeValueRightduration.value = rangeRightduration.valueAsNumber;
+                        params.duration_from = rangeValueLeftduration.value;
+                        params.duration_to = rangeValueRightduration.value;
+                        params.offset = 0;
+                        loadData(params, true);">
+                    
+                    <div class="slider-duration">
+                        <input name="rangeLeftduration" type="range" id="input-left-duration" min="{{ duration.min_duration  }}" max="{{ duration.max_duration }}" value="{{ duration.min_duration  }}">
+                        <input name="rangeRightduration" type="range" id="input-right-duration" min="{{ duration.min_duration }}" max="{{ duration.max_duration }}" value="{{ duration.max_duration}}">
+                        <div class="track"></div>
+                        <div class="range"></div>
+                        <div class="thumb left"></div>
+                        <div class="thumb right"></div>
+                    </div>
+                    <div class="slider_values">
+                        <output name="rangeValueLeftduration" for="input-left-duration" >{{ duration.min_duration }}</output>
+                        <output class="slider_right_value" name="rangeValueRightduration" for="input-right-duration" >{{ duration.max_duration }}</output>
+                    </div>
+                    
+                </form> 
+            </div>
+            
+</div>

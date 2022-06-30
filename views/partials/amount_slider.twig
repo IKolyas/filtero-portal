@@ -1,0 +1,28 @@
+<div class="middle">
+            <span class="fw-bold mb-2">Раз в неделю</span>
+            <div class="multi-range-slider">
+                <form class="multi-range-slider" name="myform" 
+                oninput="rangeValueLeftAmount.value = rangeLeftAmount.valueAsNumber; 
+                        rangeValueRightAmount.value = rangeRightAmount.valueAsNumber;
+                        params.amount_from = rangeValueLeftAmount.value;
+                        params.amount_to = rangeValueRightAmount.value;
+                        params.offset = 0;
+                        loadData(params, true);">
+                    
+                    <div class="slider-amount">
+                        <input name="rangeLeftAmount" type="range" id="input-left-amount" min="{{ amount.min_amount  }}" max="{{ amount.max_amount }}" value="{{ amount.min_amount  }}">
+                        <input name="rangeRightAmount" type="range" id="input-right-amount" min="{{ amount.min_amount }}" max="{{ amount.max_amount }}" value="{{ amount.max_amount}}">
+                        <div class="track"></div>
+                        <div class="range"></div>
+                        <div class="thumb left"></div>
+                        <div class="thumb right"></div>
+                    </div>
+                    <div class="slider_values">
+                        <output name="rangeValueLeftAmount" for="input-left-amount" >{{ amount.min_amount }}</output>
+                        <output class="slider_right_value" name="rangeValueRightAmount" for="input-right-amount" >{{ amount.max_amount }}</output>
+                    </div>
+                    
+                </form> 
+            </div>
+            
+</div>

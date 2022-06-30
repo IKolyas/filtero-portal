@@ -122,35 +122,7 @@ footer {
 }
 
 
-@media (min-width: 576px) { 
-    
- }
 
-
-@media (min-width: 768px) { 
-    .card_list {
-        display: grid;
-        grid-template-columns: repeat(2, 3fr);
-        gap: 0px 16px;
-    }
- }
-
-
-@media (min-width: 992px) { 
-   
-    
-}
-
-
-@media (min-width: 1200px) { 
-    .activity_list {
-        display: block;
-    }
-
-    .card_list {
-        display: none;
-    }
-}
 
 .order_btn {
     transition: transform .5s ease-in-out;
@@ -190,4 +162,71 @@ footer {
 
 .loader__active {
     display: block;
+
 }
+
+.filters {
+    display: flex;
+    flex-direction: column;
+}
+
+.filters_buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 100%;
+}
+
+.sliders {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-top: 8px;
+    padding-right: 16px;
+}
+
+
+@media (min-width: 576px) { 
+    
+}
+
+
+@media (min-width: 768px) { 
+   .card_list {
+       display: grid;
+       grid-template-columns: repeat(2, 3fr);
+       gap: 0px 16px;
+   }
+}
+
+
+@media (min-width: 992px) { 
+  
+   
+}
+
+
+@media (min-width: 1200px) { 
+   .activity_list {
+       display: block;
+   }
+
+   .card_list {
+       display: none;
+   }
+
+   .filters_buttons {
+        width: 55%;
+    }
+
+   .sliders {
+        width: 45%;
+   }
+
+   .filters {
+        display: flex;
+        flex-direction: row;
+    }
+}
+

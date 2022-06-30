@@ -1,0 +1,28 @@
+<div class="middle">
+            <span class="fw-bold mb-2">Цена в месяц</span>
+            <div class="multi-range-slider">
+                <form class="multi-range-slider" name="myform" 
+                oninput="rangeValueLeftPriceMonth.value = rangeLeftPriceMonth.valueAsNumber; 
+                        rangeValueRightPriceMonth.value = rangeRightPriceMonth.valueAsNumber;
+                        params.price_month_from = rangeValueLeftPriceMonth.value;
+                        params.price_month_to = rangeValueRightPriceMonth.value;
+                        params.offset = 0;
+                        loadData(params, true);">
+                    
+                    <div class="slider-price-month">
+                        <input name="rangeLeftPriceMonth" type="range" id="input-left-price-month" min="{{ price_month.min_price  }}" max="{{ price_month.max_price }}" value="{{ price_month.min_price  }}">
+                        <input name="rangeRightPriceMonth" type="range" id="input-right-price-month" min="{{ price_month.min_price }}" max="{{ price_month.max_price }}" value="{{ price_month.max_price}}">
+                        <div class="track"></div>
+                        <div class="range"></div>
+                        <div class="thumb left"></div>
+                        <div class="thumb right"></div>
+                    </div>
+                    <div class="slider_values">
+                        <output name="rangeValueLeftPriceMonth" for="input-left-price-month" >{{ price_month.min_price }}</output>
+                        <output class="slider_right_value" name="rangeValueRightPriceMonth" for="input-right-price-month" >{{ price_month.max_price }}</output>
+                    </div>
+                    
+                </form> 
+            </div>
+            
+</div>
