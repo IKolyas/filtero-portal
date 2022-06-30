@@ -132,6 +132,10 @@ footer {
     -webkit-transition: all .5s cubic-bezier(0.79, 0.33, 0.14, 0.53);
 }
 
+.dropdown-item {
+    -webkit-transition: all 1s cubic-bezier(0.79, 0.33, 0.14, 0.53);
+}
+
 .dropdown-menu :hover{
     -webkit-transition: all .8s cubic-bezier(0.79, 0.33, 0.14, 0.53);
 }

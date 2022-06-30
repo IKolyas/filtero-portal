@@ -37,7 +37,7 @@
                             {% if auth_user %}
                                 <li>
                                     <a href="/admin" class="dropdown-item">
-                                        <img class="icons" src="/src/images/admin_panel.png">
+                                        <img class="icons" src="/src/images/admin_panel.png" alt="Панель администратора">
                                         <span>Панель администратора</span>
                                     </a>
                                 </li>
@@ -46,13 +46,13 @@
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="/auth/logout">
-                                        <img class="icons" src = "/src/images/logout.png">
+                                        <img class="icons" src = "/src/images/logout.png" alt="Выход">
                                         <span>Выход</span>
                                     </a>
                                 </li>
                             
                             {% else %}
-                                <li><a href="/auth/login" class="dropdown-item"><span><img class="icons" src = "/src/images/loginM.png"></span> Вход</a></li>
+                                <li><a href="/auth/login" class="dropdown-item"><span><img class="icons" src = "/src/images/loginM.png" alt="Вход"></span> Вход</a></li>
 
                         {% endif %}
                         </ul>
