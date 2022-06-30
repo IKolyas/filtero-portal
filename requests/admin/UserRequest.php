@@ -27,7 +27,7 @@ class UserRequest extends Request
         if ($action == 'update') {
             $findLogin = User::find($params['login'], 'login');
             if ($findLogin) {
-                $findId = get_object_vars($findLogin)['id'];
+                $findId = $findLogin->id;
                 if ($findId != $params['id']) {
                     $this->errors['login'] = 'Значение уже существует!';
                 }
@@ -35,7 +35,7 @@ class UserRequest extends Request
 
             $findEmail = User::find($params['email'], 'email');
             if ($findEmail) {
-                $findId = get_object_vars($findEmail)['id'];
+                $findId = $findEmail->id;
                 if ($findId != $params['id']) {
                     $this->errors['email'] = 'Значение уже существует!';
                 }
