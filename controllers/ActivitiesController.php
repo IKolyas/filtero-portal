@@ -10,7 +10,7 @@ use app\requests\ActivitiesRequest;
 class ActivitiesController extends AbstractController
 {
 
-    protected const PAGINATE = 15;
+    protected const PAGINATE = 10;
 
     public function actionIndex(): void
     {

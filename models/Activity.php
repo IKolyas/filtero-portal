@@ -153,7 +153,7 @@ class Activity extends Model
 
     public function search(string $search): Activity
     {
-        $search = preg_replace('/\s+/', " ", urldecode($search));
+        $search = preg_replace('/\s+/', " ", strtolower(urldecode($search)));
         $search = str_replace(" ", ".*", $search);
 
         $this->repository->search($search);

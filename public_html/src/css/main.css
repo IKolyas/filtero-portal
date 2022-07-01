@@ -191,8 +191,12 @@ footer {
     padding: 0 22px;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
+.accordion {
+    width: 100%;
+}
 
 @media (min-width: 576px) { 
     
@@ -205,6 +209,10 @@ footer {
        grid-template-columns: repeat(2, 3fr);
        gap: 0 16px;
    }
+
+   .accordion {
+    width: 45%;
+}
 }
 
 
