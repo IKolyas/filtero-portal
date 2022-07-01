@@ -24,18 +24,19 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let startEdit = false;
 
-        let emptyNotNullFields = 0;
-        Object.entries(formEditFields).forEach((fieldArr) => {
-            if(fieldArr.length > 0 && notNullFields.includes(fieldArr[1].name)) {
-                fieldArr[1].addEventListener('input', (e) => {
-                    Object.entries(formEditFields).forEach(fieldArr => {
-                        if(fieldArr[1].value.length === 0) emptyNotNullFields++;
-                    });
-                    emptyNotNullFields === 0 ? buttonSubmit.disabled = false : buttonSubmit.disabled = true;
-                    emptyNotNullFields = 0;
-                })
-            }
-        })
+        // let emptyNotNullFields = 0;
+        // Object.entries(formEditFields).forEach((fieldArr) => {
+        //     if(fieldArr.length > 0 && notNullFields.includes(fieldArr[1].name)) {
+        //         fieldArr[1].addEventListener('input', (e) => {
+        //             Object.entries(formEditFields).forEach(fieldArr => {
+        //                 if(fieldArr[1].value.length === 0 && fieldArr[1].name !== 'id') emptyNotNullFields++;
+        //                 console.log(fieldArr[1])
+        //             });
+        //             emptyNotNullFields === 0 ? buttonSubmit.disabled = false : buttonSubmit.disabled = true;
+        //             emptyNotNullFields = 0;
+        //         })
+        //     }
+        // })
 
         buttonClear.addEventListener('click', (e) => {
             e.preventDefault();
