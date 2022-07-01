@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
             dataFields[incomingValues[i].name] = incomingValues[i].value;
     
             incomingValues[i].addEventListener("input", () => {
-                if (incomingValues[i].value == dataFields[incomingValues[i].name]) {
+                if (incomingValues[i].value === dataFields[incomingValues[i].name]) {
                     stateFields[incomingValues[i].name] = 'equals';
                 } else {
                     stateFields[incomingValues[i].name] = 'notEquals';
@@ -190,12 +190,12 @@ document.addEventListener("DOMContentLoaded", () => {
                             stateRequiredFields[fieldArrGlobal[1].name] = 'notNull'
                         } else if (fieldArrGlobal[1].value.length === 0 &&  notNullFields.includes(fieldArrGlobal[1].name)) {
                             stateRequiredFields[fieldArrGlobal[1].name] = 'Null'
-                        };
+                        }
                         if (fieldArrGlobal[1].name == 'password' && fieldArrGlobal[1].disabled) { // удаляю из проверки обязательное поле password когда оно disable так как иначе ломается функционал
                             notNullFields = notNullFields.filter(field => {
                                 return field != 'password'
                             });
-                        };
+                        }
                     });
     
                     let nullStateRequiredFields = Object.values(stateRequiredFields).includes('Null')

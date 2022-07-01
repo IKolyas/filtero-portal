@@ -35,7 +35,7 @@
                         {% else %}
                             selected
                         {% endif %}
-                >Выберете учреждение
+                >Выберите учреждение
                 </option>
                 {% for institute in institutes %}
                     <option value="{{ institute.id }}"
@@ -65,7 +65,7 @@
                         {% else %}
                             selected
                         {% endif %}
-                >Выберете тип
+                >Выберите тип
                 </option>
                 {% for type in types %}
                     <option value="{{ type.id }}"
@@ -107,7 +107,7 @@
             {% endif %}
         </div>
         <div class="mb-3 col-xl-2 col-md-6">
-            <label for="amount_of_week" class="form-label">Частота</label>
+            <label for="amount_of_week" class="form-label">Раз в неделю</label>
             <input type="number" class="form-control js-types-input" id="amount_of_week" name="amount_of_week"
                    aria-describedby="emailHelp"
                     {% if oldFields and oldFields.amount_of_week %}
@@ -119,7 +119,7 @@
             {% endif %}
         </div>
         <div class="mb-3 col-xl-2 col-md-6">
-            <label for="duration_time" class="form-label">Длительность</label>
+            <label for="duration_time" class="form-label">Длительность (в минутах)</label>
             <input type="number" class="form-control js-types-input" id="duration_time" name="duration_time"
                    aria-describedby="emailHelp"
                     {% if oldFields and oldFields.duration_time %}
