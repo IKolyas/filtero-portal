@@ -16,10 +16,10 @@ class ActivitiesRequest extends Request
         if (isset($params['title']) && empty($params['title']))
           $this->errors['title'] = 'Значение не заполнено!';
           
-        if (isset($params['institute_id']) && $params['institute_id'] == 'Выберете учреждение') 
+        if (isset($params['institute_id']) && $params['institute_id'] == 'Выберите учреждение') 
           $this->errors['institute_id'] = 'Выберите институт!';
         
-        if (isset($params['activity_type_id']) && $params['activity_type_id'] == 'Выберете тип') 
+        if (isset($params['activity_type_id']) && $params['activity_type_id'] == 'Выберите тип') 
           $this->errors['activity_type_id'] = 'Выберите тип!';
 
         if (isset($params['age_from']) && empty($params['age_from']))

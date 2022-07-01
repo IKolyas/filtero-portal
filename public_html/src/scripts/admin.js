@@ -156,19 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
     
             incomingValues[i].addEventListener("input", () => {
                 checkInputValueFields(incomingValues, buttonSubmit, dataFields, stateFields, i);
-                // if (incomingValues[i].value == dataFields[incomingValues[i].name]) {
-                //     stateFields[incomingValues[i].name] = 'equals';
-                // } else {
-                //     stateFields[incomingValues[i].name] = 'notEquals';
-                // }
-
-                // let nullStateFields = Object.values(stateFields).includes('notEquals')
-
-                // if (nullStateFields && incomingValues[i].value.length > 0) {
-                //     buttonSubmit.disabled = false
-                // } else if (!nullStateFields) {
-                //     buttonSubmit.disabled = true
-                // }
             })
         }
     }
@@ -188,24 +175,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 checkInputNullFields(notNullFields, incomingValues, buttonSubmit);
                 fieldArr[1].addEventListener('input', (e) => {
                     checkInputNullFields(notNullFields, incomingValues, buttonSubmit, stateRequiredFields);
-    
-                    // stateRequiredFields = [];
-                    // Object.entries(incomingValues).forEach(fieldArrGlobal => {
-                    //     if(fieldArrGlobal[1].value.length > 0 &&  notNullFields.includes(fieldArrGlobal[1].name)) {
-                    //         stateRequiredFields[fieldArrGlobal[1].name] = 'notNull'
-                    //     } else if (fieldArrGlobal[1].value.length === 0 &&  notNullFields.includes(fieldArrGlobal[1].name)) {
-                    //         stateRequiredFields[fieldArrGlobal[1].name] = 'Null'
-                    //     };
-                    //     if (fieldArrGlobal[1].name == 'password' && fieldArrGlobal[1].disabled) { // удаляю из проверки обязательное поле password когда оно disable так как иначе ломается функционал
-                    //         notNullFields = notNullFields.filter(field => {
-                    //             return field != 'password'
-                    //         });
-                    //     };
-                    // });
-    
-                    // let nullStateRequiredFields = Object.values(stateRequiredFields).includes('Null')
-                    
-                    // !nullStateRequiredFields ? buttonSubmit.disabled = false : buttonSubmit.disabled = true;
                 })
             }
         })
