@@ -41,17 +41,14 @@ class AdminController extends AbstractController
         $user = User::findAll()[0];
         $auth_user = app()->session->isAuth();
 
-
-        $activities = Activity::getActivitiesIndex()->get();
+        $activities = Activity::getActivitiesIndex()->get([]);
 
         Activity::getActivitiesFields($activities);
-
 
         $institutes = Institute::findAll();
         $types = ActivityType::findAll();
 
         $tabs = $this->tabActivate('activities');
-
 
         echo $this->render('admin.index', compact('activities', 'user', 'institutes', 'types', 'auth_user', 'tabs', 'errorsFields', 'oldFields'));
 

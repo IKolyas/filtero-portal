@@ -62,7 +62,7 @@ class ActivityRepository extends RepositoryAbstract
             else{
                 $this->query .= "WHERE ";
             }
-            $this->query .= "activities.age_to >= :age_from AND activities.age_from <= :age_to ";
+            $this->query .= "activities.age_from >= :age_from AND activities.age_to <= :age_to ";
             
         }
     }
@@ -182,13 +182,12 @@ class ActivityRepository extends RepositoryAbstract
     {
         if(!$month){
             $sql= "SELECT MIN(price) as min_price, MAX(price) as max_price FROM {$this->getTableName()} ";
-            return $this->getQuery($sql, [])[0];
         }
         else {
             $sql= "SELECT MIN(price_month) as min_price, MAX(price_month) as max_price FROM {$this->getTableName()} ";
-            return $this->getQuery($sql, [])[0];
         }
-        
+        return $this->getQuery($sql, [])[0];
+
     }
 
     public function getDuration(): ?Activity

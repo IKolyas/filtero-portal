@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
         checkNullFormForButton(formEditFields, buttonSubmit);
         
         let startEdit = false;
+
         buttonClear.addEventListener('click', (e) => {
             e.preventDefault();
             if (buttonSubmit.innerHTML === 'Сохранить') {
