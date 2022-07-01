@@ -1,6 +1,6 @@
 <div class="container d-flex flex-column mt-4 mb-4">
     <form class="d-flex justify-content-center align-self-center w-100" role="search">
-        <input class="form-control mw-100 is-input-search" type="search" placeholder="Поиск" aria-label="Search">
+        <input class="form-control mw-100 is-input-search" type="search" placeholder="Поиск" aria-label="Search" onkeydown="return event.key != 'Enter';">
     </form>
     <div class="filters">
         <div class="filters_buttons mt-3">
@@ -32,7 +32,7 @@
                 <i class="fa-solid fa-arrow-down-short-wide fa-xl text-primary align-self-center js-order-items order_btn" role="button"></i>
             </div>
         </div>
-        <div class="accordion w-50 mt-3">
+        <div class="accordion mt-3">
             <div class="accordion-item">
                 <button class="accordion-button collapsed p-2" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
                     Фильтры

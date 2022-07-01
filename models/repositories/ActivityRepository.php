@@ -62,7 +62,8 @@ class ActivityRepository extends RepositoryAbstract
             else{
                 $this->query .= "WHERE ";
             }
-            $this->query .= "activities.age_from >= :age_from AND activities.age_to <= :age_to ";
+            $this->query .= "activities.age_to>= :age_from AND activities.age_from <= :age_to ";
+            
             
         }
     }
@@ -134,7 +135,7 @@ class ActivityRepository extends RepositoryAbstract
                 $this->query .= "WHERE ";
             }
             foreach ($this->searchFields as $key => $field) {
-                $this->query .= "{$field} REGEXP (:search) ";
+                $this->query .= "LOWER({$field}) REGEXP (:search) ";
                 if($key !== count($this->searchFields) - 1) $this->query .= "OR ";
             }
         }

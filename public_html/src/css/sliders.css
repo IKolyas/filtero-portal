@@ -63,11 +63,11 @@
 }
 .slider > .thumb.left {
 	left: 25%;
-	transform: translate(-5px, -5px);
+	transform: translate(-10px, -5px);
 }
 .slider > .thumb.right{
 	right: 25%;
-	transform: translate(5px, -5px);
+	transform: translate(10px, -5px);
 }
 .slider > .thumb.hover{
 	box-shadow: 0 0 0 5px rgba(67,122,255,.1);
@@ -119,11 +119,11 @@
 }
 .slider-price > .thumb.left {
 	left: 25%;
-	transform: translate(-5px, -5px);
+	transform: translate(-10px, -5px);
 }
 .slider-price > .thumb.right {
 	right: 25%;
-	transform: translate(5px, -5px);
+	transform: translate(10px, -5px);
 }
 .slider-price > .thumb.hover {
 	box-shadow: 0 0 0 5px rgba(67,122,255,.1);
@@ -146,7 +146,7 @@ input[type=range]::-webkit-slider-thumb {
 	pointer-events: all;
 	width: 30px;
 	height: 30px;
-	border-radius: 0;
+	border-radius: 50%;
 	border: 0 none;
 	background-color: red;
 	-webkit-appearance: none;
@@ -198,11 +198,11 @@ input[type=range]::-webkit-slider-thumb {
 }
 .slider-price-month > .thumb.left {
 	left: 25%;
-	transform: translate(-5px, -5px);
+	transform: translate(-10px, -5px);
 }
 .slider-price-month > .thumb.right {
 	right: 25%;
-	transform: translate(5px, -5px);
+	transform: translate(10px, -5px);
 }
 .slider-price-month > .thumb.hover {
 	box-shadow: 0 0 0 5px rgba(67,122,255,.1);
@@ -254,11 +254,11 @@ input[type=range]::-webkit-slider-thumb {
 }
 .slider-duration > .thumb.left {
 	left: 25%;
-	transform: translate(-5px, -5px);
+	transform: translate(-10px, -5px);
 }
 .slider-duration > .thumb.right {
 	right: 25%;
-	transform: translate(5px, -5px);
+	transform: translate(10px, -5px);
 }
 .slider-duration > .thumb.hover {
 	box-shadow: 0 0 0 5px rgba(67,122,255,.1);
@@ -310,11 +310,11 @@ input[type=range]::-webkit-slider-thumb {
 }
 .slider-amount > .thumb.left {
 	left: 25%;
-	transform: translate(-5px, -5px);
+	transform: translate(-10px, -5px);
 }
 .slider-amount > .thumb.right {
 	right: 25%;
-	transform: translate(5px, -5px);
+	transform: translate(10px, -5px);
 }
 .slider-amount > .thumb.hover {
 	box-shadow: 0 0 0 5px rgba(67,122,255,.1);

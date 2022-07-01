@@ -1,5 +1,4 @@
 <div id="card-main-container" class="activity_card d-block mb-3">
-    <!--<h1>{{ activity.id }}</h1>-->
     <div class="d-flex">
         <div class="col">
             <div class="fw-bold">{{ activity.title }}</div>
@@ -13,7 +12,7 @@
     </div>
     <div class="col-sm-12">
         <div class="text-secondary card_secondary_info">Возраст: {{ activity.age }}</div>
-        <div  class="text-secondary card_secondary_info">Продолжительность: {{ activity.duration_time }} минут</div >
+        <div  class="text-secondary card_secondary_info">Продолжительность: {{ activity.duration_time_convert }}</div >
         <div  class="text-secondary card_secondary_info">В неделю: {{ activity.amountOfWeek}}</div >
         <div  class="text-secondary fw-bold card_secondary_info">Контакты: {{ activity.contacts}} </div >
     </div>

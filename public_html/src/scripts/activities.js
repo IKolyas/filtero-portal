@@ -64,7 +64,12 @@ typeSelector.addEventListener('change', (e) => {
     loadData(params, true);
 })
 
+let scrollTimer, lastScrollFireTime = 0;
+
 window.addEventListener('scroll', () => {
+    let minScrollTime = 200;
+    let now = new Date().getTime();
+
     const {
         scrollTop,
         scrollHeight,
@@ -72,25 +77,51 @@ window.addEventListener('scroll', () => {
     } = document.documentElement;
 
     if (scrollTop + clientHeight >= scrollHeight) {
-        params.offset = document.querySelectorAll('.activity_card').length;
-        loadData(params);
+        if (!scrollTimer) {
+            if (now - lastScrollFireTime > (3 * minScrollTime)) {
+                params.offset = document.querySelectorAll('.activity_card').length;
+                loadData(params);
+                lastScrollFireTime = now;
+            }
+            scrollTimer = setTimeout(function() {
+                scrollTimer = null;
+                lastScrollFireTime = new Date().getTime();
+            }, minScrollTime);
+        }
     }
 }, {
     passive: true
 });
+//window.addEventListener('gesturechange', function() {});
 
+function loaderShow() {
+    let loaders = document.querySelectorAll(".loader");
+
+    loaders.forEach(function(loader) {
+        loader.classList.add('loader__active');
+    });
+}
+
+function loaderHide() {
+    let loaders = document.querySelectorAll(".loader");
+
+    loaders.forEach(function(loader) {
+        loader.classList.remove('loader__active');
+    });
+}
 
 let cardListMobile = document.querySelector('.card_list')
 let cardList = document.querySelector('.activity_list_rows')
 
 function loadData(params, is_search) {
-    document.getElementById('spinner').classList.add('loader__active')
-    document.querySelector('.loader').classList.add('loader__active')
+
+    loaderShow();
+
     let url = "/activities/index?";
     let query = Object.keys(params)
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
         .join('&');
-    fetch(url + query, {method: 'get', credentials: 'same-origin', headers: {'X-Requested-With': 'XMLHttpRequest'}})
+    fetch(url + query, {method: 'get', credentials: 'same-origin', headers: {'X-Requested-With': 'XMLHttpRequest', 'content-type': 'application/json'}})
         .then(response => {
             return response.json();
         })
@@ -104,8 +135,8 @@ function loadData(params, is_search) {
             }
         })
         .finally(() => {
-            document.getElementById('spinner').classList.remove('loader__active')
-            document.querySelector('.loader').classList.remove('loader__active')
+            //document.getElementById('spinner').classList.remove('loader__active');
+            loaderHide();
         })
 }
 
@@ -128,39 +159,67 @@ function topFunction() {
     document.documentElement.scrollTop = 0;
 }
 
-var inputLeftAmount = document.getElementById("input-left-amount");
-var inputRightAmount = document.getElementById("input-right-amount");
+function focusLeft(leftElement, rightElement) {
+    leftElement.style.zIndex = 5;
+    rightElement.style.zIndex = 4;
+  }
+  
+  function focusRight(leftElement, rightElement) {
+    leftElement.style.zIndex = 4;
+    rightElement.style.zIndex = 5;
+  }
 
-var thumbLeftAmount = document.querySelector(".slider-amount > .thumb.left");
-var thumbRightAmount = document.querySelector(".slider-amount > .thumb.right");
-var rangeAmount = document.querySelector(".slider-amount > .range");
+
+
+ let inputLeftAmount = document.getElementById("input-left-amount");
+ let inputRightAmount = document.getElementById("input-right-amount");
+
+ let thumbLeftAmount = document.querySelector(".slider-amount > .thumb.left");
+ let thumbRightAmount = document.querySelector(".slider-amount > .thumb.right");
+ let rangeAmount = document.querySelector(".slider-amount > .range");
+
+ inputLeftAmount.addEventListener('change', (event) => {
+    focusLeft(inputLeftAmount, inputRightAmount);
+ });
+ inputRightAmount.addEventListener('change', (event) => {
+    focusRight(inputLeftAmount, inputRightAmount);
+ });
+
 
 function setLeftValueAmount() {
-    var _this = inputLeftAmount,
+     let _this = inputLeftAmount,
         min = parseInt(_this.min),
         max = parseInt(_this.max);
 
-    _this.value = Math.min(parseInt(_this.value), parseInt(inputRightAmount.value) - 1);
+    _this.value = Math.min(parseInt(_this.value), parseInt(inputRightAmount.value)  );
 
-    var percent = ((_this.value - min) / (max - min)) * 100;
+     let percent = ((_this.value - min) / (max - min)) * 100;
 
+    thumbLeftAmount.style.left = 2 + "%";
+    rangeAmount.style.left = 2 + "%";
+   
     thumbLeftAmount.style.left = percent + "%";
     rangeAmount.style.left = percent + "%";
+    
+    
 }
+
+
 
 setLeftValueAmount();
 
 function setRightValueAmount() {
-    var _this = inputRightAmount,
+     let _this = inputRightAmount,
         min = parseInt(_this.min),
         max = parseInt(_this.max);
 
-    _this.value = Math.max(parseInt(_this.value), parseInt(inputLeftAmount.value) + 1);
+    _this.value = Math.max(parseInt(_this.value), parseInt(inputLeftAmount.value));
 
-    var percent = ((_this.value - min) / (max - min)) * 100;
+    let percent = ((_this.value - min) / (max - min)) * 100;
 
     thumbRightAmount.style.right = (100 - percent) + "%";
     rangeAmount.style.right = (100 - percent) + "%";
+    
 }
 
 setRightValueAmount();
@@ -194,21 +253,31 @@ inputRightAmount.addEventListener("mouseup", function () {
     thumbRightAmount.classList.remove("active");
 });
 
-var inputLeftDuration = document.getElementById("input-left-duration");
-var inputRightDuration = document.getElementById("input-right-duration");
+ let inputLeftDuration = document.getElementById("input-left-duration");
+ let inputRightDuration = document.getElementById("input-right-duration");
 
-var thumbLeftDuration = document.querySelector(".slider-duration > .thumb.left");
-var thumbRightDuration = document.querySelector(".slider-duration > .thumb.right");
-var rangeDuration = document.querySelector(".slider-duration > .range");
+ let thumbLeftDuration = document.querySelector(".slider-duration > .thumb.left");
+ let thumbRightDuration = document.querySelector(".slider-duration > .thumb.right");
+ let rangeDuration = document.querySelector(".slider-duration > .range");
+
+ inputLeftDuration.addEventListener('change', (event) => {
+    focusLeft(inputLeftDuration, inputRightDuration);
+ });
+ inputRightDuration.addEventListener('change', (event) => {
+    focusRight(inputLeftDuration, inputRightDuration);
+ });
+
+
+
 
 function setLeftValueDuration() {
-    var _this = inputLeftDuration,
+     let _this = inputLeftDuration,
         min = parseInt(_this.min),
         max = parseInt(_this.max);
 
-    _this.value = Math.min(parseInt(_this.value), parseInt(inputRightDuration.value) - 1);
+    _this.value = Math.min(parseInt(_this.value), parseInt(inputRightDuration.value)  );
 
-    var percent = ((_this.value - min) / (max - min)) * 100;
+     let percent = ((_this.value - min) / (max - min)) * 100;
 
     thumbLeftDuration.style.left = percent + "%";
     rangeDuration.style.left = percent + "%";
@@ -217,13 +286,13 @@ function setLeftValueDuration() {
 setLeftValueDuration();
 
 function setRightValueDuration() {
-    var _this = inputRightDuration,
+     let _this = inputRightDuration,
         min = parseInt(_this.min),
         max = parseInt(_this.max);
 
-    _this.value = Math.max(parseInt(_this.value), parseInt(inputLeftDuration.value) + 1);
+    _this.value = Math.max(parseInt(_this.value), parseInt(inputLeftDuration.value) );
 
-    var percent = ((_this.value - min) / (max - min)) * 100;
+     let percent = ((_this.value - min) / (max - min)) * 100;
 
     thumbRightDuration.style.right = (100 - percent) + "%";
     rangeDuration.style.right = (100 - percent) + "%";
@@ -260,21 +329,29 @@ inputRightDuration.addEventListener("mouseup", function () {
     thumbRightDuration.classList.remove("active");
 });
 
-var inputLeftPriceMonth = document.getElementById("input-left-price-month");
-var inputRightPriceMonth = document.getElementById("input-right-price-month");
+ let inputLeftPriceMonth = document.getElementById("input-left-price-month");
+ let inputRightPriceMonth = document.getElementById("input-right-price-month");
 
-var thumbLeftPriceMonth = document.querySelector(".slider-price-month > .thumb.left");
-var thumbRightPriceMonth = document.querySelector(".slider-price-month > .thumb.right");
-var rangePriceMonth = document.querySelector(".slider-price-month > .range");
+ let thumbLeftPriceMonth = document.querySelector(".slider-price-month > .thumb.left");
+ let thumbRightPriceMonth = document.querySelector(".slider-price-month > .thumb.right");
+ let rangePriceMonth = document.querySelector(".slider-price-month > .range");
+
+
+ inputLeftPriceMonth.addEventListener('change', (event) => {
+    focusLeft(inputLeftPriceMonth, inputRightPriceMonth );
+ });
+ inputRightPriceMonth .addEventListener('change', (event) => {
+    focusRight(inputLeftPriceMonth, inputRightPriceMonth );
+ });
 
 function setLeftValuePriceMonth() {
-    var _this = inputLeftPriceMonth,
+     let _this = inputLeftPriceMonth,
         min = parseInt(_this.min),
         max = parseInt(_this.max);
 
-    _this.value = Math.min(parseInt(_this.value), parseInt(inputRightPriceMonth.value) - 1);
+    _this.value = Math.min(parseInt(_this.value), parseInt(inputRightPriceMonth.value)  );
 
-    var percent = ((_this.value - min) / (max - min)) * 100;
+     let percent = ((_this.value - min) / (max - min)) * 100;
 
     thumbLeftPriceMonth.style.left = percent + "%";
     rangePriceMonth.style.left = percent + "%";
@@ -283,13 +360,13 @@ function setLeftValuePriceMonth() {
 setLeftValuePriceMonth();
 
 function setRightValuePriceMonth() {
-    var _this = inputRightPriceMonth,
+     let _this = inputRightPriceMonth,
         min = parseInt(_this.min),
         max = parseInt(_this.max);
 
-    _this.value = Math.max(parseInt(_this.value), parseInt(inputLeftPriceMonth.value) + 1);
+    _this.value = Math.max(parseInt(_this.value), parseInt(inputLeftPriceMonth.value));
 
-    var percent = ((_this.value - min) / (max - min)) * 100;
+     let percent = ((_this.value - min) / (max - min)) * 100;
 
     thumbRightPriceMonth.style.right = (100 - percent) + "%";
     rangePriceMonth.style.right = (100 - percent) + "%";
@@ -325,21 +402,28 @@ inputRightPriceMonth.addEventListener("mousedown", function () {
 inputRightPriceMonth.addEventListener("mouseup", function () {
     thumbRightPriceMonth.classList.remove("active");
 });
-var inputLeftPrice = document.getElementById("input-left-price");
-var inputRightPrice = document.getElementById("input-right-price");
+ let inputLeftPrice = document.getElementById("input-left-price");
+ let inputRightPrice = document.getElementById("input-right-price");
 
-var thumbLeftPrice = document.querySelector(".slider-price > .thumb.left");
-var thumbRightPrice = document.querySelector(".slider-price > .thumb.right");
-var rangePrice = document.querySelector(".slider-price > .range");
+ let thumbLeftPrice = document.querySelector(".slider-price > .thumb.left");
+ let thumbRightPrice = document.querySelector(".slider-price > .thumb.right");
+ let rangePrice = document.querySelector(".slider-price > .range");
+
+ inputLeftPrice.addEventListener('change', (event) => {
+    focusLeft(inputLeftPrice, inputRightPrice );
+ });
+ inputRightPrice.addEventListener('change', (event) => {
+    focusRight(inputLeftPrice, inputRightPrice );
+ });
 
 function setLeftValuePrice() {
-    var _this = inputLeftPrice,
+     let _this = inputLeftPrice,
         min = parseInt(_this.min),
         max = parseInt(_this.max);
 
-    _this.value = Math.min(parseInt(_this.value), parseInt(inputRightPrice.value) - 1);
+    _this.value = Math.min(parseInt(_this.value), parseInt(inputRightPrice.value)  );
 
-    var percent = ((_this.value - min) / (max - min)) * 100;
+     let percent = ((_this.value - min) / (max - min)) * 100;
 
     thumbLeftPrice.style.left = percent + "%";
     rangePrice.style.left = percent + "%";
@@ -348,13 +432,13 @@ function setLeftValuePrice() {
 setLeftValuePrice();
 
 function setRightValuePrice() {
-    var _this = inputRightPrice,
+     let _this = inputRightPrice,
         min = parseInt(_this.min),
         max = parseInt(_this.max);
 
-    _this.value = Math.max(parseInt(_this.value), parseInt(inputLeftPrice.value) + 1);
+    _this.value = Math.max(parseInt(_this.value), parseInt(inputLeftPrice.value));
 
-    var percent = ((_this.value - min) / (max - min)) * 100;
+     let percent = ((_this.value - min) / (max - min)) * 100;
 
     thumbRightPrice.style.right = (100 - percent) + "%";
     rangePrice.style.right = (100 - percent) + "%";
@@ -392,21 +476,28 @@ inputRightPrice.addEventListener("mouseup", function () {
 });
 
 
-var inputLeft = document.getElementById("input-left");
-var inputRight = document.getElementById("input-right");
+ let inputLeft = document.getElementById("input-left");
+ let inputRight = document.getElementById("input-right");
 
-var thumbLeft = document.querySelector(".slider > .thumb.left");
-var thumbRight = document.querySelector(".slider > .thumb.right");
-var range = document.querySelector(".slider > .range");
+ let thumbLeft = document.querySelector(".slider > .thumb.left");
+ let thumbRight = document.querySelector(".slider > .thumb.right");
+ let range = document.querySelector(".slider > .range");
+
+ inputLeft.addEventListener('change', (event) => {
+    focusLeft(inputLeft, inputRight );
+ });
+ inputRight.addEventListener('change', (event) => {
+    focusRight(inputLeft, inputRight );
+ });
 
 function setLeftValue() {
-    var _this = inputLeft,
+     let _this = inputLeft,
         min = parseInt(_this.min),
         max = parseInt(_this.max);
 
-    _this.value = Math.min(parseInt(_this.value), parseInt(inputRight.value) - 1);
+    _this.value = Math.min(parseInt(_this.value), parseInt(inputRight.value)  );
 
-    var percent = ((_this.value - min) / (max - min)) * 100;
+     let percent = ((_this.value - min) / (max - min)) * 100;
 
     thumbLeft.style.left = percent + "%";
     range.style.left = percent + "%";
@@ -415,13 +506,13 @@ function setLeftValue() {
 setLeftValue();
 
 function setRightValue() {
-    var _this = inputRight,
+     let _this = inputRight,
         min = parseInt(_this.min),
         max = parseInt(_this.max);
 
-    _this.value = Math.max(parseInt(_this.value), parseInt(inputLeft.value) + 1);
+    _this.value = Math.max(parseInt(_this.value), parseInt(inputLeft.value));
 
-    var percent = ((_this.value - min) / (max - min)) * 100;
+     let percent = ((_this.value - min) / (max - min)) * 100;
 
     thumbRight.style.right = (100 - percent) + "%";
     range.style.right = (100 - percent) + "%";
