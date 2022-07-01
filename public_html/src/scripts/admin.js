@@ -151,21 +151,24 @@ document.addEventListener("DOMContentLoaded", () => {
         let stateFields = [];
         for (let i = 0; i < incomingValues.length; i++) {
             dataFields[incomingValues[i].name] = incomingValues[i].value;
+
+            checkInputValueFields(incomingValues, buttonSubmit, dataFields, stateFields, i);
     
             incomingValues[i].addEventListener("input", () => {
-                if (incomingValues[i].value == dataFields[incomingValues[i].name]) {
-                    stateFields[incomingValues[i].name] = 'equals';
-                } else {
-                    stateFields[incomingValues[i].name] = 'notEquals';
-                }
+                checkInputValueFields(incomingValues, buttonSubmit, dataFields, stateFields, i);
+                // if (incomingValues[i].value == dataFields[incomingValues[i].name]) {
+                //     stateFields[incomingValues[i].name] = 'equals';
+                // } else {
+                //     stateFields[incomingValues[i].name] = 'notEquals';
+                // }
 
-                let nullStateFields = Object.values(stateFields).includes('notEquals')
+                // let nullStateFields = Object.values(stateFields).includes('notEquals')
 
-                if (nullStateFields && incomingValues[i].value.length > 0) {
-                    buttonSubmit.disabled = false
-                } else if (!nullStateFields) {
-                    buttonSubmit.disabled = true
-                }
+                // if (nullStateFields && incomingValues[i].value.length > 0) {
+                //     buttonSubmit.disabled = false
+                // } else if (!nullStateFields) {
+                //     buttonSubmit.disabled = true
+                // }
             })
         }
     }
@@ -181,28 +184,82 @@ document.addEventListener("DOMContentLoaded", () => {
     
         let stateRequiredFields = [];
         Object.entries(incomingValues).forEach((fieldArr) => {
-        if(fieldArr.length > 0) {
-            fieldArr[1].addEventListener('input', (e) => {
+            if(fieldArr.length > 0) {
+                checkInputNullFields(notNullFields, incomingValues, buttonSubmit);
+                fieldArr[1].addEventListener('input', (e) => {
+                    checkInputNullFields(notNullFields, incomingValues, buttonSubmit, stateRequiredFields);
     
-                    stateRequiredFields = [];
-                    Object.entries(incomingValues).forEach(fieldArrGlobal => {
-                        if(fieldArrGlobal[1].value.length > 0 &&  notNullFields.includes(fieldArrGlobal[1].name)) {
-                            stateRequiredFields[fieldArrGlobal[1].name] = 'notNull'
-                        } else if (fieldArrGlobal[1].value.length === 0 &&  notNullFields.includes(fieldArrGlobal[1].name)) {
-                            stateRequiredFields[fieldArrGlobal[1].name] = 'Null'
-                        };
-                        if (fieldArrGlobal[1].name == 'password' && fieldArrGlobal[1].disabled) { // удаляю из проверки обязательное поле password когда оно disable так как иначе ломается функционал
-                            notNullFields = notNullFields.filter(field => {
-                                return field != 'password'
-                            });
-                        };
-                    });
+                    // stateRequiredFields = [];
+                    // Object.entries(incomingValues).forEach(fieldArrGlobal => {
+                    //     if(fieldArrGlobal[1].value.length > 0 &&  notNullFields.includes(fieldArrGlobal[1].name)) {
+                    //         stateRequiredFields[fieldArrGlobal[1].name] = 'notNull'
+                    //     } else if (fieldArrGlobal[1].value.length === 0 &&  notNullFields.includes(fieldArrGlobal[1].name)) {
+                    //         stateRequiredFields[fieldArrGlobal[1].name] = 'Null'
+                    //     };
+                    //     if (fieldArrGlobal[1].name == 'password' && fieldArrGlobal[1].disabled) { // удаляю из проверки обязательное поле password когда оно disable так как иначе ломается функционал
+                    //         notNullFields = notNullFields.filter(field => {
+                    //             return field != 'password'
+                    //         });
+                    //     };
+                    // });
     
-                    let nullStateRequiredFields = Object.values(stateRequiredFields).includes('Null')
+                    // let nullStateRequiredFields = Object.values(stateRequiredFields).includes('Null')
                     
-                    !nullStateRequiredFields ? buttonSubmit.disabled = false : buttonSubmit.disabled = true;
+                    // !nullStateRequiredFields ? buttonSubmit.disabled = false : buttonSubmit.disabled = true;
                 })
             }
         })
+    }
+    
+    function checkInputValueFields(incomingValues, buttonSubmit, dataFields, stateFields, i) {
+        if (incomingValues[i].value == dataFields[incomingValues[i].name]) {
+            stateFields[incomingValues[i].name] = 'equals';
+        } else {
+            stateFields[incomingValues[i].name] = 'notEquals';
+        }
+
+        let nullStateFields = Object.values(stateFields).includes('notEquals')
+
+        if (nullStateFields && incomingValues[i].value.length > 0) {
+            buttonSubmit.disabled = false
+        } else if (!nullStateFields) {
+            buttonSubmit.disabled = true
+        }
+    }
+
+    function checkInputNullFields(notNullFields, incomingValues, buttonSubmit, stateRequiredFields) {
+        let currentUrl = window.location.pathname.split('/')
+        let isActivitiesUrl = Object.values(currentUrl).includes('activities')
+
+        if (isActivitiesUrl) {
+            notNullFields = notNullFields.filter(field => {
+                return field != 'title'
+            });
+        }
+
+        stateRequiredFields = [];
+        let passwordDisable = false
+        Object.entries(incomingValues).forEach(fieldArrGlobal => {
+            if(fieldArrGlobal[1].value.length > 0 &&  notNullFields.includes(fieldArrGlobal[1].name)) {
+                stateRequiredFields[fieldArrGlobal[1].name] = 'notNull'
+            } else if (fieldArrGlobal[1].value.length === 0 &&  notNullFields.includes(fieldArrGlobal[1].name)) {
+                stateRequiredFields[fieldArrGlobal[1].name] = 'Null'
+            };
+            if (fieldArrGlobal[1].name == 'password' && fieldArrGlobal[1].disabled) { // удаляю из проверки обязательное поле password когда оно disable так как иначе ломается функционал
+                notNullFields = notNullFields.filter(field => {
+                    return field != 'password'
+                });
+
+                passwordDisable = true;
+            };
+        });
+        
+        if (passwordDisable) {
+            delete stateRequiredFields["password"];
+        }
+    
+        let nullStateRequiredFields = Object.values(stateRequiredFields).includes('Null')
+        
+        !nullStateRequiredFields ? buttonSubmit.disabled = false : buttonSubmit.disabled = true;
     }
 });
