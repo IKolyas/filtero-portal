@@ -36,8 +36,14 @@ RewriteRule ^(.*)$ ./index.php?route=$1
 ```
 
 ## УСТАНОВИТЬ ЗАВИСИМОСТИ
-```angular2html
+```
 composer install
+```
+
+## ПРИМЕНИТЬ МИГРАЦИИ
+```
+cd database
+php migrations.php up -all
 ```
 
 ## СТРУКТУРА БД
@@ -46,8 +52,12 @@ composer install
 
 ## МИГРАЦИИ
 
+```
+ команды выполнять из дирректории database 
+```
+
 ## СОЗДАНИЕ И УДАЛЕНИЕ ФАЙЛОВ МИГРАЦИЙ:
-```sh                      //переход в директорию database
+```sh
 php migrations.php [action] [migration_name]
 ```
 
