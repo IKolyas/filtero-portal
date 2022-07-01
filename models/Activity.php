@@ -28,31 +28,46 @@ class Activity extends Model
 
     public function getAgeRange(): string
     {
-        return "{$this->age_from} - {$this->age_to} лет";
+        $num = abs($this->age_to);
+        $t1 = $num % 10;
+        $t2 = $num % 100;
+        $to_str = "{$this->age_from} - {$this->age_to}";
+        return ($t1 == 1 && $t2 != 11
+            ? "$to_str года"
+            : "$to_str лет"
+        );
     }
 
     public function getAmountOfWeek(): string
     {
-        if ($this->amount_of_week != 2 && $this->amount_of_week != 3 && $this->amount_of_week != 4) 
-        {
+        if ($this->amount_of_week != 2 && $this->amount_of_week != 3 && $this->amount_of_week != 4) {
             return "$this->amount_of_week раз";
-        }
-        else 
-        {
+        } else {
             return "$this->amount_of_week раза";
         }
-        
     }
 
-    protected function getActivitiesFields(&$activities): Activity
+    public static function convertDuration($duration_time): string
+    {
+        if ($duration_time >= 60) {
+            $time = intdiv($duration_time, 60) . " ч ";
+            if ($duration_time % 60 > 0) $time .= $duration_time % 60 . " м";
+        } else {
+            $time = $duration_time . " м";
+        }
+
+        return $time;
+    }
+
+    protected function getActivitiesFields(&$activities): void
     {
         foreach ($activities as $activity) {
             $activity->age = $activity->getAgeRange();
             $activity->amountOfWeek = $activity->getAmountOfWeek();
             $activity->priceFormated = $activity->convertToMoneyFormat($activity->price);
             $activity->priceMonthFormated = $activity->convertToMoneyFormat($activity->price_month);
+            $activity->duration_time_convert = self::convertDuration($activity->duration_time);
         }
-        return $this;
     }
 
     public function getAges(): array
@@ -60,10 +75,10 @@ class Activity extends Model
         $agesArray = array();
         $agesFrom = $this->repository->getAgesFrom();
         $agesTo = $this->repository->getAgesTo();
-        foreach ($agesFrom as $age){
+        foreach ($agesFrom as $age) {
             $agesArray[] = $age->age_from;
         }
-        foreach ($agesTo   as $age){
+        foreach ($agesTo as $age) {
             $agesArray[] = $age->age_to;
         }
         $agesArray = array_unique($agesArray);
@@ -169,9 +184,9 @@ class Activity extends Model
         return $this;
     }
 
-    public function get(): array
+    public function get($params): array
     {
-        return $this->repository->getQuery($this->repository->query, []);
+        return $this->repository->getQuery($this->repository->query, $params);
     }
 
     protected function getActivitiesIndex(): Activity
@@ -194,8 +209,7 @@ class Activity extends Model
            '
         ])
             ->leftJoin('institutes', 'institute_id', 'institutes.id')
-            ->leftJoin('activity_types', 'activity_type_id', 'activity_types.id')
-        ;
+            ->leftJoin('activity_types', 'activity_type_id', 'activity_types.id');
 
         return $this;
     }
@@ -222,21 +236,18 @@ class Activity extends Model
         return $html_mobile;
     }
 
-    public function isAjax(): bool 
+    public function isAjax(): bool
     {
         return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
     }
 
     public function convertToMoneyFormat($price): string
     {
-        if ($price * 100 % 100 > 0) 
-        {
+        if ($price * 100 % 100 > 0) {
             return number_format($price, 2, '.', ' ');
-        }
-        else 
-        {
+        } else {
             return substr(number_format($price, 2, '.', ' '), 0, -3);
         }
-        
+
     }
 }

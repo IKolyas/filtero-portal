@@ -2,10 +2,10 @@
             <span class="fw-bold mb-2">Цена</span>
             <div class="multi-range-slider">
                 <form class="multi-range-slider" name="priceForm" 
-                oninput="rangeValueLeftPrice.value = rangeLeftPrice.valueAsNumber; 
-                        rangeValueRightPrice.value = rangeRightPrice.valueAsNumber;
-                        params.price_from = rangeValueLeftPrice.value;
-                        params.price_to = rangeValueRightPrice.value;
+                oninput="rangeValueLeftPrice.value = rangeLeftPrice.valueAsNumber.toLocaleString('ru-RU') + '₽'; 
+                        rangeValueRightPrice.value = rangeRightPrice.valueAsNumber.toLocaleString('ru-RU') + '₽';
+                        params.price_from = rangeLeftPrice.valueAsNumber;
+                        params.price_to = rangeRightPrice.valueAsNumber;
                         params.offset = 0;
                         loadData(params, true);">
                     
@@ -18,8 +18,8 @@
                         <div class="thumb right"></div>
                     </div>
                     <div class="slider_values">
-                        <output name="rangeValueLeftPrice" for="input-left-price" >{{ price.min_price }}</output>
-                        <output class="slider_right_value" name="rangeValueRightPrice" for="input-right-price" >{{ price.max_price }}</output>
+                        <output name="rangeValueLeftPrice" for="input-left-price" >{{ price.min_price|number_format(0, '.', ' ') }}₽</output>
+                        <output class="slider_right_value" name="rangeValueRightPrice" for="input-right-price" >{{ price.max_price|number_format(0, '.', ' ') }}₽</output>
                     </div>
                     
                 </form> 
