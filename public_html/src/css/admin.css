@@ -23,3 +23,8 @@
   align-items: flex-start;
   margin-top: 32px;
 }
+
+.btn-primary:disabled {
+  cursor: not-allowed;
+  pointer-events: all !important;
+}
